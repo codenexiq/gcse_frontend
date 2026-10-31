@@ -1,0 +1,15 @@
+.toggle {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  width: 46px; height: 46px; border: 0; border-radius: 50%;
+  background: rgba(99, 128, 200, 0.1); cursor: pointer; transition: background 0.2s;
+}
+.toggle:hover { background: rgba(99, 128, 200, 0.17); }
+.line { display: block; width: 18px; height: 2px; border-radius: 2px; background: #5a6d96; }
+
+/* Drops down below the floating bar as its own soft rounded card */
+.panel {
+  position: absolute; top: calc(100% + 0.7rem); left: 0; right: 0; padding: 0.8rem 0.85rem 0.9rem;
+  background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(22px); border-radius: 28px;
+  box-shadow: 0 18px 50px rgba(80, 110, 190, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+.user { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid rgba(99, 128, 200, 0.12); }

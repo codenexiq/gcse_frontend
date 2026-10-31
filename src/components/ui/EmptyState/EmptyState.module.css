@@ -1,0 +1,7 @@
+.box {
+  display: grid; justify-items: center; text-align: center; gap: 0.25rem;
+  padding: 2.5rem 1rem; color: var(--muted);
+  border: 2px dashed var(--border); border-radius: var(--radius); background: var(--surface);
+}
+.box h3 { margin: 0.5rem 0 0; color: var(--text); }
+.box p { margin: 0; }

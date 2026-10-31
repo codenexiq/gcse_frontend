@@ -1,0 +1,4 @@
+.footer { padding: 1.25rem 0; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 0.9rem; }
+.inner { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: space-between; }
+.brand { display: inline-flex; align-items: center; gap: 0.4rem; }
+.heart { color: #e11d48; fill: #e11d48; }

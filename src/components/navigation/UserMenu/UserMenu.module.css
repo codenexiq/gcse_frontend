@@ -1,0 +1,5 @@
+.menu { display: flex; align-items: center; gap: 0.6rem; min-width: 0; }
+.user { min-width: 0; display: inline-flex; align-items: center; gap: 0.55rem; color: #7080a0; font-size: 0.9rem; }
+.email { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Only the avatar and Sign out button fit on phones */
+@media (max-width: 640px) { .email { display: none; } }

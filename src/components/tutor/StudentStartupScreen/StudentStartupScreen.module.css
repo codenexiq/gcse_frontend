@@ -1,0 +1,44 @@
+.layout { display: grid; grid-template-columns: minmax(0, 46rem); gap: 1rem; align-items: start; }
+.withPanel { grid-template-columns: minmax(0, 46rem) minmax(18rem, 24rem); column-gap: 1.5rem; }
+/* The screen's pieces sit directly in the layout grid, so the side panel can line up with the card. */
+.screen { display: contents; }
+.title, .subtitle, .card, .actions { grid-column: 1; }
+.title { grid-row: 1; }
+.subtitle { grid-row: 2; }
+.card { grid-row: 3; }
+.actions { grid-row: 4; }
+.side { grid-column: 2; grid-row: 3; align-self: stretch; display: grid; }
+.title { margin: 0; font-size: 1.75rem; font-weight: 700; color: var(--ec-navy); }
+.subtitle { margin: -0.75rem 0 0; font-size: 0.9rem; color: var(--ec-stone-500); }
+.card { display: grid; gap: 1.25rem; padding: 1.5rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 20px; }
+.field { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 0.5rem; align-content: start; }
+.label { padding: 0; font-size: 0.8rem; font-weight: 600; color: var(--ec-navy); }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem 1rem; }
+.labelRow { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.manage { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.1rem 0.4rem; font: inherit; font-size: 0.72rem; font-weight: 600; color: var(--ec-stone-500); background: transparent; border: 0; border-radius: 6px; cursor: pointer; }
+.manage:hover { color: var(--ec-navy); background: var(--ec-lavender); }
+.manage:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.choices { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.choice {
+  position: relative; display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.1rem;
+  font-size: 0.9rem; font-weight: 500; color: var(--ec-navy); background: #fff; cursor: pointer;
+  border: 1px solid var(--ec-stone-200); border-radius: 14px;
+}
+.chosen { background: var(--ec-lavender); border: 2px solid var(--ec-navy); padding: calc(0.8rem - 1px) calc(1.1rem - 1px); font-weight: 600; }
+.radio { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--ec-stone-500); background: #fff; display: grid; place-items: center; }
+.chosen .dot { border-color: var(--ec-navy); box-shadow: inset 0 0 0 4px #fff; background: var(--ec-navy); }
+.choice:focus-within { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.select {
+  width: 100%; padding: 0.85rem 0.9rem; font: inherit; font-size: 0.85rem; color: var(--ec-navy);
+  background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 12px;
+}
+.select:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.continue {
+  padding: 0.9rem 1.6rem; font: inherit; font-size: 0.9rem; font-weight: 600; color: #fff; cursor: pointer;
+  background: var(--ec-navy); border: 0; border-radius: 12px;
+}
+.continue:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+@media (max-width: 1180px) { .withPanel { grid-template-columns: minmax(0, 46rem); } .side { grid-column: 1; grid-row: 5; } }
+@media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 1.25rem; } }

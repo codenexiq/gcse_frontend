@@ -1,0 +1,18 @@
+.panel { display: grid; grid-template-rows: auto 1fr auto; align-content: start; gap: 0.75rem; padding: 1.25rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 20px; }
+.head { display: flex; align-items: center; justify-content: space-between; }
+.title { margin: 0; font-size: 1rem; font-weight: 600; color: var(--ec-navy); }
+.list { display: grid; gap: 0.4rem; margin: 0; padding: 0; list-style: none; max-height: 16rem; overflow-y: auto; align-content: start; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.5rem 0.75rem; border: 1px solid var(--ec-stone-200); border-radius: 12px; font-size: 0.875rem; color: var(--ec-navy); }
+.name { min-width: 0; overflow-wrap: anywhere; }
+.actions, .confirm { display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0; font-size: 0.8rem; }
+.editForm { display: flex; flex: 1; align-items: center; gap: 0.35rem; }
+.addForm { display: flex; gap: 0.5rem; }
+.input { flex: 1; min-width: 0; padding: 0.55rem 0.75rem; font: inherit; font-size: 0.85rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; }
+.input:focus-visible, .iconBtn:focus-visible, .addBtn:focus-visible, .danger:focus-visible, .textBtn:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.iconBtn { display: grid; place-items: center; width: 30px; height: 30px; color: var(--ec-stone-500); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+.iconBtn:hover { background: var(--ec-lavender); color: var(--ec-navy); }
+.addBtn { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0 1rem; font: inherit; font-size: 0.85rem; font-weight: 600; color: #fff; background: var(--ec-navy); border: 0; border-radius: 10px; cursor: pointer; }
+.addBtn:disabled, .danger:disabled { opacity: 0.5; cursor: not-allowed; }
+.danger { padding: 0.3rem 0.6rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: #fff; background: #b42318; border: 0; border-radius: 8px; cursor: pointer; }
+.textBtn { padding: 0.3rem 0.5rem; font: inherit; font-size: 0.8rem; color: var(--ec-navy); background: transparent; border: 0; cursor: pointer; text-decoration: underline; }
+.empty { padding: 0.5rem 0.75rem; font-size: 0.85rem; color: var(--ec-stone-500); }

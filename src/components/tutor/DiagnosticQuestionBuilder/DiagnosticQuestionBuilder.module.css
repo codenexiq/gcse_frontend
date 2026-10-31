@@ -1,0 +1,24 @@
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.withForm { grid-template-columns: minmax(0, 1fr) minmax(22rem, 30rem); }
+.side { position: sticky; top: 1rem; display: grid; }
+.panel { padding: 1.25rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; box-shadow: 0 1px 2px rgba(28, 25, 23, 0.03); }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.count { margin: 0; font-size: 0.875rem; color: var(--ec-stone-500); }
+.buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.generate, .manual { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.6rem 1rem; font: inherit; font-size: 0.85rem; font-weight: 600; border-radius: 10px; cursor: pointer; }
+.generate { color: #fff; background: var(--ec-navy); border: 0; }
+.manual { color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); }
+.generate:disabled, .manual:disabled { opacity: 0.5; cursor: not-allowed; }
+.list { display: grid; gap: 0.6rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+.item { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.8rem 1rem; border: 1px solid var(--ec-stone-200); border-radius: 12px; }
+.body { min-width: 0; }
+.meta { margin: 0; font-size: 0.75rem; color: var(--ec-stone-500); }
+.text { margin: 0.25rem 0 0; font-size: 0.95rem; font-weight: 600; color: var(--ec-navy); overflow-wrap: anywhere; }
+.actions, .confirm { display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0; font-size: 0.8rem; }
+.iconBtn { display: grid; place-items: center; width: 30px; height: 30px; color: var(--ec-stone-500); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+.iconBtn:hover { background: var(--ec-lavender); color: var(--ec-navy); }
+.danger { padding: 0.3rem 0.6rem; font: inherit; font-size: 0.8rem; font-weight: 600; color: #fff; background: #b42318; border: 0; border-radius: 8px; cursor: pointer; }
+.textBtn { padding: 0.3rem 0.5rem; font: inherit; font-size: 0.8rem; color: var(--ec-navy); background: transparent; border: 0; text-decoration: underline; cursor: pointer; }
+.empty { margin: 1rem 0 0; font-size: 0.875rem; color: var(--ec-stone-500); }
+.generate:focus-visible, .manual:focus-visible, .iconBtn:focus-visible, .danger:focus-visible, .textBtn:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+@media (max-width: 1180px) { .withForm { grid-template-columns: minmax(0, 1fr); } .side { position: static; } }

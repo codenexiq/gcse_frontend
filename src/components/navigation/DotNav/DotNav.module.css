@@ -1,0 +1,11 @@
+.list { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 0.4rem; }
+.link {
+  position: relative; display: block; padding: 0.6rem 1rem 0.85rem; border-radius: 14px;
+  color: #7a89a6; font-size: 0.95rem; font-weight: 500; transition: color 0.25s, background 0.25s;
+}
+.link:hover { color: #4b5d82; background: rgba(99, 128, 200, 0.06); }
+.active, .active:hover { color: var(--primary); }
+.dot {
+  position: absolute; left: 50%; bottom: 0.4rem; width: 6px; height: 6px; margin-left: -3px;
+  border-radius: 50%; background: var(--primary); opacity: 0.8;
+}

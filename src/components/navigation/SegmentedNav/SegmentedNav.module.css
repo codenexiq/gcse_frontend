@@ -1,0 +1,17 @@
+.track {
+  list-style: none; margin: 0; padding: 5px; display: flex; gap: 2px;
+  background: rgba(99, 128, 200, 0.09); border-radius: 999px;
+}
+.link {
+  position: relative; isolation: isolate; display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1.1rem; border-radius: 999px;
+  color: #7a89a6; font-size: 0.93rem; font-weight: 500;
+  transition: color 0.25s;
+}
+.link:hover { color: #4b5d82; }
+.active, .active:hover { color: var(--primary); }
+/* The soft white pill behind the active link */
+.thumb {
+  position: absolute; inset: 0; z-index: -1; border-radius: 999px; background: #fff;
+  box-shadow: 0 4px 16px rgba(80, 110, 190, 0.16), 0 1px 2px rgba(28, 36, 48, 0.04);
+}

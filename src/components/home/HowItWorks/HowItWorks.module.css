@@ -1,0 +1,10 @@
+.section { margin-bottom: 6rem; }
+.steps { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+.line {
+  position: absolute; top: 42px; left: 17%; right: 17%; height: 3px; border-radius: 3px;
+  background: var(--primary); transform-origin: 0 50%; opacity: 0.35;
+}
+@media (max-width: 720px) {
+  .steps { grid-template-columns: 1fr; gap: 2.5rem; }
+  .line { display: none; }
+}

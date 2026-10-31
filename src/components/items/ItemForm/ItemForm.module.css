@@ -1,0 +1,17 @@
+.form {
+  display: grid; gap: 1rem; max-width: 520px; margin-bottom: 2.5rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow-sm);
+}
+.heading { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 1.15rem; }
+.field { display: grid; gap: 0.35rem; font-weight: 500; font-size: 0.95rem; }
+.field input, .field textarea, .field select {
+  font: inherit; font-weight: 400; padding: 0.65rem 0.8rem; resize: vertical;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--bg);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none; border-color: var(--primary); background: var(--surface);
+  box-shadow: 0 0 0 4px var(--primary-soft);
+}
+.form button { justify-self: start; }

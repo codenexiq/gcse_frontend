@@ -1,0 +1,76 @@
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #1c2430;
+  --muted: #667085;
+  --primary: #2f5bea;
+  --primary-hover: #2449c4;
+  --primary-soft: #e8eefe;
+  --border: #e3e7ee;
+  --danger: #c62828;
+  --danger-soft: #fdecec;
+  --radius: 12px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --max-width: 1120px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a { color: var(--primary); text-decoration: none; }
+
+h1, h2, h3 { line-height: 1.25; margin: 0 0 0.5em; }
+
+:focus-visible { outline: 3px solid var(--primary-soft); outline-offset: 2px; }
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* Palette taken from the reference repository (hero, top navigation, dashboard).
+   Flat colours only - no gradients. Prefixed --ec so the older blue theme above is untouched. */
+:root {
+  --ec-page: #f7f8f6;
+  --ec-dash-bg: #fafafd;
+  --ec-lavender: #e6e6f8;
+  --ec-lavender-hover: #d9d9f2;
+  --ec-lavender-border: #d2d2ed;
+  --ec-lavender-soft: #f0f0fb;
+  --ec-lavender-ink: #292943;
+  --ec-lavender-mid: #62628c;
+  --ec-focus: #8585b8;
+  --ec-navy: #182331;
+  --ec-stone-900: #1c1917;
+  --ec-stone-800: #292524;
+  --ec-stone-700: #44403c;
+  --ec-stone-600: #57534e;
+  --ec-stone-500: #78716c;
+  --ec-stone-400: #a8a29e;
+  --ec-stone-300: #d6d3d1;
+  --ec-stone-200: #e7e5e4;
+  --ec-stone-100: #f5f5f4;
+  --ec-emerald-700: #047857;
+  --ec-emerald-800: #065f46;
+  --ec-emerald-900: #064e3b;
+  --ec-emerald-100: #d1fae5;
+  --ec-emerald-50: #ecfdf5;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

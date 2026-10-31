@@ -1,0 +1,7 @@
+.alert {
+  display: flex; align-items: center; gap: 0.5rem; overflow: hidden;
+  background: var(--danger-soft); color: var(--danger);
+  border: 1px solid #f5c2c2; border-radius: var(--radius);
+  padding: 0.65rem 0.9rem; font-size: 0.95rem;
+}
+.alert svg { flex-shrink: 0; }

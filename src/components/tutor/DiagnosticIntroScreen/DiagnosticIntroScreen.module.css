@@ -1,0 +1,5 @@
+.layout { display: grid; grid-template-columns: minmax(0, 46rem); gap: 1.5rem; align-items: start; }
+.withEditor { grid-template-columns: minmax(0, 46rem) minmax(18rem, 24rem); }
+.main { display: grid; gap: 1rem; }
+.side { display: grid; }
+@media (max-width: 1180px) { .withEditor { grid-template-columns: minmax(0, 46rem); } }

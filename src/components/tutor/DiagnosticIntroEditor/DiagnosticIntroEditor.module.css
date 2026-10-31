@@ -1,0 +1,14 @@
+.panel { display: grid; gap: 0.9rem; padding: 1.25rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 20px; }
+.head { display: flex; align-items: center; justify-content: space-between; }
+.title { margin: 0; font-size: 1rem; font-weight: 600; color: var(--ec-navy); }
+.close { display: grid; place-items: center; width: 30px; height: 30px; color: var(--ec-stone-500); background: transparent; border: 0; border-radius: 8px; cursor: pointer; }
+.close:hover { background: var(--ec-lavender); color: var(--ec-navy); }
+.field { display: grid; gap: 0.3rem; }
+.label { font-size: 0.8rem; font-weight: 600; color: var(--ec-navy); }
+.input { width: 100%; padding: 0.6rem 0.75rem; font: inherit; font-size: 0.85rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; resize: vertical; }
+.note { font-size: 0.72rem; color: var(--ec-stone-500); }
+.input:focus-visible, .close:focus-visible, .cancel:focus-visible, .save:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+.cancel { padding: 0.6rem 1rem; font: inherit; font-size: 0.85rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; cursor: pointer; }
+.save { padding: 0.6rem 1.1rem; font: inherit; font-size: 0.85rem; font-weight: 600; color: #fff; background: var(--ec-navy); border: 0; border-radius: 10px; cursor: pointer; }
+.save:disabled { opacity: 0.6; cursor: wait; }

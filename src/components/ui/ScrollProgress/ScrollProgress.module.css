@@ -1,0 +1,4 @@
+.bar {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 50;
+  background: var(--primary); transform-origin: 0 50%;
+}
