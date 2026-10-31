@@ -5,7 +5,7 @@ import { Sparkles, X } from "lucide-react";
 import { ApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
 import { generateDiagnosticQuestions } from "@/services/diagnosticQuestionService";
-import type { DiagnosticGenerateInput, DiagnosticLevel, DiagnosticQuestion, DiagnosticTier, DiagnosticTopic, StartupOption } from "@/types";
+import type { DiagnosticBatch, DiagnosticGenerateInput, DiagnosticLevel, DiagnosticQuestion, DiagnosticTier, DiagnosticTopic, StartupOption } from "@/types";
 import styles from "./DiagnosticQuestionGenerator.module.css";
 
 const LEVELS: DiagnosticLevel[] = ["GCSE", "IGCSE / O-level", "A-level"];
@@ -19,8 +19,8 @@ interface Props {
   subjects: StartupOption[];
   /** What the free generator can write. */
   topics: DiagnosticTopic[];
-  /** Called with the new questions once they are saved. */
-  onGenerated: (questions: DiagnosticQuestion[]) => void;
+  /** Called with the new set and its questions once they are saved. */
+  onGenerated: (batch: DiagnosticBatch, questions: DiagnosticQuestion[]) => void;
   onClose: () => void;
 }
 
@@ -41,9 +41,9 @@ export default function DiagnosticQuestionGenerator({ subjects, topics, onGenera
     e.preventDefault();
     setBusy(true);
     try {
-      const questions = await generateDiagnosticQuestions({ ...draft, topic });
+      const { batch, questions } = await generateDiagnosticQuestions({ ...draft, topic });
       toast.success(`${questions.length} ${questions.length === 1 ? "question" : "questions"} added`);
-      onGenerated(questions);
+      onGenerated(batch, questions);
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "Something went wrong. Please try again.");
     } finally {

@@ -130,6 +130,8 @@ export interface DiagnosticQuestion {
   id: number;
   level: DiagnosticLevel;
   subjectId: number;
+  /** The generated set this question belongs to, or null if it was written by hand. */
+  batchId: number | null;
   tier: DiagnosticTier;
   topic: string;
   question: string;
@@ -137,7 +139,17 @@ export interface DiagnosticQuestion {
 }
 
 /** What a tutor sends when creating or changing a question. */
-export type DiagnosticQuestionInput = Omit<DiagnosticQuestion, "id">;
+export type DiagnosticQuestionInput = Omit<DiagnosticQuestion, "id" | "batchId">;
+
+/** One click of "Generate questions": a set of questions, shown as one card. */
+export interface DiagnosticBatch {
+  id: number;
+  level: DiagnosticLevel;
+  subjectId: number;
+  tier: DiagnosticTier;
+  topic: string | null;
+  createdAt: string;
+}
 
 /** What a tutor asks for when generating questions. */
 export interface DiagnosticGenerateInput {
