@@ -1,0 +1,47 @@
+.report { overflow: hidden; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 18px; }
+.top { padding: 1.25rem 1.5rem 1.1rem; color: #fff; background: var(--ec-navy); }
+.brand { margin: 0 0 0.9rem; font-size: 0.75rem; font-weight: 700; }
+.brand span { font-weight: 400; opacity: 0.8; }
+.name { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin: 0.4rem 0 0; font-size: 0.7rem; opacity: 0.85; }
+.body { padding: 1.1rem 1.5rem 1.25rem; font-size: 0.78rem; color: var(--ec-navy); }
+.stats { break-inside: avoid; display: grid; gap: 0.6rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat { display: grid; gap: 0.2rem; align-content: start; padding: 0.7rem; background: #f4f4f1; border-radius: 10px; }
+.stat span { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ec-stone-500); }
+.stat strong { font-size: 1.05rem; }
+.stat strong.small { font-size: 0.85rem; }
+.stat small { font-size: 0.65rem; color: var(--ec-stone-500); }
+.stat.good { background: #e3f1e8; }
+.stat.low { background: #fbe3e3; }
+.h { margin: 1.1rem 0 0.4rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ec-stone-600); }
+.summary { margin: 0; padding: 0.8rem 0.9rem; line-height: 1.5; background: var(--ec-lavender); border-radius: 10px; }
+.call { margin: 0.6rem 0 0; padding: 0.65rem 0.9rem; background: #fdf3c9; border-radius: 10px; }
+.none { margin: 0; font-style: italic; color: var(--ec-stone-500); }
+.plain { display: grid; gap: 0.3rem; margin: 0; padding: 0; list-style: none; }
+.plain li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; border-bottom: 1px solid var(--ec-stone-200); }
+.bars { display: grid; gap: 0.45rem; }
+.bar { display: grid; align-items: center; gap: 0.6rem; grid-template-columns: 5rem minmax(0, 1fr) 2rem; }
+.bar strong { text-align: right; font-size: 0.7rem; }
+.segments { display: grid; gap: 0.25rem; grid-template-columns: repeat(5, 1fr); }
+.segments i { height: 0.4rem; background: #e7e7e3; border-radius: 3px; }
+.segments i.fill { background: var(--ec-navy); }
+.two { break-inside: avoid; display: grid; gap: 0.7rem; margin-top: 1.1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.well, .next { padding: 0.8rem 0.9rem; border-radius: 10px; }
+.well { background: #e3f1e8; }
+.next { background: #fbe3e3; }
+.well h4, .next h4 { margin: 0 0 0.4rem; font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.well h4 { color: #1d6b3c; }
+.next h4 { color: #b42318; }
+.well ul, .next ul { margin: 0; padding-left: 1.1rem; }
+.well p, .next p { margin: 0.4rem 0 0; overflow-wrap: anywhere; }
+.goal { break-inside: avoid; margin-bottom: 0.5rem; overflow: hidden; border: 1px solid var(--ec-stone-200); border-radius: 10px; }
+.goalHead { display: flex; align-items: center; gap: 0.5rem; margin: 0; padding: 0.55rem 0.8rem; font-weight: 700; color: #fff; background: var(--ec-navy); overflow-wrap: anywhere; }
+.goalHead b { display: grid; place-items: center; flex: none; width: 1.2rem; height: 1.2rem; font-size: 0.65rem; color: #fff; background: #e0566b; border-radius: 50%; }
+.goalCols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.goalCols div { display: grid; gap: 0.2rem; align-content: start; padding: 0.55rem 0.8rem; font-size: 0.72rem; overflow-wrap: anywhere; }
+.goalCols div + div { border-left: 1px solid var(--ec-stone-200); }
+.goalCols span { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ec-stone-500); }
+.text { margin: 0 0 0.25rem; line-height: 1.5; overflow-wrap: anywhere; }
+.quote { margin: 0; padding-left: 0.7rem; line-height: 1.5; border-left: 3px solid #e0566b; overflow-wrap: anywhere; }
+.foot { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; padding-top: 0.7rem; font-size: 0.65rem; color: var(--ec-stone-500); border-top: 1px solid var(--ec-stone-200); }
+@media (max-width: 640px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .two, .goalCols { grid-template-columns: minmax(0, 1fr); } .goalCols div + div { border-left: 0; border-top: 1px solid var(--ec-stone-200); } }

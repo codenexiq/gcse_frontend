@@ -1,0 +1,7 @@
+.row { display: grid; gap: 0.5rem; align-items: center; grid-template-columns: minmax(0, 1fr) auto auto; }
+.levels { display: inline-flex; overflow: hidden; border: 1px solid var(--ec-stone-200); border-radius: 8px; }
+.level { padding: 0.45rem 0.65rem; font: inherit; font-size: 0.7rem; color: var(--ec-stone-600); background: #f1f1ee; border: 0; border-right: 1px solid var(--ec-stone-200); cursor: pointer; }
+.level:last-child { border-right: 0; }
+.level:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: -2px; }
+.on { color: #fff; background: var(--ec-navy); }
+@media (max-width: 640px) { .row { grid-template-columns: minmax(0, 1fr) auto; } .levels { grid-column: 1 / -1; grid-row: 2; } }

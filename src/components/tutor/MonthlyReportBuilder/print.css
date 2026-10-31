@@ -1,0 +1,27 @@
+/* "Download PDF" prints the page: only the report, flowing naturally, so there are no blank pages. */
+@media print {
+  @page { margin: 12mm; }
+
+  /* Everything that is not the report, or a parent of the report, is taken out of the layout. */
+  body *:not(:has(#monthly-report-print)):not(#monthly-report-print):not(#monthly-report-print *) { display: none !important; }
+
+  /* The parents of the report stop limiting its size, so it can run onto as many pages as it needs. */
+  html, body, body *:has(#monthly-report-print) {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  #monthly-report-print { border: 0; border-radius: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #monthly-report-print h3, #monthly-report-print h4 { break-after: avoid; }
+  #monthly-report-print li, #monthly-report-print p { break-inside: avoid; }
+}

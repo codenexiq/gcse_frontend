@@ -45,6 +45,9 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/tutor/dashboard/tutor-work")) {
     return { title: "Tutor Work", text: "Everything you need for your tutoring work.", upToDate: "Your tutor work is up to date" };
   }
+  if (pathname.startsWith("/tutor/dashboard/monthly-progress")) {
+    return { title: "Monthly Report Builder", text: "Write a student's monthly progress report.", upToDate: "Your monthly progress is up to date" };
+  }
   if (pathname.startsWith("/tutor/dashboard/accounts")) {
     return {
       title: "Tutor accounts",

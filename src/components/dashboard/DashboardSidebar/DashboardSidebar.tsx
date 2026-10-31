@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   BookOpen,
   BriefcaseBusiness,
+  CalendarDays,
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
@@ -52,6 +53,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
       { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
+      { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
     ],
   },
   admin: {
@@ -61,6 +63,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
       { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
+      { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/tutor/dashboard/accounts", label: "Tutor accounts", icon: UserCog, exact: false },
     ],
   },
