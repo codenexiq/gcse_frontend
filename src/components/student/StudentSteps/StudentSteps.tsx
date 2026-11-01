@@ -15,6 +15,8 @@ const STEPS = [
 /** The numbered step bar at the top of the student screens. Every step is a link to its screen. */
 export default function StudentSteps() {
   const pathname = usePathname();
+  // Only the four workflow screens show the bar; pages like Monthly progress are not steps.
+  if (!STEPS.some((s) => pathname === s.href || pathname.startsWith(`${s.href}/`))) return null;
   return (
     <nav className={styles.bar} aria-label="Your steps">
       <ol className={styles.list}>

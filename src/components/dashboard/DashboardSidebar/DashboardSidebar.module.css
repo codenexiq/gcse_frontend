@@ -64,3 +64,5 @@
   box-shadow: 0 20px 40px -8px rgba(28, 25, 23, 0.25); overflow-y: auto;
 }
 @media (min-width: 1024px) { .backdrop, .drawer { display: none; } }
+/* The red count on the Messages button. */
+.badge { display: grid; place-items: center; min-width: 1.35rem; height: 1.35rem; margin-left: auto; padding: 0 0.4rem; font-size: 0.7rem; font-weight: 700; line-height: 1; color: #fff; background: #d92d20; border-radius: 999px; }

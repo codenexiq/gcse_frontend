@@ -1,9 +1,10 @@
 "use client";
 
-import { useTransition } from "react";
+import { useEffect, useRef, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { RefreshCw } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { DASHBOARD_REFRESHED } from "../DashboardContent/DashboardContent";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 import LogoutButton from "@/components/navigation/LogoutButton";
 import { useToast } from "@/hooks/useToast";
@@ -25,6 +26,15 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/learning-map")) {
     return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
   }
+  if (pathname.startsWith("/student/messages")) {
+    return { title: "Messages", text: "Write to your tutors and share files with them.", upToDate: "Your messages are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/messages")) {
+    return { title: "Messages", text: "Chat with your students and share files.", upToDate: "Your messages are up to date" };
+  }
+  if (pathname.startsWith("/student/monthly-progress")) {
+    return { title: "Monthly progress", text: "The reports your tutor has written for you.", upToDate: "Your reports are up to date" };
+  }
   if (pathname.startsWith("/tutor/dashboard/students/start-up")) {
     return {
       title: "Student Start-up Screen",
@@ -45,8 +55,17 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/tutor/dashboard/tutor-work")) {
     return { title: "Tutor Work", text: "Everything you need for your tutoring work.", upToDate: "Your tutor work is up to date" };
   }
+  if (pathname.startsWith("/tutor/dashboard/monthly-progress/new")) {
+    return { title: "Monthly Progress Report Builder", text: "Write a student's monthly progress report.", upToDate: "Your report builder is up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/monthly-progress/student/")) {
+    return { title: "Student reports", text: "Every monthly report for this student.", upToDate: "Your student's reports are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/monthly-progress/")) {
+    return { title: "Monthly progress report", text: "The report as the student sees it.", upToDate: "Your report is up to date" };
+  }
   if (pathname.startsWith("/tutor/dashboard/monthly-progress")) {
-    return { title: "Monthly Report Builder", text: "Write a student's monthly progress report.", upToDate: "Your monthly progress is up to date" };
+    return { title: "Monthly progress", text: "Every monthly progress report created for your students.", upToDate: "Your monthly progress is up to date" };
   }
   if (pathname.startsWith("/tutor/dashboard/accounts")) {
     return {
@@ -89,15 +108,26 @@ export default function DashboardHeader({ user }: { user: User }) {
   const router = useRouter();
   const toast = useToast();
   const [refreshing, startRefresh] = useTransition();
-  const name = user.email.split("@")[0];
+  const name = user.fullName?.trim() || user.email.split("@")[0];
   const { title, text, upToDate } = headingFor(pathname, name);
 
   function handleRefresh() {
     startRefresh(() => {
       router.refresh(); // re-fetch this page's data from the server
-      toast.success(upToDate, { title: "Refreshed" });
     });
   }
+
+  // Tell the page to rebuild itself, then say so, once the fresh data has really arrived.
+  const wasRefreshing = useRef(false);
+  useEffect(() => {
+    if (refreshing) {
+      wasRefreshing.current = true;
+    } else if (wasRefreshing.current) {
+      wasRefreshing.current = false;
+      window.dispatchEvent(new Event(DASHBOARD_REFRESHED));
+      toast.success(upToDate, { title: "Refreshed" });
+    }
+  }, [refreshing]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <header className={styles.header}>
@@ -110,13 +140,17 @@ export default function DashboardHeader({ user }: { user: User }) {
         <Button variant="outline" size="sm" icon={<RefreshCw />} disabled={refreshing} onClick={handleRefresh}>
           Refresh
         </Button>
-        <div className={styles.who}>
-          <p className={styles.name}>{name}</p>
-          <p className={styles.email}>{user.email}</p>
-        </div>
-        {/* The round initial is a drop-down. It holds only "Log out" (no name or email inside it). */}
-        <AvatarMenu name={user.email} label="Account menu">
-          {(close) => <LogoutButton variant="menu" onDone={close} />}
+        {/* The round initial is a drop-down: who is signed in, then Log out. */}
+        <AvatarMenu name={name} label="Account menu">
+          {(close) => (
+            <>
+              <div className={styles.who}>
+                <p className={styles.name}>{name}</p>
+                <p className={styles.email}>{user.email}</p>
+              </div>
+              <LogoutButton variant="menu" onDone={close} />
+            </>
+          )}
         </AvatarMenu>
       </div>
     </header>

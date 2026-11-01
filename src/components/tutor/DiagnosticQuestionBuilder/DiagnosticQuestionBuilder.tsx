@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Sparkles } from "lucide-react";
+import { ArrowLeft, Plus, Sparkles } from "lucide-react";
 import DiagnosticBatchCard from "@/components/tutor/DiagnosticBatchCard";
 import DiagnosticQuestionForm from "@/components/tutor/DiagnosticQuestionForm";
 import DiagnosticQuestionGenerator from "@/components/tutor/DiagnosticQuestionGenerator";
@@ -71,6 +71,24 @@ export default function DiagnosticQuestionBuilder({ initialQuestions, initialBat
   const shownBatches = batches.map((b) => ({ batch: b, items: questions.filter((q) => q.batchId === b.id) })).filter((x) => x.items.length > 0);
   const byHand = questions.filter((q) => q.batchId === null);
 
+  // Writing or changing one question takes the whole page; the list comes back when it is saved or cancelled.
+  if (editing && editing !== "generate") {
+    return (
+      <div className={styles.full}>
+        <button type="button" className={styles.back} onClick={() => setEditing(null)}>
+          <ArrowLeft size={16} aria-hidden="true" /> Back to questions
+        </button>
+        <DiagnosticQuestionForm
+          key={editing === "new" ? "new" : editing.id}
+          question={editing === "new" ? null : editing}
+          subjects={subjects}
+          onSaved={saved}
+          onCancel={() => setEditing(null)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={`${styles.layout} ${editing ? styles.withForm : ""}`}>
       <section className={styles.main} aria-label="Diagnostic questions">
@@ -113,27 +131,17 @@ export default function DiagnosticQuestionBuilder({ initialQuestions, initialBat
 
       {editing && (
         <div className={styles.side}>
-          {editing === "generate" ? (
-            <DiagnosticQuestionGenerator
-              subjects={subjects}
-              topics={topics}
-              onGenerated={(batch, made) => {
-                setBatches((all) => [batch, ...all]);
-                setQuestions((all) => [...all, ...made]);
-                setFreshBatchId(batch.id);
-                setEditing(null);
-              }}
-              onClose={() => setEditing(null)}
-            />
-          ) : (
-            <DiagnosticQuestionForm
-              key={editing === "new" ? "new" : editing.id}
-              question={editing === "new" ? null : editing}
-              subjects={subjects}
-              onSaved={saved}
-              onCancel={() => setEditing(null)}
-            />
-          )}
+          <DiagnosticQuestionGenerator
+            subjects={subjects}
+            topics={topics}
+            onGenerated={(batch, made) => {
+              setBatches((all) => [batch, ...all]);
+              setQuestions((all) => [...all, ...made]);
+              setFreshBatchId(batch.id);
+              setEditing(null);
+            }}
+            onClose={() => setEditing(null)}
+          />
         </div>
       )}
     </div>

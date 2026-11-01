@@ -1,14 +1,12 @@
 .header {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;
-  padding-bottom: 1.5rem; border-bottom: 1px solid rgba(231, 229, 228, 0.8);
 }
 .eyebrow { margin: 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--ec-lavender-mid); }
-.title { margin: 0.5rem 0 0; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ec-navy); }
+.title { margin: 0.25rem 0 0; font-size: 1.5rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ec-navy); }
 @media (min-width: 640px) { .title { font-size: 1.875rem; } }
 .text { margin: 0.375rem 0 0; font-size: 0.875rem; color: var(--ec-stone-500); }
 
 .right { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
-.who { display: none; text-align: right; }
-@media (min-width: 640px) { .who { display: block; } }
+.who { min-width: 200px; max-width: 280px; padding: 8px 10px 10px; margin-bottom: 4px; border-bottom: 1px solid var(--ec-stone-200); }
 .name { margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--ec-navy); }
-.email { margin: 2px 0 0; font-size: 0.75rem; color: var(--ec-stone-500); }
+.email { margin: 2px 0 0; font-size: 0.75rem; color: var(--ec-stone-500); overflow-wrap: anywhere; }

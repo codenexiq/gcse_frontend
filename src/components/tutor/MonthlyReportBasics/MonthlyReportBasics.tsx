@@ -1,11 +1,12 @@
 import MonthlyReportCard from "@/components/tutor/MonthlyReportCard";
 import fields from "@/components/tutor/MonthlyReportCard/MonthlyReportCard.module.css";
+import type { StudentSummary } from "@/types";
 import { monthOptions, SUBJECTS, TIERS, YEAR_GROUPS, type MonthlyReport, type UpdateReport } from "@/lib/monthlyReport";
 
-interface Props { report: MonthlyReport; update: UpdateReport }
+interface Props { report: MonthlyReport; update: UpdateReport; students: StudentSummary[] }
 
 /** Step 1: who the report is about. */
-export default function MonthlyReportBasics({ report, update }: Props) {
+export default function MonthlyReportBasics({ report, update, students }: Props) {
   const months = monthOptions();
   const withCurrent = (list: string[], value: string) => (list.includes(value) ? list : [value, ...list]);
   const select = (label: string, key: "subject" | "yearGroup" | "tier" | "month", list: string[]) => (
@@ -22,6 +23,20 @@ export default function MonthlyReportBasics({ report, update }: Props) {
         <label className={fields.field}>
           Your name
           <input className={fields.input} value={report.yourName} placeholder="e.g. Ms Fatima Noor" maxLength={100} onChange={(e) => update({ yourName: e.target.value })} />
+        </label>
+        <label className={fields.field}>
+          Registered student (to send it to)
+          <select
+            className={fields.input}
+            value={report.studentId ?? ""}
+            onChange={(e) => {
+              const picked = students.find((s) => s.id === Number(e.target.value));
+              update(picked ? { studentId: picked.id, studentName: picked.full_name || report.studentName } : { studentId: null });
+            }}
+          >
+            <option value="">Not chosen</option>
+            {students.map((s) => <option key={s.id} value={s.id}>{s.full_name ? `${s.full_name} (${s.email})` : s.email}</option>)}
+          </select>
         </label>
         <label className={fields.field}>
           Student name

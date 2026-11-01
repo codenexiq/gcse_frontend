@@ -13,6 +13,7 @@ import {
   GraduationCap,
   LayoutDashboard,
   Map,
+  MessageSquare,
   Menu,
   Package,
   Settings2,
@@ -23,6 +24,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { useChatUnread } from "@/hooks/useChatUnread";
 import type { Role } from "@/types";
 import styles from "./DashboardSidebar.module.css";
 
@@ -44,6 +46,8 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/student/diagnostic", label: "Diagnostic", icon: ClipboardCheck, exact: false },
       { href: "/student/group", label: "Your group", icon: UsersRound, exact: false },
       { href: "/student/learning-map", label: "Learning map", icon: Map, exact: false },
+      { href: "/student/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
+      { href: "/student/messages", label: "Messages", icon: MessageSquare, exact: false },
     ],
   },
   tutor: {
@@ -54,6 +58,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
       { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
+      { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
     ],
   },
   admin: {
@@ -64,12 +69,13 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
       { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
+      { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
       { href: "/tutor/dashboard/accounts", label: "Tutor accounts", icon: UserCog, exact: false },
     ],
   },
 };
 
-function SidebarContents({ role, pathname, closeMenu }: { role: Role; pathname: string; closeMenu?: () => void }) {
+function SidebarContents({ role, pathname, closeMenu, unread }: { role: Role; pathname: string; closeMenu?: () => void; unread: number }) {
   const workspace = workspaces[role];
   return (
     <>
@@ -99,6 +105,11 @@ function SidebarContents({ role, pathname, closeMenu }: { role: Role; pathname: 
                 >
                   <Icon aria-hidden="true" size={18} className={styles.itemIcon} />
                   {label}
+                  {href.endsWith("/messages") && unread > 0 && (
+                    <span className={styles.badge} role="status" aria-label={`${unread} unread ${unread === 1 ? "message" : "messages"}`}>
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                  )}
                 </Link>
               </li>
             );
@@ -138,6 +149,7 @@ export default function DashboardSidebar({ role }: { role: Role }) {
   const [open, setOpen] = useState(false);
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
+  const unread = useChatUnread();
 
   // Close the drawer when the page changes, and with Escape.
   useEffect(() => {
@@ -153,7 +165,7 @@ export default function DashboardSidebar({ role }: { role: Role }) {
   return (
     <>
       <aside className={styles.desktop}>
-        <SidebarContents role={role} pathname={pathname} />
+        <SidebarContents role={role} pathname={pathname} unread={unread} />
       </aside>
 
       <div className={styles.topBar}>
@@ -192,7 +204,7 @@ export default function DashboardSidebar({ role }: { role: Role }) {
               exit={{ x: -24, opacity: 0 }}
               transition={{ type: "spring", stiffness: 360, damping: 34 }}
             >
-              <SidebarContents role={role} pathname={pathname} closeMenu={() => setOpen(false)} />
+              <SidebarContents role={role} pathname={pathname} closeMenu={() => setOpen(false)} unread={unread} />
             </motion.aside>
           </>
         )}

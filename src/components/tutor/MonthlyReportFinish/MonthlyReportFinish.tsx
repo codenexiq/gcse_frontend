@@ -1,13 +1,20 @@
 import MonthlyReportCard from "@/components/tutor/MonthlyReportCard";
 import styles from "./MonthlyReportFinish.module.css";
 
-interface Props { onNextStudent: () => void }
+interface Props {
+  onNextStudent: () => void;
+  /** Sends the report to the chosen student. */
+  onSend: () => void;
+  canSend: boolean;
+  sending: boolean;
+}
 
 /** Step 7: print the report as a PDF, or start again for the next student. */
-export default function MonthlyReportFinish({ onNextStudent }: Props) {
+export default function MonthlyReportFinish({ onNextStudent, onSend, canSend, sending }: Props) {
   return (
-    <MonthlyReportCard number={7} title="Finish" hint="Check the report, then download it and send it on">
+    <MonthlyReportCard number={7} title="Finish" hint="Check the report, then generate it for the student">
       <div className={styles.buttons}>
+        <button type="button" className={styles.send} onClick={onSend} disabled={!canSend || sending}>{sending ? "Generating..." : "Generate report"}</button>
         <button type="button" className={styles.download} onClick={() => window.print()}>Download PDF</button>
         <button
           type="button"
@@ -19,8 +26,9 @@ export default function MonthlyReportFinish({ onNextStudent }: Props) {
           Start next student
         </button>
       </div>
+      {!canSend && <p className={styles.note}>To generate the report, choose the registered student in step 1.</p>}
       <p className={styles.note}>
-        In the print window, choose <strong>Save as PDF</strong> as the destination. Name the file with the student and month, then email it to educatecloud.online@gmail.com.
+        Generating the report saves it and puts it on the student&rsquo;s dashboard. Download PDF is only for your own copy: choose <strong>Save as PDF</strong> in the print window.
       </p>
     </MonthlyReportCard>
   );

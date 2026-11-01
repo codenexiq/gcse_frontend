@@ -1,0 +1,27 @@
+.row { display: flex; align-items: flex-end; gap: 0.5rem; justify-content: flex-start; list-style: none; }
+.initial { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; font-size: 0.8rem; font-weight: 700; color: #fff; border-radius: 50%; }
+.mine { justify-content: flex-end; }
+.bubble { max-width: min(34rem, 85%); padding: 0.55rem 0.8rem 0.4rem; background: #fff; border: 1px solid #dfe3ee; border-radius: 14px 14px 14px 4px; box-shadow: 0 1px 1px rgba(28, 25, 23, 0.06); }
+.fromTutor { background: #fff6e0; border-color: #f0dca6; }
+.mine .bubble { background: #d7f3e1; border-color: #b9e3c9; border-radius: 14px 14px 4px 14px; }
+.sender { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.25rem; font-size: 0.85rem; font-weight: 700; }
+.badge { padding: 0.05rem 0.45rem; font-size: 0.65rem; font-weight: 600; color: #fff; background: #1f9d63; border-radius: 999px; }
+.text { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--ec-stone-900); white-space: pre-wrap; overflow-wrap: anywhere; }
+.file { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; color: var(--ec-navy); background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(28, 25, 23, 0.1); border-radius: 10px; text-decoration: none; }
+.file:hover { background: #fff; text-decoration: underline; }
+.file:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.fileIcon { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; color: #fff; background: #2f5fb3; border-radius: 8px; }
+.fileName { min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
+.fileSize { flex-shrink: 0; color: var(--ec-stone-500); }
+.meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.3rem; margin: 0.2rem 0 0; }
+.time { font-size: 0.68rem; color: var(--ec-stone-500); }
+/* One tick = sent, two grey = delivered, two blue = read. */
+.ticks { display: inline-flex; color: #8a8f98; }
+.read { color: #2f8fea; }
+.deleted, .mine .deleted { background: #f1f2f6; border-color: #e0e2ea; box-shadow: none; }
+.removed { display: flex; align-items: center; gap: 0.35rem; margin: 0; font-size: 0.85rem; font-style: italic; color: var(--ec-stone-500); }
+/* The delete button shows when you point at your message (always on touch screens). */
+.trash { display: grid; place-items: center; margin-right: auto; padding: 0.15rem; color: #b42318; background: transparent; border: 0; border-radius: 6px; cursor: pointer; opacity: 0; transition: opacity 0.15s; }
+.bubble:hover .trash, .trash:focus-visible { opacity: 1; }
+.trash:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+@media (hover: none) { .trash { opacity: 1; } }

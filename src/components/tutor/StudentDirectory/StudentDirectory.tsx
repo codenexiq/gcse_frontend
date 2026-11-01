@@ -13,7 +13,7 @@ export default function StudentDirectory({ students }: { students: StudentSummar
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return q ? students.filter((s) => s.email.toLowerCase().includes(q)) : students;
+    return q ? students.filter((s) => `${s.full_name ?? ""} ${s.email}`.toLowerCase().includes(q)) : students;
   }, [students, query]);
 
   return (
@@ -26,12 +26,12 @@ export default function StudentDirectory({ students }: { students: StudentSummar
         </p>
         <label className={styles.search}>
           <Search size={16} aria-hidden="true" />
-          <span className={styles.srOnly}>Search students by email</span>
+          <span className={styles.srOnly}>Search students by name or email</span>
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by email"
+            placeholder="Search by name or email"
             maxLength={100}
           />
         </label>
@@ -55,8 +55,11 @@ export default function StudentDirectory({ students }: { students: StudentSummar
                 <tr key={student.id}>
                   <td>
                     <span className={styles.who}>
-                      <Avatar name={student.email} size={32} />
-                      {student.email}
+                      <Avatar name={student.full_name || student.email} size={32} />
+                      <span className={styles.names}>
+                        <strong className={styles.fullName}>{student.full_name || "Name not given"}</strong>
+                        <span className={styles.email}>{student.email}</span>
+                      </span>
                     </span>
                   </td>
                   <td className={styles.date}>{formatDate(student.created_at)}</td>

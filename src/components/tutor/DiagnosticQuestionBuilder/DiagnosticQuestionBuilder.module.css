@@ -14,3 +14,6 @@
 .cards { display: grid; gap: 1rem; margin-top: 1rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); align-items: start; }
 .empty { grid-column: 1 / -1; margin: 1rem 0 0; font-size: 0.875rem; color: var(--ec-stone-500); }
 @media (max-width: 1180px) { .withForm { grid-template-columns: minmax(0, 1fr); } .side { position: static; } }
+.full { display: grid; gap: 1rem; }
+.back { display: inline-flex; align-items: center; gap: 0.35rem; justify-self: start; padding: 0.5rem 0.9rem; font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; cursor: pointer; }
+.back:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }

@@ -1,0 +1,6 @@
+.page { display: grid; gap: 0.75rem; max-width: 52rem; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.back, .download { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.55rem 1rem; font: inherit; font-size: 0.85rem; font-weight: 600; border-radius: 10px; text-decoration: none; cursor: pointer; }
+.back { color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); }
+.download { color: #fff; background: var(--ec-navy); border: 0; }
+.back:focus-visible, .download:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }

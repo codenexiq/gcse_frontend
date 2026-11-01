@@ -1,0 +1,12 @@
+.layout { display: grid; gap: 1rem; grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr); align-items: start; }
+.list, .thread { min-width: 0; }
+.thread { display: grid; gap: 0.5rem; }
+.pick { display: grid; place-items: center; height: min(40rem, calc(100vh - 13rem)); min-height: 22rem; margin: 0; padding: 1.5rem; font-size: 0.9rem; text-align: center; color: var(--ec-stone-500); background: #fff; border: 1px dashed var(--ec-stone-200); border-radius: 16px; }
+.back { display: none; justify-self: start; padding: 0.45rem 0.9rem; font: inherit; font-size: 0.85rem; font-weight: 600; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; cursor: pointer; }
+/* Small screens: the list OR the conversation, one at a time. */
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .back { display: inline-block; }
+  .threadOpen .list { display: none; }
+  .layout:not(.threadOpen) .thread { display: none; }
+}

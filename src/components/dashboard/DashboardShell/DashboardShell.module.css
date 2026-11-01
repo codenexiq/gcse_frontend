@@ -4,4 +4,9 @@
 .inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: 1.5rem 1rem; }
 @media (min-width: 640px) { .inner { padding: 2rem 1.75rem; } }
 @media (min-width: 1280px) { .inner { padding: 2rem 2.5rem; } }
-.content { margin-top: 1.75rem; }
+/* The header: it stays at the top while the page scrolls underneath (on small screens the sidebar's own top bar does this job). */
+.bar { background: var(--ec-dash-bg); border-bottom: 1px solid rgba(231, 229, 228, 0.8); }
+.bar .inner { padding-top: 1rem; padding-bottom: 1rem; }
+@media (min-width: 1024px) { .bar { position: sticky; top: 0; z-index: 30; } }
+.content { padding-top: 0; }
+.main > .inner { padding-top: 1.5rem; }

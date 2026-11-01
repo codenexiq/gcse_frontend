@@ -87,6 +87,8 @@ export interface TutorOverview {
 /** One row of the student directory. */
 export interface StudentSummary {
   id: number;
+  /** Missing until the back-end that sends it is updated. */
+  full_name?: string;
   email: string;
   created_at: string;
 }
@@ -206,3 +208,60 @@ export interface StudentDiagnosticResult {
   /** The mistakes behind the wrong answers. */
   misconceptions: { topic: string; text: string }[];
 }
+
+/** One line in a student's list of monthly progress reports. */
+export interface MonthlyReportSummary {
+  id: number;
+  subject: string;
+  month: string;
+  updated_at: string;
+}
+
+/** A report a tutor sent to a student (read-only for the student). */
+export interface MonthlyReportRecord<T> extends MonthlyReportSummary {
+  data: T;
+}
+
+/** One row of the tutor's table of monthly progress reports. */
+export interface MonthlyReportRow extends MonthlyReportSummary {
+  student_id: number;
+  full_name?: string;
+  email: string;
+}
+
+/** One line of the tutor's chat list: a student, their latest message and how many of theirs are unread. */
+export interface ChatConversation {
+  studentId: number;
+  fullName: string;
+  email: string;
+  lastBody: string | null;
+  lastHasFile: boolean;
+  lastAt: string | null;
+  unread: number;
+}
+
+/** One chat message. */
+export interface ChatMessageItem {
+  id: number;
+  senderId: number;
+  senderName: string;
+  senderRole: Role;
+  body: string | null;
+  createdAt: string;
+  /** Its sender deleted it: no text and no file, only a note that it was deleted. */
+  deleted: boolean;
+  attachment: { id: number; name: string; size: number } | null;
+}
+
+/** How far each side has received and read a conversation (message ids), for the ticks. */
+export interface ChatPointers {
+  tutorRead: number;
+  tutorDelivered: number;
+  studentRead: number;
+  studentDelivered: number;
+  /** Everything up to this message id was removed when the whole chat was deleted. */
+  wipedUpTo: number;
+}
+
+/** What a message's ticks show: one tick = sent, two grey = delivered, two blue = read. */
+export type ChatStatus = "sent" | "delivered" | "read";

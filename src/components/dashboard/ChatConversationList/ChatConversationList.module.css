@@ -1,0 +1,17 @@
+.panel { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; height: min(40rem, calc(100vh - 13rem)); min-height: 22rem; padding: 0.75rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; }
+.search { display: flex; align-items: center; gap: 0.5rem; height: 40px; padding: 0 0.85rem; background: var(--ec-stone-100); border: 1px solid transparent; border-radius: 12px; color: var(--ec-stone-500); }
+.search:focus-within { background: #fff; border-color: var(--ec-focus); }
+.search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 0.9rem; color: var(--ec-stone-900); }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.list { flex: 1; display: grid; gap: 0.15rem; align-content: start; margin: 0; padding: 0; overflow-y: auto; list-style: none; }
+.item { display: flex; align-items: center; gap: 0.65rem; width: 100%; padding: 0.55rem 0.6rem; font: inherit; text-align: left; color: inherit; background: transparent; border: 0; border-radius: 12px; cursor: pointer; }
+.item:hover { background: var(--ec-lavender-soft); }
+.item:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 1px; }
+.active, .active:hover { background: var(--ec-lavender); }
+.text { display: grid; flex: 1; gap: 0.1rem; min-width: 0; }
+.top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+.name { overflow: hidden; font-size: 0.875rem; color: var(--ec-navy); text-overflow: ellipsis; white-space: nowrap; }
+.when { flex-shrink: 0; font-size: 0.68rem; color: var(--ec-stone-500); }
+.preview { display: flex; align-items: center; gap: 0.25rem; overflow: hidden; font-size: 0.78rem; color: var(--ec-stone-500); text-overflow: ellipsis; white-space: nowrap; }
+.unread { display: grid; place-items: center; flex-shrink: 0; min-width: 1.35rem; height: 1.35rem; padding: 0 0.35rem; font-size: 0.7rem; font-weight: 700; color: #fff; background: #1f9d63; border-radius: 999px; }
+.empty { margin: 1rem 0.25rem; font-size: 0.875rem; color: var(--ec-stone-500); }

@@ -22,3 +22,6 @@
 .who { display: inline-flex; align-items: center; gap: 0.7rem; overflow-wrap: anywhere; }
 .date { white-space: nowrap; color: var(--ec-stone-500); }
 .empty { margin: 1.25rem 0 0.25rem; font-size: 0.9rem; color: var(--ec-stone-500); }
+.names { display: grid; gap: 0.1rem; }
+.fullName { font-weight: 600; color: var(--ec-navy); }
+.email { font-size: 0.8rem; color: var(--ec-stone-500); }

@@ -31,6 +31,8 @@ export interface TestRow { name: string; score: string; outOf: string; grade: st
 export interface TargetRow { what: string; student: string; tutor: string; measured: string }
 
 export interface MonthlyReport {
+  /** The registered student the report is sent to (null until chosen). */
+  studentId: number | null;
   yourName: string; studentName: string; subject: string; yearGroup: string; tier: string; month: string;
   attended: string; held: string;
   topics: TopicRow[];
@@ -55,7 +57,7 @@ export const emptyTarget = (): TargetRow => ({ what: "", student: "", tutor: "",
 
 export function emptyReport(): MonthlyReport {
   return {
-    yourName: "", studentName: "", subject: SUBJECTS[0], yearGroup: "Year 11", tier: "Higher", month: monthLabel(new Date()),
+    studentId: null, yourName: "", studentName: "", subject: SUBJECTS[0], yearGroup: "Year 11", tier: "Higher", month: monthLabel(new Date()),
     attended: "", held: "",
     topics: [1, 2, 3].map(() => ({ name: "", mastery: "" as const })),
     testCount: 0, tests: [1, 2, 3].map(() => ({ name: "", score: "", outOf: "", grade: "" })),

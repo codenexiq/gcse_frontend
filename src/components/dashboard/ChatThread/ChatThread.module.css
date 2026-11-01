@@ -1,0 +1,15 @@
+.thread { display: flex; flex-direction: column; min-width: 0; height: min(40rem, calc(100vh - 13rem)); min-height: 22rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; overflow: hidden; }
+.head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.85rem 1rem; color: #fff; background: var(--ec-navy); }
+.headText { min-width: 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.action { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.35rem 0.7rem; font: inherit; font-size: 0.75rem; font-weight: 600; color: #fff; background: transparent; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 8px; cursor: pointer; }
+.action:hover:not(:disabled) { background: rgba(255, 255, 255, 0.14); }
+.action:disabled { opacity: 0.45; cursor: not-allowed; }
+.action:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.danger { color: #fff; background: #d92d20; border-color: #d92d20; }
+.danger:hover:not(:disabled) { background: #b42318; }
+.title { margin: 0; font-size: 1rem; font-weight: 600; }
+.who { margin: 0.15rem 0 0; font-size: 0.78rem; color: rgba(255, 255, 255, 0.8); }
+.list { flex: 1; display: flex; flex-direction: column; gap: 0.5rem; margin: 0; padding: 1rem; overflow-y: auto; background: #e9edf6; list-style: none; }
+.empty, .problem { margin: auto; padding: 0.5rem 0.9rem; font-size: 0.875rem; text-align: center; color: var(--ec-stone-600); background: #fff; border-radius: 10px; list-style: none; }
+.problem { color: #b42318; }

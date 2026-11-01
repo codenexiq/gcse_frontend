@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Plus, X } from "lucide-react";
+import MathKeyboard, { insertMath } from "@/components/ui/MathKeyboard";
 import MathText from "@/components/ui/MathText";
 import { ApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
@@ -28,6 +29,7 @@ interface Props {
 export default function DiagnosticQuestionForm({ question, subjects, onSaved, onCancel }: Props) {
   const toast = useToast();
   const [busy, setBusy] = useState(false);
+  const questionBox = useRef<HTMLTextAreaElement>(null);
   const [draft, setDraft] = useState<DiagnosticQuestionInput>(
     question ?? {
       level: "GCSE",
@@ -45,6 +47,19 @@ export default function DiagnosticQuestionForm({ question, subjects, onSaved, on
   );
 
   const set = <K extends keyof DiagnosticQuestionInput>(key: K, value: DiagnosticQuestionInput[K]) => setDraft((d) => ({ ...d, [key]: value }));
+  /** Adds a key from the maths keyboard at the caret in the question box. */
+  function typeMaths(latex: string) {
+    const box = questionBox.current;
+    const start = box?.selectionStart ?? draft.question.length;
+    const end = box?.selectionEnd ?? draft.question.length;
+    const next = insertMath(draft.question, start, end, latex);
+    if (next.text.length > 500) return;
+    set("question", next.text);
+    requestAnimationFrame(() => {
+      box?.focus();
+      box?.setSelectionRange(next.caret, next.caret);
+    });
+  }
   const setOptionText = (i: number, text: string) => set("options", draft.options.map((o, n) => (n === i ? { ...o, text } : o)));
   const setMisconception = (i: number, misconception: string) => set("options", draft.options.map((o, n) => (n === i ? { ...o, misconception } : o)));
   const setCorrect = (i: number) => set("options", draft.options.map((o, n) => ({ ...o, isCorrect: n === i })));
@@ -103,7 +118,8 @@ export default function DiagnosticQuestionForm({ question, subjects, onSaved, on
 
       <div className={styles.field}>
         <label htmlFor="dq-question" className={styles.label}>Question</label>
-        <textarea id="dq-question" className={styles.input} rows={3} maxLength={500} value={draft.question} onChange={(e) => set("question", e.target.value)} />
+        <textarea id="dq-question" ref={questionBox} className={styles.input} rows={3} maxLength={500} value={draft.question} onChange={(e) => set("question", e.target.value)} />
+        <MathKeyboard onInsert={typeMaths} />
         <span className={styles.note}>Write maths between dollar signs, e.g. Work out $\frac{"{3}{4}"} + \frac{"{1}{6}"}$</span>
         {draft.question && <p className={styles.preview}><MathText text={draft.question} /></p>}
       </div>

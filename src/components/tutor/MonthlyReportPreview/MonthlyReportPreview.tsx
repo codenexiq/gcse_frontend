@@ -4,7 +4,7 @@ import styles from "./MonthlyReportPreview.module.css";
 const today = () => new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 /** The finished report, shown beside the form and updated as the tutor types. This is what gets printed. */
-export default function MonthlyReportPreview({ report: r }: { report: MonthlyReport }) {
+export default function MonthlyReportPreview({ report: r, date }: { report: MonthlyReport; /** The date shown at the bottom; today when left out. */ date?: string }) {
   const att = attendancePercent(r);
   const avg = testAveragePercent(r);
   const tests = r.tests.slice(0, r.testCount).filter((t) => t.name.trim() || t.score.trim());
@@ -107,7 +107,7 @@ export default function MonthlyReportPreview({ report: r }: { report: MonthlyRep
 
         <footer className={styles.foot}>
           <span>{r.yourName.trim() ? `${r.yourName.trim()} · ` : "Tutor · "}Educate Cloud</span>
-          <span suppressHydrationWarning>{today()}</span>
+          <span suppressHydrationWarning>{date ?? today()}</span>
         </footer>
       </div>
     </article>
