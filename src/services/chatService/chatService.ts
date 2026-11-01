@@ -2,7 +2,7 @@ import { API_URL } from "@/lib/config";
 import { ApiError, apiFetch, errorMessage } from "@/lib/api";
 import type { ChatConversation, ChatMessageItem, ChatPointers } from "@/types";
 
-// Browser-side calls for the chat. A student never passes a student id (they always chat in their own conversation).
+// Browser-side calls for the chat. Every chat is between one student and one tutor/admin: `peerId` is the OTHER person.
 const q = (params: Record<string, string | number | undefined>) => {
   const search = new URLSearchParams();
   for (const [k, v] of Object.entries(params)) if (v !== undefined) search.set(k, String(v));
@@ -13,15 +13,15 @@ const q = (params: Record<string, string | number | undefined>) => {
 export const getConversations = () => apiFetch<ChatConversation[]>("/chat/conversations");
 
 /** after = 0 gives the latest messages; otherwise only the ones newer than that message id. */
-export const getMessages = (studentId: number | undefined, after: number) =>
-  apiFetch<{ messages: ChatMessageItem[]; pointers: ChatPointers; deletedIds: number[] }>(`/chat/messages${q({ studentId, after })}`);
+export const getMessages = (peerId: number, after: number) =>
+  apiFetch<{ messages: ChatMessageItem[]; pointers: ChatPointers; deletedIds: number[] }>(`/chat/messages${q({ with: peerId, after })}`);
 
-export const sendMessage = (studentId: number | undefined, body: string, attachmentId?: number) =>
-  apiFetch<{ id: number }>("/chat/messages", { method: "POST", body: JSON.stringify({ studentId, body, attachmentId }) });
+export const sendMessage = (peerId: number, body: string, attachmentId?: number) =>
+  apiFetch<{ id: number }>("/chat/messages", { method: "POST", body: JSON.stringify({ peerId, body, attachmentId }) });
 
 /** Uploads a file (5 MB at most); the file is sent as the raw request body. */
-export async function uploadAttachment(studentId: number | undefined, file: File) {
-  const res = await fetch(`${API_URL}/chat/attachments${q({ studentId, name: file.name })}`, {
+export async function uploadAttachment(peerId: number, file: File) {
+  const res = await fetch(`${API_URL}/chat/attachments${q({ with: peerId, name: file.name })}`, {
     method: "POST",
     cache: "no-store",
     credentials: "same-origin",
@@ -34,14 +34,14 @@ export async function uploadAttachment(studentId: number | undefined, file: File
 }
 
 /** Delete one of your own messages, for everyone. */
-export const deleteMessage = (studentId: number | undefined, messageId: number) =>
-  apiFetch<{ deleted: boolean }>(`/chat/messages/${messageId}${q({ studentId })}`, { method: "DELETE" });
+export const deleteMessage = (peerId: number, messageId: number) =>
+  apiFetch<{ deleted: boolean }>(`/chat/messages/${messageId}${q({ with: peerId })}`, { method: "DELETE" });
 
 /** Clear chat: empties the chat on your screen only. */
-export const clearChat = (studentId: number | undefined) => apiFetch<{ cleared: boolean }>(`/chat/clear${q({ studentId })}`, { method: "POST" });
+export const clearChat = (peerId: number) => apiFetch<{ cleared: boolean }>(`/chat/clear${q({ with: peerId })}`, { method: "POST" });
 
-/** Delete chat: the whole conversation and its files, for everyone. */
-export const deleteChat = (studentId: number | undefined) => apiFetch<{ deleted: boolean }>(`/chat/conversation${q({ studentId })}`, { method: "DELETE" });
+/** Delete chat: this chat and its files, for both people. */
+export const deleteChat = (peerId: number) => apiFetch<{ deleted: boolean }>(`/chat/conversation${q({ with: peerId })}`, { method: "DELETE" });
 
 export const getUnreadCount = () => apiFetch<{ count: number }>("/chat/unread");
 

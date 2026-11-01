@@ -12,11 +12,13 @@ import styles from "./ChatThread.module.css";
 const POLL_MS = 8000;
 
 interface Props {
-  /** The student whose conversation this is. Leave out for a student: they always chat in their own. */
-  studentId?: number;
+  /** The OTHER person in this chat: the student for a tutor or admin, the tutor or admin for a student. */
+  peerId: number;
   /** The signed-in user, so their own messages show on the right. */
   meId: number;
   title: string;
+  /** A line under the title, e.g. who the person is. */
+  subtitle?: string;
   emptyText: string;
   /** Called after the thread has loaded, so a list can refresh its unread counts. */
   onRead?: () => void;
@@ -25,7 +27,7 @@ interface Props {
 }
 
 /** One conversation: the messages (checked for new ones every few seconds) and the box to answer. */
-export default function ChatThread({ studentId, meId, title, emptyText, onRead, onChanged }: Props) {
+export default function ChatThread({ peerId, meId, title, subtitle, emptyText, onRead, onChanged }: Props) {
   const [messages, setMessages] = useState<ChatMessageItem[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [problem, setProblem] = useState("");
@@ -35,7 +37,7 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
 
   const load = useCallback(async () => {
     try {
-      const { messages: fresh, pointers: latest, deletedIds } = await getMessages(studentId, lastId.current);
+      const { messages: fresh, pointers: latest, deletedIds } = await getMessages(peerId, lastId.current);
       setProblem("");
       setPointers(latest); // older messages can turn from one tick to two blue ticks
       // Keep what is on screen in step with the server: drop what a "delete chat" wiped, mark deleted messages, add new ones.
@@ -57,7 +59,7 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
       setProblem(err instanceof Error ? err.message : "Could not load the messages.");
       setLoaded(true);
     }
-  }, [studentId, onRead]);
+  }, [peerId, onRead]);
 
   useEffect(() => {
     load();
@@ -78,15 +80,12 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
     return m.id <= seen.read ? "read" : m.id <= seen.delivered ? "delivered" : "sent";
   }
 
-  // A student's chat can have several tutors: say who has written, so it is clear who they are talking to.
-  const tutorNames = studentId === undefined ? [...new Map(messages.filter((m) => m.senderRole !== "student").map((m) => [m.senderId, m.senderName])).values()] : [];
-
   const fail = (err: unknown) => setProblem(err instanceof Error ? err.message : "Something went wrong. Please try again.");
 
   async function removeMessage(m: ChatMessageItem) {
-    if (!window.confirm("Delete this message for everyone? The other side will see that it was deleted.")) return;
+    if (!window.confirm("Delete this message for both of you? The other person will see that it was deleted.")) return;
     try {
-      await deleteMessage(studentId, m.id);
+      await deleteMessage(peerId, m.id);
       await load();
     } catch (err) {
       fail(err);
@@ -94,9 +93,9 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
   }
 
   async function clear() {
-    if (!window.confirm("Clear this chat? The messages disappear from YOUR screen only. The other side keeps them.")) return;
+    if (!window.confirm("Clear this chat? The messages disappear from YOUR screen only. The other person keeps them.")) return;
     try {
-      await clearChat(studentId);
+      await clearChat(peerId);
       setMessages([]);
       onChanged?.();
     } catch (err) {
@@ -105,9 +104,9 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
   }
 
   async function removeChat() {
-    if (!window.confirm("Delete this whole chat for EVERYONE? Every message and file is removed permanently. This cannot be undone.")) return;
+    if (!window.confirm("Delete this chat for BOTH of you? Every message and file in it is removed permanently. This cannot be undone.")) return;
     try {
-      await deleteChat(studentId);
+      await deleteChat(peerId);
       setMessages([]);
       onChanged?.();
     } catch (err) {
@@ -117,8 +116,8 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
 
   async function send(text: string, file: File | null) {
     let attachmentId: number | undefined;
-    if (file) attachmentId = (await uploadAttachment(studentId, file)).id;
-    await sendMessage(studentId, text, attachmentId);
+    if (file) attachmentId = (await uploadAttachment(peerId, file)).id;
+    await sendMessage(peerId, text, attachmentId);
     await load();
   }
 
@@ -127,13 +126,13 @@ export default function ChatThread({ studentId, meId, title, emptyText, onRead, 
       <div className={styles.head}>
         <div className={styles.headText}>
           <h2 className={styles.title}>{title}</h2>
-          {studentId === undefined && tutorNames.length > 0 && <p className={styles.who}>{tutorNames.join(", ")}</p>}
+          {subtitle && <p className={styles.who}>{subtitle}</p>}
         </div>
         <div className={styles.actions}>
           <button type="button" className={styles.action} onClick={clear} disabled={messages.length === 0} title="Empty the chat on your screen only">
             <Eraser size={14} aria-hidden="true" /> Clear chat
           </button>
-          <button type="button" className={`${styles.action} ${styles.danger}`} onClick={removeChat} title="Remove the whole chat for everyone">
+          <button type="button" className={`${styles.action} ${styles.danger}`} onClick={removeChat} title="Remove this chat for both of you">
             <Trash2 size={14} aria-hidden="true" /> Delete chat
           </button>
         </div>

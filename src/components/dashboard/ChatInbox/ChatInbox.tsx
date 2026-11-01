@@ -11,12 +11,14 @@ const REFRESH_MS = 15000;
 
 interface Props {
   initial: ChatConversation[];
-  /** The signed-in tutor or admin. */
+  /** The signed-in person. */
   meId: number;
+  /** What the people in the list are: "student" (the tutor's page) or "tutor" (the student's page). */
+  noun: "student" | "tutor";
 }
 
-/** The tutor's chat page: the students on the left, the chosen student's conversation on the right. */
-export default function ChatInbox({ initial, meId }: Props) {
+/** A chat page: the people to talk to on the left, the chosen person's chat on the right. Every chat is separate. */
+export default function ChatInbox({ initial, meId, noun }: Props) {
   const [conversations, setConversations] = useState(initial);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -35,29 +37,30 @@ export default function ChatInbox({ initial, meId }: Props) {
     return () => clearInterval(timer);
   }, [refresh]);
 
-  const selected = conversations.find((c) => c.studentId === selectedId) ?? null;
+  const selected = conversations.find((c) => c.peerId === selectedId) ?? null;
 
   return (
     <div className={`${styles.layout} ${selected ? styles.threadOpen : ""}`}>
       <div className={styles.list}>
-        <ChatConversationList conversations={conversations} selectedId={selectedId} onSelect={setSelectedId} />
+        <ChatConversationList conversations={conversations} selectedId={selectedId} onSelect={setSelectedId} noun={noun} />
       </div>
       <div className={styles.thread}>
         {selected ? (
           <>
-            <button type="button" className={styles.back} onClick={() => setSelectedId(null)}>&larr; All students</button>
+            <button type="button" className={styles.back} onClick={() => setSelectedId(null)}>&larr; All {noun}s</button>
             <ChatThread
-              key={selected.studentId}
-              studentId={selected.studentId}
+              key={selected.peerId}
+              peerId={selected.peerId}
               meId={meId}
               title={selected.fullName || selected.email}
+              subtitle={selected.peerRole === "admin" ? "Administrator" : selected.peerRole === "tutor" ? "Tutor" : "Student"}
               emptyText="No messages yet. Say hello, or share a file."
               onRead={refresh}
               onChanged={refresh}
             />
           </>
         ) : (
-          <p className={styles.pick}>Choose a student on the left to read and answer their messages.</p>
+          <p className={styles.pick}>Choose a {noun} on the left to read and answer their messages.</p>
         )}
       </div>
     </div>

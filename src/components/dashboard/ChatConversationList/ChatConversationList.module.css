@@ -15,3 +15,4 @@
 .preview { display: flex; align-items: center; gap: 0.25rem; overflow: hidden; font-size: 0.78rem; color: var(--ec-stone-500); text-overflow: ellipsis; white-space: nowrap; }
 .unread { display: grid; place-items: center; flex-shrink: 0; min-width: 1.35rem; height: 1.35rem; padding: 0 0.35rem; font-size: 0.7rem; font-weight: 700; color: #fff; background: #1f9d63; border-radius: 999px; }
 .empty { margin: 1rem 0.25rem; font-size: 0.875rem; color: var(--ec-stone-500); }
+.role { flex-shrink: 0; padding: 0.05rem 0.45rem; font-size: 0.65rem; font-weight: 600; color: #fff; background: #1f9d63; border-radius: 999px; }

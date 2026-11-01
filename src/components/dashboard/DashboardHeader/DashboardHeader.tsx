@@ -27,7 +27,7 @@ function headingFor(pathname: string, name: string) {
     return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
   }
   if (pathname.startsWith("/student/messages")) {
-    return { title: "Messages", text: "Write to your tutors and share files with them.", upToDate: "Your messages are up to date" };
+    return { title: "Messages", text: "Chat with each of your tutors and share files.", upToDate: "Your messages are up to date" };
   }
   if (pathname.startsWith("/tutor/dashboard/messages")) {
     return { title: "Messages", text: "Chat with your students and share files.", upToDate: "Your messages are up to date" };

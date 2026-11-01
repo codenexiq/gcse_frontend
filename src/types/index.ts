@@ -229,11 +229,12 @@ export interface MonthlyReportRow extends MonthlyReportSummary {
   email: string;
 }
 
-/** One line of the tutor's chat list: a student, their latest message and how many of theirs are unread. */
+/** One line of a chat list: the OTHER person (a student for a tutor, a tutor or admin for a student), the latest message and how many are unread. */
 export interface ChatConversation {
-  studentId: number;
+  peerId: number;
   fullName: string;
   email: string;
+  peerRole: Role;
   lastBody: string | null;
   lastHasFile: boolean;
   lastAt: string | null;

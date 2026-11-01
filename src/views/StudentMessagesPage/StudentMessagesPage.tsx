@@ -1,8 +1,14 @@
 import { requireStudent } from "@/lib/session";
-import ChatThread from "@/components/dashboard/ChatThread";
+import { getChatConversations } from "@/services/chatService/chatService.server";
+import ChatInbox from "@/components/dashboard/ChatInbox";
+import Alert from "@/components/ui/Alert";
 
-// A student's chat with their tutors. They always chat in their own conversation.
+// A student's chats: a separate chat with each tutor or admin.
 export default async function StudentMessagesPage() {
   const user = await requireStudent();
-  return <ChatThread meId={user.id} title="Your tutors" emptyText="No messages yet. Write to your tutors, or share a file." />;
+  try {
+    return <ChatInbox initial={await getChatConversations()} meId={user.id} noun="tutor" />;
+  } catch (err) {
+    return <Alert>Could not load your messages: {err instanceof Error ? err.message : "Unknown error"}</Alert>;
+  }
 }
