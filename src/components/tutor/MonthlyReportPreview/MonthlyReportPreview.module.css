@@ -1,7 +1,10 @@
 .report { overflow: hidden; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 18px; }
 .top { padding: 1.25rem 1.5rem 1.1rem; color: #fff; background: var(--ec-navy); }
-.brand { margin: 0 0 0.9rem; font-size: 0.75rem; font-weight: 700; }
-.brand span { font-weight: 400; opacity: 0.8; }
+.brandRow { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.9rem; }
+/* A white tile, so the logo shows clearly on the dark header. */
+.logo { display: grid; place-items: center; flex-shrink: 0; width: 52px; height: 52px; background: #fff; border-radius: 12px; }
+.logoImage { display: block; height: 44px; width: auto; }
+.brand { margin: 0; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em; }
 .name { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; overflow-wrap: anywhere; }
 .meta { display: flex; flex-wrap: wrap; gap: 0.9rem; margin: 0.4rem 0 0; font-size: 0.7rem; opacity: 0.85; }
 .body { padding: 1.1rem 1.5rem 1.25rem; font-size: 0.78rem; color: var(--ec-navy); }

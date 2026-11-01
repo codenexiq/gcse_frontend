@@ -15,7 +15,14 @@ export default function MonthlyReportPreview({ report: r, date }: { report: Mont
   return (
     <article className={styles.report} id="monthly-report-print" aria-label="Report preview">
       <header className={styles.top}>
-        <p className={styles.brand}>Educate Cloud <span>· Monthly progress report</span></p>
+        <div className={styles.brandRow}>
+          {/* The same logo as the top navigation. A plain image (not next/image) so it is sure to be loaded when the page is printed. */}
+          <span className={styles.logo}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/logo.png" alt="Educate Cloud" width={864} height={819} loading="eager" className={styles.logoImage} />
+          </span>
+          <p className={styles.brand}>Monthly progress report</p>
+        </div>
         <h2 className={styles.name}>{r.studentName.trim() || "Student name"}</h2>
         <p className={styles.meta}>
           <span>{r.subject}</span><span>{r.month}</span><span>{r.yearGroup}</span><span>{r.tier} tier</span>
