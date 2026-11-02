@@ -1,4 +1,6 @@
-import { Ban, Check, CheckCheck, Paperclip, Trash2 } from "lucide-react";
+import { Ban, Check, CheckCheck, CornerUpLeft, Paperclip, Trash2 } from "lucide-react";
+import DotsMenu, { type DotsMenuItem } from "@/components/ui/DotsMenu";
+import { quoteText } from "@/lib/chatQuote";
 import { attachmentUrl } from "@/services/chatService";
 import type { ChatMessageItem, ChatStatus } from "@/types";
 import styles from "./ChatMessage.module.css";
@@ -16,28 +18,61 @@ interface Props {
   mine: boolean;
   /** Ticks, shown on your own messages only. */
   status?: ChatStatus;
-  /** Delete this message for everyone. Only passed for your own messages. */
+  /** The picture of whoever wrote it (when it is not you). Without it the first letter of their name is shown. */
+  avatarSrc?: string | null;
+  /** Answer this message. */
+  onReply?: () => void;
+  /** Opens the delete choices (for everyone / for me). Every message has it. */
   onDelete?: () => void;
+  /** Scrolls to a message (used when you click the quote of a reply). */
+  onJump?: (messageId: number) => void;
 }
 
 /** One chat bubble. Your own messages are on the right, in green, with ticks. */
-export default function ChatMessage({ message, mine, status, onDelete }: Props) {
+export default function ChatMessage({ message, mine, status, avatarSrc, onReply, onDelete, onJump }: Props) {
   const isTutor = message.senderRole !== "student";
   const colour = NAME_COLOURS[message.senderId % NAME_COLOURS.length];
+
+  // The three dots: Reply (not for a deleted message) and Delete.
+  const menu: DotsMenuItem[] = [
+    ...(onReply && !message.deleted ? [{ label: "Reply", icon: <CornerUpLeft size={14} aria-hidden="true" />, onClick: onReply }] : []),
+    ...(onDelete ? [{ label: "Delete", icon: <Trash2 size={14} aria-hidden="true" />, tone: "danger" as const, onClick: onDelete }] : []),
+  ];
+
   return (
-    <li className={`${styles.row} ${mine ? styles.mine : ""}`}>
+    <li id={`chat-message-${message.id}`} className={`${styles.row} ${mine ? styles.mine : ""}`}>
       {/* Who wrote it: a round badge with their initial, in their own colour. */}
       {!mine && (
         <span className={styles.initial} style={{ background: colour }} aria-hidden="true">
-          {message.senderName.trim().charAt(0).toUpperCase() || "?"}
+          {avatarSrc ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatarSrc} alt="" className={styles.initialImage} />
+          ) : (
+            message.senderName.trim().charAt(0).toUpperCase() || "?"
+          )}
         </span>
       )}
       <div className={`${styles.bubble} ${isTutor && !mine ? styles.fromTutor : ""} ${message.deleted ? styles.deleted : ""}`}>
+        {/* The three dots: they show when you point at the message (always on touch screens). */}
+        {menu.length > 0 && (
+          <span className={styles.menuSlot}>
+            <DotsMenu items={menu} label="Message options" align={mine ? "right" : "left"} />
+          </span>
+        )}
         {!mine && (
           <p className={styles.sender} style={{ color: colour }}>
             {message.senderName}
             {isTutor && <span className={styles.badge}>{ROLE_LABEL[message.senderRole]}</span>}
           </p>
+        )}
+        {/* The message this one answers. Click it to jump to the original. */}
+        {message.replyTo && !message.deleted && (
+          <button type="button" className={styles.quote} onClick={() => onJump?.(message.replyTo!.id)} aria-label={`Go to the message from ${message.replyTo.senderName}`}>
+            <span className={styles.quoteName}>{message.replyTo.senderName}</span>
+            <span className={`${styles.quoteText} ${message.replyTo.deleted ? styles.quoteGone : ""}`}>
+              {quoteText(message.replyTo.body, message.replyTo.fileName, message.replyTo.deleted)}
+            </span>
+          </button>
         )}
         {message.deleted && <p className={styles.removed}><Ban size={14} aria-hidden="true" /> This message was deleted</p>}
         {message.body && <p className={styles.text}>{message.body}</p>}
@@ -49,11 +84,6 @@ export default function ChatMessage({ message, mine, status, onDelete }: Props) 
           </a>
         )}
         <p className={styles.meta}>
-          {mine && !message.deleted && onDelete && (
-            <button type="button" className={styles.trash} onClick={onDelete} aria-label="Delete this message" title="Delete message">
-              <Trash2 size={14} aria-hidden="true" />
-            </button>
-          )}
           <span className={styles.time}>{time(message.createdAt)}</span>
           {mine && status && !message.deleted && (
             <span className={`${styles.ticks} ${status === "read" ? styles.read : ""}`} role="img" aria-label={TICK_LABEL[status]} title={TICK_LABEL[status]}>

@@ -13,17 +13,24 @@ import { ApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
 import { sendMonthlyReport } from "@/services/monthlyReportService";
 import type { StudentSummary } from "@/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "./print.css";
 import styles from "./MonthlyReportBuilder.module.css";
 
 /** The Monthly Report Builder: the form on the left, the finished report on the right. */
-export default function MonthlyReportBuilder({ students }: { students: StudentSummary[] }) {
+export default function MonthlyReportBuilder({ students, initialStudentId }: { students: StudentSummary[]; /** Open with this student already chosen. */ initialStudentId?: number }) {
   const { report, update, nextStudent } = useMonthlyReport();
   const toast = useToast();
   const router = useRouter();
   const [sending, setSending] = useState(false);
+
+  // Coming from a student's page: that student is chosen (this runs after the saved draft was loaded, so it wins).
+  useEffect(() => {
+    const chosen = students.find((s) => s.id === initialStudentId);
+    if (chosen) update({ studentId: chosen.id, studentName: chosen.full_name || "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function send() {
     if (report.studentId === null) return;

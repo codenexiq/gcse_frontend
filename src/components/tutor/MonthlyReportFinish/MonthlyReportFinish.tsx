@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import MonthlyReportCard from "@/components/tutor/MonthlyReportCard";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import styles from "./MonthlyReportFinish.module.css";
 
 interface Props {
@@ -11,6 +15,7 @@ interface Props {
 
 /** Step 7: print the report as a PDF, or start again for the next student. */
 export default function MonthlyReportFinish({ onNextStudent, onSend, canSend, sending }: Props) {
+  const [confirming, setConfirming] = useState(false);
   return (
     <MonthlyReportCard number={7} title="Finish" hint="Check the report, then generate it for the student">
       <div className={styles.buttons}>
@@ -19,9 +24,7 @@ export default function MonthlyReportFinish({ onNextStudent, onSend, canSend, se
         <button
           type="button"
           className={styles.next}
-          onClick={() => {
-            if (window.confirm("Start a new report? This clears the current student's answers.")) onNextStudent();
-          }}
+          onClick={() => setConfirming(true)}
         >
           Start next student
         </button>
@@ -30,6 +33,14 @@ export default function MonthlyReportFinish({ onNextStudent, onSend, canSend, se
       <p className={styles.note}>
         Generating the report saves it and puts it on the student&rsquo;s dashboard. Download PDF is only for your own copy: choose <strong>Save as PDF</strong> in the print window.
       </p>
+      <ConfirmDialog
+        open={confirming}
+        title="Start a new report?"
+        actions={[{ label: "Clear and start again", tone: "danger", onClick: () => { setConfirming(false); onNextStudent(); } }]}
+        onClose={() => setConfirming(false)}
+      >
+        <p>This clears the current student&rsquo;s answers from the form. A report you already generated is not affected.</p>
+      </ConfirmDialog>
     </MonthlyReportCard>
   );
 }

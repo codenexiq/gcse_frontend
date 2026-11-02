@@ -9,6 +9,7 @@ import {
   BookOpen,
   BriefcaseBusiness,
   CalendarDays,
+  CircleUserRound,
   ClipboardCheck,
   GraduationCap,
   LayoutDashboard,
@@ -48,6 +49,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/student/learning-map", label: "Learning map", icon: Map, exact: false },
       { href: "/student/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/student/messages", label: "Messages", icon: MessageSquare, exact: false },
+      { href: "/student/profile", label: "My profile", icon: CircleUserRound, exact: false },
     ],
   },
   tutor: {
@@ -59,6 +61,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
       { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
+      { href: "/tutor/dashboard/profile", label: "My profile", icon: CircleUserRound, exact: false },
     ],
   },
   admin: {
@@ -70,6 +73,7 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
       { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
+      { href: "/tutor/dashboard/profile", label: "My profile", icon: CircleUserRound, exact: false },
       { href: "/tutor/dashboard/accounts", label: "Tutor accounts", icon: UserCog, exact: false },
     ],
   },

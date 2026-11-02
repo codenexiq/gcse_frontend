@@ -10,3 +10,9 @@
 .chosenName { min-width: 0; overflow-wrap: anywhere; }
 .remove { display: grid; place-items: center; margin-left: auto; padding: 0.15rem; color: var(--ec-navy); background: transparent; border: 0; cursor: pointer; }
 .error { margin: 0; font-size: 0.8rem; color: #b42318; }
+/* "Replying to ..." above the box. */
+.reply { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.6rem; background: #eef7f1; border-left: 4px solid #1f9d63; border-radius: 8px; }
+.replyIcon { flex-shrink: 0; color: #1f7a52; }
+.replyText { display: grid; flex: 1; min-width: 0; gap: 0.05rem; }
+.replyName { font-size: 0.78rem; color: #1f7a52; }
+.replySnippet { overflow: hidden; font-size: 0.8rem; color: var(--ec-stone-600); text-overflow: ellipsis; white-space: nowrap; }

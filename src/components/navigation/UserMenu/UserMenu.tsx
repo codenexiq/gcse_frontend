@@ -1,5 +1,6 @@
 import type { User } from "@/types";
 import Avatar from "@/components/ui/Avatar";
+import { profileImageUrl } from "@/services/profileService";
 import LogoutButton from "../LogoutButton";
 import styles from "./UserMenu.module.css";
 
@@ -8,7 +9,7 @@ export default function UserMenu({ user, onDone }: { user: User; onDone?: () => 
   return (
     <div className={styles.menu}>
       <span className={styles.user} title={user.email}>
-        <Avatar name={user.email} />
+        <Avatar name={user.email} src={user.avatarVersion ? profileImageUrl("avatar", user.avatarVersion) : null} />
         <span className={styles.email}>{user.email}</span>
       </span>
       <LogoutButton onDone={onDone} />

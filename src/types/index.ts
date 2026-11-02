@@ -11,6 +11,8 @@ export interface User {
   fullName?: string;
   email: string;
   role: Role;
+  /** Changes whenever the profile picture changes; null or missing when there is none. */
+  avatarVersion?: number | null;
 }
 
 export interface Topic {
@@ -87,6 +89,18 @@ export interface TutorOverview {
 /** One row of the student directory. */
 export interface StudentSummary {
   id: number;
+  /** The student's unique ID, e.g. STU-00042. */
+  student_code?: string | null;
+  /** An inactive student cannot sign in. */
+  is_active?: boolean;
+  headline?: string | null;
+  location?: string | null;
+  /** From the student's "About you" answers (empty until they fill them in). */
+  level?: string | null;
+  subject?: string | null;
+  school_year?: string | null;
+  /** Changes whenever the student's profile picture changes; null or missing when they have none. */
+  avatar_version?: number | null;
   /** Missing until the back-end that sends it is updated. */
   full_name?: string;
   email: string;
@@ -235,6 +249,8 @@ export interface ChatConversation {
   fullName: string;
   email: string;
   peerRole: Role;
+  /** Changes whenever the person's profile picture changes; null when they have none. */
+  avatarVersion: number | null;
   lastBody: string | null;
   lastHasFile: boolean;
   lastAt: string | null;
@@ -247,10 +263,18 @@ export interface ChatMessageItem {
   senderId: number;
   senderName: string;
   senderRole: Role;
+  /** Only in a group chat: the sender's profile picture version, so everybody's picture can be shown. */
+  senderAvatarVersion?: number | null;
   body: string | null;
   createdAt: string;
   /** Its sender deleted it: no text and no file, only a note that it was deleted. */
   deleted: boolean;
+  /** The message this one answers, as a short quote (null when it is not a reply). */
+  replyTo: { id: number; senderName: string; body: string | null; fileName: string | null; deleted: boolean } | null;
+  /** Seconds that were left, when it arrived, in which its sender could still delete it for everyone. */
+  windowLeft: number;
+  /** When this screen received it (set here in the browser), to work out how much of the time is left now. */
+  receivedAt?: number;
   attachment: { id: number; name: string; size: number } | null;
 }
 
@@ -266,3 +290,93 @@ export interface ChatPointers {
 
 /** What a message's ticks show: one tick = sent, two grey = delivered, two blue = read. */
 export type ChatStatus = "sent" | "delivered" | "read";
+
+/** The signed-in person's profile (what the "My profile" page shows and edits). */
+export interface ProfileData {
+  id: number;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  /** The account's unique User ID, e.g. STU-00042, TUT-00002 or ADM-00001. */
+  userCode: string | null;
+  username: string;
+  phone: string;
+  gender: string;
+  headline: string;
+  location: string;
+  bio: string;
+  createdAt: string;
+  /** Changes whenever the picture changes; null when there is no picture. */
+  avatarVersion: number | null;
+  coverVersion: number | null;
+}
+
+/** One student's full profile, as an admin or tutor sees and edits it. */
+export interface StudentProfileData {
+  id: number;
+  studentCode: string | null;
+  username: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  gender: string;
+  headline: string;
+  location: string;
+  bio: string;
+  isActive: boolean;
+  createdAt: string;
+  avatarVersion: number | null;
+  coverVersion: number | null;
+}
+
+/** What the contact card beside a chat shows about the other person (no email, no phone number). */
+export interface ChatPeer {
+  id: number;
+  fullName: string;
+  role: Role;
+  username: string;
+  headline: string;
+  location: string;
+  bio: string;
+  avatarVersion: number | null;
+  coverVersion: number | null;
+  /** Only when a tutor or admin looks at a student: every detail of the student. */
+  userCode?: string | null;
+  email?: string;
+  phone?: string;
+  gender?: string;
+  createdAt?: string;
+  isActive?: boolean;
+}
+
+/** One group chat in the list. */
+export interface ChatGroupSummary {
+  id: number;
+  name: string;
+  description: string;
+  memberCount: number;
+  lastBody: string | null;
+  lastHasFile: boolean;
+  lastAt: string | null;
+  unread: number;
+}
+
+/** A student in a group. */
+export interface ChatGroupMember {
+  id: number;
+  fullName: string;
+  avatarVersion: number | null;
+}
+
+/** A group with the students in it. */
+export interface ChatGroupDetail {
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  members: ChatGroupMember[];
+}

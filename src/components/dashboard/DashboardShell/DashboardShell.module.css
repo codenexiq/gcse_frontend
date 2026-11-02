@@ -1,7 +1,7 @@
 .shell { min-height: 100vh; background: var(--ec-dash-bg); color: var(--ec-stone-900); }
 @media (min-width: 1024px) { .shell { display: flex; } }
 .main { min-width: 0; flex: 1; }
-.inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: 1.5rem 1rem; }
+.inner { width: 100%; max-width: 1760px; margin: 0 auto; padding: 1.5rem 1rem; }
 @media (min-width: 640px) { .inner { padding: 2rem 1.75rem; } }
 @media (min-width: 1280px) { .inner { padding: 2rem 2.5rem; } }
 /* The header: it stays at the top while the page scrolls underneath (on small screens the sidebar's own top bar does this job). */

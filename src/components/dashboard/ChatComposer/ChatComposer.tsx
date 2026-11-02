@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
-import { Paperclip, Send, X } from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { CornerUpLeft, Paperclip, Send, X } from "lucide-react";
+import { quoteText } from "@/lib/chatQuote";
+import type { ChatMessageItem } from "@/types";
 import styles from "./ChatComposer.module.css";
 
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -10,15 +12,24 @@ const ACCEPT = ".pdf,.png,.jpg,.jpeg,.gif,.webp,.doc,.docx,.xls,.xlsx,.ppt,.pptx
 interface Props {
   /** Sends the message (and uploads the file first). Resolves when it is sent; throws a readable Error if not. */
   onSend: (text: string, file: File | null) => Promise<void>;
+  /** The message being answered, if any. It is shown above the box until you send or cancel. */
+  replyTo?: ChatMessageItem | null;
+  onCancelReply?: () => void;
 }
 
 /** The box at the bottom of a chat: a message, an optional file, and Send. */
-export default function ChatComposer({ onSend }: Props) {
+export default function ChatComposer({ onSend, replyTo = null, onCancelReply }: Props) {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
+  const box = useRef<HTMLTextAreaElement>(null);
+
+  // Choosing "Reply" puts the cursor straight in the box.
+  useEffect(() => {
+    if (replyTo) box.current?.focus();
+  }, [replyTo]);
 
   function pick(picked: File | undefined) {
     setError("");
@@ -54,6 +65,16 @@ export default function ChatComposer({ onSend }: Props) {
 
   return (
     <form className={styles.form} onSubmit={submit}>
+      {replyTo && (
+        <div className={styles.reply}>
+          <CornerUpLeft size={14} aria-hidden="true" className={styles.replyIcon} />
+          <span className={styles.replyText}>
+            <strong className={styles.replyName}>Replying to {replyTo.senderName}</strong>
+            <span className={styles.replySnippet}>{quoteText(replyTo.body, replyTo.attachment?.name ?? null, replyTo.deleted)}</span>
+          </span>
+          <button type="button" className={styles.remove} onClick={onCancelReply} aria-label="Cancel the reply"><X size={14} aria-hidden="true" /></button>
+        </div>
+      )}
       {file && (
         <p className={styles.chosen}>
           <Paperclip size={14} aria-hidden="true" /> <span className={styles.chosenName}>{file.name}</span>
@@ -67,6 +88,7 @@ export default function ChatComposer({ onSend }: Props) {
           <Paperclip size={18} aria-hidden="true" />
         </button>
         <textarea
+          ref={box}
           className={styles.input}
           rows={1}
           maxLength={2000}

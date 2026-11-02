@@ -1,0 +1,9 @@
+/* "My profile" as a row inside a drop-down menu (looks like the "Log out" row) */
+.menuItem {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; min-height: 40px; padding: 0 0.75rem;
+  border-radius: 10px; font: inherit; font-size: 0.9rem; font-weight: 500; color: var(--ec-stone-800); text-decoration: none;
+  transition: background 0.15s;
+}
+.menuItem svg { color: var(--ec-stone-500); }
+.menuItem:hover, .menuItem:focus-visible { background: var(--ec-lavender-soft); outline: none; }
+.menuItem:focus-visible { box-shadow: inset 0 0 0 2px var(--ec-focus); }

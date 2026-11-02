@@ -9,6 +9,8 @@ import styles from "./AvatarMenu.module.css";
 interface AvatarMenuProps {
   /** Used for the letter shown in the round button, e.g. an email or a name. */
   name: string;
+  /** The person's profile picture, if they have one. */
+  imageSrc?: string | null;
   /** What screen readers say for the button and the menu. */
   label?: string;
   /** The menu items. Call `close()` when an item has done its job. Items need role="menuitem". */
@@ -19,7 +21,7 @@ interface AvatarMenuProps {
  * A round avatar button that opens a small drop-down menu.
  * Closes with Escape, a click anywhere else, or when you pick an item. Arrow keys move between items.
  */
-export default function AvatarMenu({ name, label = "Account menu", children }: AvatarMenuProps) {
+export default function AvatarMenu({ name, imageSrc, label = "Account menu", children }: AvatarMenuProps) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -76,7 +78,7 @@ export default function AvatarMenu({ name, label = "Account menu", children }: A
         aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((value) => !value)}
       >
-        <Avatar name={name} size={38} />
+        <Avatar name={name} size={38} src={imageSrc} />
         <ChevronDown size={16} aria-hidden="true" className={`${styles.chevron} ${open ? styles.chevronOpen : ""}`} />
       </button>
 

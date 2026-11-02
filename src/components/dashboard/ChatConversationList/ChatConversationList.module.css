@@ -1,4 +1,4 @@
-.panel { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; height: min(40rem, calc(100vh - 13rem)); min-height: 22rem; padding: 0.75rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; }
+.panel { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; height: var(--chat-height, min(40rem, calc(100vh - 13rem))); min-height: var(--chat-min, 22rem); padding: 0.75rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; }
 .search { display: flex; align-items: center; gap: 0.5rem; height: 40px; padding: 0 0.85rem; background: var(--ec-stone-100); border: 1px solid transparent; border-radius: 12px; color: var(--ec-stone-500); }
 .search:focus-within { background: #fff; border-color: var(--ec-focus); }
 .search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 0.9rem; color: var(--ec-stone-900); }
@@ -16,3 +16,15 @@
 .unread { display: grid; place-items: center; flex-shrink: 0; min-width: 1.35rem; height: 1.35rem; padding: 0 0.35rem; font-size: 0.7rem; font-weight: 700; color: #fff; background: #1f9d63; border-radius: 999px; }
 .empty { margin: 1rem 0.25rem; font-size: 0.875rem; color: var(--ec-stone-500); }
 .role { flex-shrink: 0; padding: 0.05rem 0.45rem; font-size: 0.65rem; font-weight: 600; color: #fff; background: #1f9d63; border-radius: 999px; }
+.heading { display: flex; align-items: center; gap: 0.35rem; margin: 0.4rem 0.25rem 0; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ec-stone-500); }
+.hint { margin: 0.4rem 0.25rem; font-size: 0.78rem; color: var(--ec-stone-500); }
+.rowWrap { position: relative; }
+.withMenu { padding-right: 2.6rem; }
+/* The three dots at the right end of the row, next to the person's name. */
+.rowMenu { position: absolute; top: 50%; right: 0.4rem; transform: translateY(-50%); }
+.headingRow { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin: 0.4rem 0.25rem 0; }
+.headingText { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ec-stone-500); }
+.newGroup { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.25rem 0.6rem; font: inherit; font-size: 0.74rem; font-weight: 600; color: #fff; background: #1d5df0; border: 0; border-radius: 8px; cursor: pointer; }
+.newGroup:hover { background: #1749c2; }
+.newGroup:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.groupIcon { display: grid; place-items: center; flex-shrink: 0; width: 36px; height: 36px; color: #fff; background: #1d5df0; border-radius: 12px; }

@@ -7,6 +7,8 @@ import Button from "@/components/ui/Button";
 import { DASHBOARD_REFRESHED } from "../DashboardContent/DashboardContent";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 import LogoutButton from "@/components/navigation/LogoutButton";
+import ProfileLink from "@/components/navigation/ProfileLink";
+import { profileImageUrl } from "@/services/profileService";
 import { useToast } from "@/hooks/useToast";
 import { roleLabel } from "@/lib/roles";
 import type { User } from "@/types";
@@ -26,6 +28,9 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/learning-map")) {
     return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
   }
+  if (pathname.startsWith("/student/profile") || pathname.startsWith("/tutor/dashboard/profile")) {
+    return { title: "My profile", text: "Your pictures, your details and your password.", upToDate: "Your profile is up to date" };
+  }
   if (pathname.startsWith("/student/messages")) {
     return { title: "Messages", text: "Chat with each of your tutors and share files.", upToDate: "Your messages are up to date" };
   }
@@ -34,6 +39,12 @@ function headingFor(pathname: string, name: string) {
   }
   if (pathname.startsWith("/student/monthly-progress")) {
     return { title: "Monthly progress", text: "The reports your tutor has written for you.", upToDate: "Your reports are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/students/new")) {
+    return { title: "Create New User", text: "Add a student account.", upToDate: "Your form is up to date" };
+  }
+  if (/^\/tutor\/dashboard\/students\/\d+/.test(pathname)) {
+    return { title: "Edit student profile", text: "Manage a student's profile, pictures and password.", upToDate: "This profile is up to date" };
   }
   if (pathname.startsWith("/tutor/dashboard/students/start-up")) {
     return {
@@ -141,13 +152,14 @@ export default function DashboardHeader({ user }: { user: User }) {
           Refresh
         </Button>
         {/* The round initial is a drop-down: who is signed in, then Log out. */}
-        <AvatarMenu name={name} label="Account menu">
+        <AvatarMenu name={name} imageSrc={user.avatarVersion ? profileImageUrl("avatar", user.avatarVersion) : null} label="Account menu">
           {(close) => (
             <>
               <div className={styles.who}>
                 <p className={styles.name}>{name}</p>
                 <p className={styles.email}>{user.email}</p>
               </div>
+              <ProfileLink href={user.role === "student" ? "/student/profile" : "/tutor/dashboard/profile"} onDone={close} />
               <LogoutButton variant="menu" onDone={close} />
             </>
           )}
