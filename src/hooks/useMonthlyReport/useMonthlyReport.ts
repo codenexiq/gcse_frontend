@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { emptyReport, type MonthlyReport } from "@/lib/monthlyReport";
 
-const KEY = "gcse-monthly-report-draft-v1";
+const KEY = "gcse-monthly-report-draft-v2";
 
 /** The report being written. It is saved in this browser only, so a refresh does not lose it. */
 export default function useMonthlyReport() {

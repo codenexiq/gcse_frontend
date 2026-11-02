@@ -65,7 +65,7 @@ export default function MonthlyReportPreview({ report: r, date }: { report: Mont
               <div className={styles.segments} aria-hidden="true">
                 {[1, 2, 3, 4, 5].map((n) => <i key={n} className={n <= r.behaviours[b.key] ? styles.fill : ""} />)}
               </div>
-              <strong>{r.behaviours[b.key]}/5</strong>
+              <strong>{r.behaviours[b.key] > 0 ? `${r.behaviours[b.key]}/5` : "-"}</strong>
             </div>
           ))}
         </div>

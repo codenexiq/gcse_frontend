@@ -61,7 +61,8 @@ export function emptyReport(): MonthlyReport {
     attended: "", held: "",
     topics: [1, 2, 3].map(() => ({ name: "", mastery: "" as const })),
     testCount: 0, tests: [1, 2, 3].map(() => ({ name: "", score: "", outOf: "", grade: "" })),
-    behaviours: { engagement: 3, focus: 3, effort: 3, homework: 3, confidence: 3 },
+    // 0 = not scored yet: nothing is selected until the tutor chooses a score.
+    behaviours: { engagement: 0, focus: 0, effort: 0, homework: 0, confidence: 0 },
     wentWell: [], example: "", nextSteps: [], specificTarget: "",
     progress: "On target", workingAt: "", targetGrade: "", parentCall: false, comment: "",
     targets: [emptyTarget()], topicsNext: "", keyDates: "", homeHelp: "",
@@ -86,6 +87,10 @@ export function testAveragePercent(r: MonthlyReport): number | null {
 
 export function summaryText(r: MonthlyReport): string {
   const who = r.studentName.trim() || "The student";
-  const best = BEHAVIOURS.reduce((a, b) => (r.behaviours[b.key] > r.behaviours[a.key] ? b : a));
-  return `${who}'s strongest area this month was ${best.label.toLowerCase()}. Overall, ${who} is ${r.progress.toLowerCase()}.`;
+  // Only behaviours that were scored can be the strongest; with none scored that sentence is left out.
+  const scored = BEHAVIOURS.filter((b) => r.behaviours[b.key] > 0);
+  const overall = `Overall, ${who} is ${r.progress.toLowerCase()}.`;
+  if (scored.length === 0) return overall;
+  const best = scored.reduce((a, b) => (r.behaviours[b.key] > r.behaviours[a.key] ? b : a));
+  return `${who}'s strongest area this month was ${best.label.toLowerCase()}. ${overall}`;
 }
