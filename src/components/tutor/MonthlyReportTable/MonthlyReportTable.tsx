@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import Avatar from "@/components/ui/Avatar";
+import { userAvatarUrl } from "@/services/profileService";
 import { formatDate } from "@/utils/formatDate";
 import type { MonthlyReportRow } from "@/types";
 import styles from "./MonthlyReportTable.module.css";
@@ -12,6 +13,7 @@ interface StudentLine {
   studentId: number;
   fullName: string;
   email: string;
+  avatarVersion: number | null;
   count: number;
   /** The most recently sent report (the list arrives newest first). */
   latest: MonthlyReportRow;
@@ -28,7 +30,7 @@ export default function MonthlyReportTable({ reports }: { reports: MonthlyReport
     for (const r of reports) {
       const line = byStudent.get(r.student_id);
       if (line) line.count += 1;
-      else byStudent.set(r.student_id, { studentId: r.student_id, fullName: r.full_name ?? "", email: r.email, count: 1, latest: r });
+      else byStudent.set(r.student_id, { studentId: r.student_id, fullName: r.full_name ?? "", email: r.email, avatarVersion: r.avatar_version ?? null, count: 1, latest: r });
     }
     return [...byStudent.values()];
   }, [reports]);
@@ -73,7 +75,7 @@ export default function MonthlyReportTable({ reports }: { reports: MonthlyReport
                 <tr key={s.studentId}>
                   <td className={styles.avatarCell}>
                     <Link href={href(s.studentId)} className={styles.cell} aria-label={`Reports for ${s.fullName || s.email}`} tabIndex={-1}>
-                      <Avatar name={s.fullName || s.email} size={32} />
+                      <Avatar name={s.fullName || s.email} size={32} src={s.avatarVersion ? userAvatarUrl(s.studentId, s.avatarVersion) : null} />
                     </Link>
                   </td>
                   <td><Link href={href(s.studentId)} className={`${styles.cell} ${styles.fullName}`}>{s.fullName || "Name not given"}</Link></td>

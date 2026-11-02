@@ -9,3 +9,4 @@
 .problem { color: #b42318; }
 .quote { padding: 0.5rem 0.7rem; font-size: 0.85rem; font-style: italic; color: var(--ec-navy); background: var(--ec-lavender-soft); border-radius: 10px; overflow-wrap: anywhere; }
 .note { color: var(--ec-stone-500); }
+.tools { display: inline-flex; align-items: center; gap: 0.25rem; }

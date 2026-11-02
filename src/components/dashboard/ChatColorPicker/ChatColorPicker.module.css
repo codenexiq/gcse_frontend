@@ -1,0 +1,17 @@
+.wrap { position: relative; display: inline-flex; }
+.button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; color: #fff; background: transparent; border: 0; border-radius: 50%; cursor: pointer; transition: background 0.15s; }
+.button:hover, .button[aria-expanded="true"] { background: rgba(255, 255, 255, 0.18); }
+.button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.panel { position: absolute; top: calc(100% + 6px); right: 0; z-index: 30; width: 15.5rem; padding: 0.8rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 14px; box-shadow: 0 12px 30px -8px rgba(28, 25, 23, 0.3); }
+.title { margin: 0 0 0.6rem; font-size: 0.8rem; font-weight: 700; }
+.swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.swatch { display: grid; place-items: center; width: 100%; aspect-ratio: 1; padding: 0; border: 2px solid rgba(28, 25, 23, 0.12); border-radius: 50%; cursor: pointer; }
+.swatch:hover { border-color: rgba(28, 25, 23, 0.4); }
+.selected { border-color: var(--ec-navy); }
+.swatch:focus-visible, .reset:focus-visible, .custom input:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.tick { color: var(--ec-navy); }
+.tickLight { color: #fff; }
+.custom { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.8rem; font-size: 0.8rem; font-weight: 500; }
+.custom input { width: 38px; height: 28px; padding: 0; background: transparent; border: 1px solid var(--ec-stone-200); border-radius: 6px; cursor: pointer; }
+.code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.75rem; color: var(--ec-stone-500); }
+.reset { margin-top: 0.7rem; padding: 0; font: inherit; font-size: 0.78rem; color: #1d5df0; background: transparent; border: 0; text-decoration: underline; cursor: pointer; }

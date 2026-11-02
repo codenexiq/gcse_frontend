@@ -13,6 +13,8 @@ export interface User {
   role: Role;
   /** Changes whenever the profile picture changes; null or missing when there is none. */
   avatarVersion?: number | null;
+  /** The colour this person chose for the chat area (like #dff3e6); null = the standard colour. */
+  chatColor?: string | null;
 }
 
 export interface Topic {
@@ -241,6 +243,8 @@ export interface MonthlyReportRow extends MonthlyReportSummary {
   student_id: number;
   full_name?: string;
   email: string;
+  /** Changes whenever the student's profile picture changes; null or missing when they have none. */
+  avatar_version?: number | null;
 }
 
 /** One line of a chat list: the OTHER person (a student for a tutor, a tutor or admin for a student), the latest message and how many are unread. */

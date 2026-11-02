@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import ChatColorPicker from "@/components/dashboard/ChatColorPicker";
 import ChatComposer from "@/components/dashboard/ChatComposer";
 import ChatMessage from "@/components/dashboard/ChatMessage";
 import Avatar from "@/components/ui/Avatar";
@@ -28,6 +29,10 @@ interface Props {
   headIcon?: React.ReactNode;
   /** An admin in a group can delete anyone's message for everyone. */
   canModerate?: boolean;
+  /** The colour of the chat area (like #dff3e6), or null for the standard colour. */
+  bodyColor?: string | null;
+  /** When given, the title bar gets a colour button. */
+  onBodyColorChange?: (color: string | null) => void;
   /** The three dots in the title bar. They get a function that empties the screen (for after a chat was cleared or deleted). */
   renderActions?: (reset: () => void) => React.ReactNode;
   emptyText: string;
@@ -36,7 +41,7 @@ interface Props {
 }
 
 /** One conversation: the messages (checked for new ones every few seconds) and the box to answer. */
-export default function ChatThread({ api, meId, title, subtitle, peerAvatar, headIcon, canModerate, renderActions, emptyText, onRead }: Props) {
+export default function ChatThread({ api, meId, title, subtitle, peerAvatar, headIcon, canModerate, bodyColor, onBodyColorChange, renderActions, emptyText, onRead }: Props) {
   const [messages, setMessages] = useState<ChatMessageItem[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [problem, setProblem] = useState("");
@@ -198,10 +203,13 @@ export default function ChatThread({ api, meId, title, subtitle, peerAvatar, hea
           <h2 className={styles.title}>{title}</h2>
           {subtitle && <p className={styles.who}>{subtitle}</p>}
         </div>
-        {/* The three dots next to the name. */}
-        {renderActions?.(reset)}
+        {/* The colour button, and the three dots, next to the name. */}
+        <div className={styles.tools}>
+          {onBodyColorChange && <ChatColorPicker value={bodyColor ?? null} onChange={onBodyColorChange} />}
+          {renderActions?.(reset)}
+        </div>
       </div>
-      <ul className={styles.list} aria-live="polite">
+      <ul className={styles.list} aria-live="polite" style={bodyColor ? { background: bodyColor } : undefined}>
         {loaded && messages.length === 0 && !problem && <li className={styles.empty}>{emptyText}</li>}
         {problem && <li className={styles.problem}>{problem}</li>}
         {messages.map((m) => (

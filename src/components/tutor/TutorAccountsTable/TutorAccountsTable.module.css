@@ -15,3 +15,6 @@
 .admin { background: var(--ec-lavender); color: var(--ec-lavender-ink); }
 .tutor { background: var(--ec-emerald-50); color: var(--ec-emerald-800); }
 .date { white-space: nowrap; color: var(--ec-stone-500); }
+.names { display: grid; gap: 0.1rem; }
+.fullName { font-weight: 600; color: var(--ec-navy); }
+.email { font-size: 0.8rem; color: var(--ec-stone-500); }

@@ -36,6 +36,9 @@ export const saveProfileDetails = (details: ProfileDetails) => apiFetch<ProfileD
 export const usernameAvailableForMe = (username: string) =>
   apiFetch<{ available: boolean; reason: "invalid" | null }>(`/profile/username-available?username=${encodeURIComponent(username)}`);
 
+/** Saves the colour of the chat area (null = the standard colour). */
+export const saveChatColor = (color: string | null) => apiFetch<{ chatColor: string | null }>("/profile/chat-color", { method: "PUT", body: JSON.stringify({ color }) });
+
 export const changePassword = (currentPassword: string, newPassword: string) =>
   apiFetch<{ changed: boolean }>("/profile/password", { method: "PUT", body: JSON.stringify({ currentPassword, newPassword }) });
 

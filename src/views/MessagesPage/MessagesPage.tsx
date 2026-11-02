@@ -9,7 +9,7 @@ export default async function MessagesPage() {
   try {
     const [conversations, groups] = await Promise.all([getChatConversations(), getChatGroups()]);
     // Only admins make groups and manage who is in them.
-    return <ChatInbox initial={conversations} initialGroups={groups} meId={user.id} noun="student" canManageGroups={user.role === "admin"} />;
+    return <ChatInbox initial={conversations} initialGroups={groups} meId={user.id} noun="student" canManageGroups={user.role === "admin"} initialChatColor={user.chatColor ?? null} />;
   } catch (err) {
     return <Alert>Could not load the messages: {err instanceof Error ? err.message : "Unknown error"}</Alert>;
   }
