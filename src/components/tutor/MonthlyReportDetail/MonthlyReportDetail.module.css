@@ -4,3 +4,4 @@
 .back { color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-200); }
 .download { color: #fff; background: var(--ec-navy); border: 0; }
 .back:focus-visible, .download:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.download:disabled { opacity: 0.6; cursor: wait; }

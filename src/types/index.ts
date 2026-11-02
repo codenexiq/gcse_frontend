@@ -384,3 +384,24 @@ export interface ChatGroupDetail {
   createdAt: string;
   members: ChatGroupMember[];
 }
+
+/** One entry of the lesson log: the attendance and feedback form a tutor fills in after each lesson. */
+export interface LessonLogEntry {
+  id: number;
+  tutorId: number;
+  tutorName: string;
+  tutorEmail: string;
+  /** Plain date text, like 2026-11-02. */
+  lessonDate: string;
+  studentOrClass: string;
+  lessonType: "1:1" | "Group" | "Admin";
+  attendance: "Present" | "Late" | "Absent / No show";
+  durationMinutes: number;
+  completed: "Yes" | "No" | "Maybe";
+  homeworkAssigned: boolean;
+  homeworkOther: string;
+  engagementNotes: string;
+  nextFocus: string;
+  zoomRecorded: boolean;
+  createdAt: string;
+}

@@ -28,6 +28,12 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/learning-map")) {
     return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
   }
+  if (pathname.startsWith("/tutor/dashboard/lesson-log/new")) {
+    return { title: "Tutor Attendance & Feedback", text: "Complete straight after each lesson. Fields marked * are required. Lessons must be recorded to Zoom Cloud for the full duration.", upToDate: "Your form is up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/lesson-log")) {
+    return { title: "Lesson log", text: "Attendance and feedback for every lesson.", upToDate: "Your lesson log is up to date" };
+  }
   if (pathname.startsWith("/student/profile") || pathname.startsWith("/tutor/dashboard/profile")) {
     return { title: "My profile", text: "Your pictures, your details and your password.", upToDate: "Your profile is up to date" };
   }

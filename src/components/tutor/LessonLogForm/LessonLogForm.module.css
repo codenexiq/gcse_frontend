@@ -1,0 +1,56 @@
+/* One panel that fits a single screen: fields sit side by side in a 12-column grid. */
+.form { display: grid; gap: 2rem; width: 100%; padding: 2.5rem 2.25rem 2rem; background: var(--ec-lavender-soft); border: 1px solid var(--ec-lavender-border); border-top: 8px solid var(--primary); border-radius: 12px; }
+.star { color: #d93025; }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2.25rem 1.5rem; }
+.field { display: grid; align-content: start; gap: 0.55rem; min-width: 0; margin: 0; padding: 0; border: 0; grid-column: span var(--s); }
+.s2 { --s: 2; --m: 3; }
+.s3 { --s: 3; --m: 3; }
+.s4 { --s: 4; --m: 6; }
+.label { padding: 0; font-size: 0.85rem; font-weight: 600; color: var(--ec-navy); }
+fieldset.field .label { float: left; width: 100%; margin-bottom: 0.55rem; }
+fieldset.field .label + * { clear: both; }
+.input { width: 100%; min-width: 0; padding: 0.85rem 0.9rem; font: inherit; font-size: 0.92rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-300, #d6d3d1); border-radius: 8px; }
+.input:focus { outline: 0; border-color: var(--ec-navy); box-shadow: 0 0 0 1px var(--ec-navy); }
+.input:disabled { color: var(--ec-stone-500); background: #f6f6f3; cursor: not-allowed; }
+.locked { text-overflow: ellipsis; }
+.area { height: 12.5rem; min-height: 7rem; resize: vertical; }
+.bad .input { border-color: #d93025; }
+.segments { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.segment { flex: 1 1 auto; position: relative; display: flex; justify-content: center; padding: 0.85rem 0.8rem; font-size: 0.9rem; color: var(--ec-navy); text-align: center; white-space: nowrap; background: #fff; border: 1px solid var(--ec-stone-300, #d6d3d1); border-radius: 8px; cursor: pointer; }
+.segment input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.segmentOn { color: #fff; background: var(--ec-navy); border-color: var(--ec-navy); }
+.segment:focus-within { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.bad .segment { border-color: #d93025; }
+.durationRow { display: flex; align-items: center; gap: 0.35rem; }
+.number { flex: 0 0 4.2rem; width: 4.2rem; }
+.chip { flex: 1 1 0; padding: 0.85rem 0; font: inherit; font-size: 0.9rem; color: var(--ec-navy); background: #fff; border: 1px solid var(--ec-stone-300, #d6d3d1); border-radius: 8px; cursor: pointer; }
+.chipOn { color: #fff; background: var(--ec-navy); border-color: var(--ec-navy); }
+.homework { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.1rem; }
+.inline { flex: 1 1 10rem; width: auto; }
+.check { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--ec-navy); cursor: pointer; }
+.check input { width: 1.05rem; height: 1.05rem; accent-color: var(--ec-navy); cursor: pointer; }
+.chip:focus-visible, .submit:focus-visible, .clear:focus-visible, .cancel:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.error { margin: 0; font-size: 0.75rem; color: #d93025; }
+.summary { padding: 0.5rem 0.75rem; background: #fdecea; border-radius: 8px; }
+.warn { margin: 0; padding: 0.45rem 0.75rem; font-size: 0.8rem; color: #9a5b00; background: #fff6e0; border-radius: 8px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; padding-top: 1.5rem; margin-top: 0.5rem; border-top: 1px solid var(--ec-lavender-border); }
+.buttons { display: flex; align-items: center; gap: 0.5rem; }
+.submit { padding: 0.9rem 2.2rem; font: inherit; font-size: 0.92rem; font-weight: 600; color: #fff; background: var(--ec-navy); border: 0; border-radius: 8px; cursor: pointer; }
+.submit:hover:not(:disabled) { background: #2c3d52; }
+.submit:disabled { opacity: 0.6; cursor: wait; }
+.cancel { padding: 0.55rem 0.8rem; font-size: 0.88rem; color: var(--ec-navy); text-decoration: none; }
+.cancel:hover { text-decoration: underline; }
+.clear { padding: 0.55rem 0.8rem; font: inherit; font-size: 0.88rem; color: var(--ec-navy); background: transparent; border: 0; cursor: pointer; }
+.clear:hover:not(:disabled) { text-decoration: underline; }
+
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .field { grid-column: span var(--m); }
+}
+@media (max-width: 640px) {
+  .form { padding: 1rem; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .field { grid-column: auto; }
+  .actions, .buttons { width: 100%; }
+  .buttons { justify-content: flex-end; }
+}

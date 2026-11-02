@@ -9,6 +9,7 @@ import MonthlyReportTargets from "@/components/tutor/MonthlyReportTargets";
 import MonthlyReportTests from "@/components/tutor/MonthlyReportTests";
 import MonthlyReportTopics from "@/components/tutor/MonthlyReportTopics";
 import useMonthlyReport from "@/hooks/useMonthlyReport";
+import useReportPdf from "@/hooks/useReportPdf";
 import { ApiError } from "@/lib/api";
 import { useToast } from "@/hooks/useToast";
 import { sendMonthlyReport } from "@/services/monthlyReportService";
@@ -22,6 +23,7 @@ import styles from "./MonthlyReportBuilder.module.css";
 export default function MonthlyReportBuilder({ students, initialStudentId }: { students: StudentSummary[]; /** Open with this student already chosen. */ initialStudentId?: number }) {
   const { report, update, nextStudent } = useMonthlyReport();
   const toast = useToast();
+  const pdf = useReportPdf();
   const router = useRouter();
   const [sending, setSending] = useState(false);
 
@@ -64,7 +66,7 @@ export default function MonthlyReportBuilder({ students, initialStudentId }: { s
           <MonthlyReportBehaviours report={report} update={update} />
           <MonthlyReportComments report={report} update={update} />
           <MonthlyReportTargets report={report} update={update} />
-          <MonthlyReportFinish onNextStudent={nextStudent} onSend={send} canSend={report.studentId !== null} sending={sending} />
+          <MonthlyReportFinish onNextStudent={nextStudent} onSend={send} canSend={report.studentId !== null} sending={sending} onDownload={() => pdf.download(report.studentName, report.month)} downloading={pdf.busy} />
         </div>
         <div className={styles.preview}>
           <MonthlyReportPreview report={report} />

@@ -6,3 +6,4 @@
 .back:focus-visible, .download:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
 .note { margin: 0; font-size: 0.78rem; color: var(--ec-stone-500); }
 .report { min-width: 0; }
+.download:disabled { opacity: 0.6; cursor: wait; }
