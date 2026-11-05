@@ -28,6 +28,18 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/learning-map")) {
     return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
   }
+  if (pathname.startsWith("/student/quizzes/")) {
+    return { title: "Quiz", text: "Answer each question, then see your score.", upToDate: "Your quiz is up to date" };
+  }
+  if (pathname.startsWith("/student/quizzes")) {
+    return { title: "Quizzes", text: "Practise with the quizzes your tutors add.", upToDate: "Your quizzes are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/quizzes/")) {
+    return { title: "Quiz results", text: "Scores and answers for this quiz.", upToDate: "This quiz is up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/quizzes")) {
+    return { title: "Quizzes", text: "Upload a quiz file for students to take, and see their scores.", upToDate: "Your quizzes are up to date" };
+  }
   if (pathname.startsWith("/tutor/dashboard/lesson-log/new")) {
     return { title: "Tutor Attendance & Feedback", text: "Complete straight after each lesson. Fields marked * are required. Lessons must be recorded to Zoom Cloud for the full duration.", upToDate: "Your form is up to date" };
   }

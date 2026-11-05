@@ -405,3 +405,90 @@ export interface LessonLogEntry {
   zoomRecorded: boolean;
   createdAt: string;
 }
+
+/** One quiz in a list. A student's list carries their own tries (`myAttempts`, `myBest`); a tutor's carries `attemptCount` and who uploaded it. */
+export interface QuizSummary {
+  id: number;
+  title: string;
+  subtitle: string;
+  instructions: string;
+  questionCount: number;
+  totalMarks: number;
+  published: boolean;
+  createdBy: number;
+  createdByName: string;
+  createdAt: string;
+  attemptCount: number;
+  myAttempts?: number;
+  /** The most questions this student has got right in one try, or null if they have not tried. */
+  myBest?: number | null;
+}
+
+export interface QuizQuestion {
+  id: number;
+  ref: string;
+  marks: number;
+  topic: string;
+  /** A written description of the diagram the question refers to. */
+  diagram: string;
+  /** The name of the SVG picture for this question, or "" (older quizzes have none). Shown with diagramUrl(). */
+  diagramKey?: string;
+  question: string;
+  /** Letter -> text, like { A: "44°", B: "54°" }. */
+  options: Record<string, string>;
+}
+
+/** What a tutor sees: the answers and explanations too. */
+export interface QuizQuestionWithAnswer extends QuizQuestion {
+  correct: string;
+  explanation: string;
+}
+export interface QuizForTutor extends QuizSummary {
+  questions: QuizQuestionWithAnswer[];
+}
+
+/** What a student answers: never the correct answers. */
+export interface QuizForStudent {
+  id: number;
+  title: string;
+  subtitle: string;
+  instructions: string;
+  questionCount: number;
+  totalMarks: number;
+  questions: QuizQuestion[];
+}
+
+export interface QuizAttempt {
+  id: number;
+  quizId: number;
+  studentId: number;
+  studentName: string;
+  studentCode: string;
+  /** Questions answered correctly. */
+  score: number;
+  marks: number;
+  questionCount: number;
+  totalMarks: number;
+  createdAt: string;
+}
+
+/** The marked attempt, with the right answers, sent back once when a student hands in. */
+export interface QuizResult {
+  attemptId: number;
+  score: number;
+  questionCount: number;
+  marks: number;
+  totalMarks: number;
+  message: string;
+  results: {
+    id: number;
+    chosen: string;
+    correct: string;
+    isCorrect: boolean;
+    marks: number;
+    explanation: string;
+    options: Record<string, string>;
+    question: string;
+    topic: string;
+  }[];
+}

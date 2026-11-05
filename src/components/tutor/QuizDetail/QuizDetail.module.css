@@ -1,0 +1,38 @@
+.page { display: grid; gap: 1rem; }
+.back { justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.9rem; font-size: 0.85rem; font-weight: 600; color: var(--ec-navy); text-decoration: none; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 10px; }
+.back:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
+.head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 0.75rem; padding: 1.25rem 1.5rem; background: #fff; border: 1px solid var(--ec-stone-200); border-top: 8px solid var(--primary); border-radius: 16px; }
+.title { margin: 0; font-size: 1.3rem; font-weight: 700; color: var(--ec-navy); }
+.sub { margin: 0.2rem 0 0; font-size: 0.9rem; color: var(--ec-stone-600); }
+.instructions { margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--ec-stone-500); max-width: 48rem; }
+.badge { display: inline-block; padding: 0.3rem 0.75rem; font-size: 0.8rem; font-weight: 600; border: 1px solid; border-radius: 6px; white-space: nowrap; }
+.live { color: #1f7a52; background: #e6f6ec; border-color: #86d3a3; }
+.hidden { color: var(--ec-stone-600); background: var(--ec-stone-100); border-color: var(--ec-stone-300); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.75rem; margin: 0; }
+.stat { padding: 0.9rem 1.1rem; background: var(--ec-lavender-soft); border: 1px solid var(--ec-lavender-border); border-radius: 12px; }
+.stat dt { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ec-lavender-mid); }
+.stat dd { margin: 0.2rem 0 0; font-size: 1.4rem; font-weight: 700; color: var(--ec-navy); }
+.panel { padding: 1.25rem 1.5rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 16px; }
+.heading { margin: 0 0 0.9rem; font-size: 1rem; font-weight: 700; color: var(--ec-navy); }
+.empty { margin: 0; font-size: 0.9rem; color: var(--ec-stone-500); }
+.scroll { overflow-x: auto; border: 1px solid var(--ec-stone-200); border-radius: 12px; }
+.table { width: 100%; min-width: 34rem; border-collapse: collapse; font-size: 0.88rem; }
+.table th { padding: 0.8rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: var(--ec-navy); background: #f4f5f9; border-bottom: 1px solid var(--ec-stone-200); white-space: nowrap; }
+.table td { padding: 0.7rem 0.8rem; color: var(--ec-stone-600); border-bottom: 1px solid var(--ec-stone-100); }
+.table tbody tr:last-child td { border-bottom: 0; }
+.center { text-align: center !important; }
+.strong { font-weight: 600; color: var(--ec-navy); }
+.date { white-space: nowrap; }
+.questions { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.question { padding: 1rem 1.1rem; border: 1px solid var(--ec-stone-200); border-radius: 12px; }
+.meta { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ec-stone-500); }
+.text { margin: 0.4rem 0 0; font-size: 0.95rem; font-weight: 600; color: var(--ec-navy); }
+.diagram { margin: 0.5rem 0 0; padding: 0.5rem 0.75rem; font-size: 0.8rem; font-style: italic; color: var(--ec-stone-600); background: var(--ec-stone-100); border-radius: 8px; }
+.options { display: grid; gap: 0.4rem; margin: 0.75rem 0 0; padding: 0; list-style: none; }
+.option { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; font-size: 0.88rem; color: var(--ec-stone-700); border: 1px solid var(--ec-stone-200); border-radius: 10px; }
+.right { color: #1f7a52; background: #e6f6ec; border-color: #86d3a3; font-weight: 600; }
+.letter { display: inline-grid; place-items: center; width: 1.6rem; height: 1.6rem; flex: none; font-size: 0.8rem; font-weight: 700; color: var(--ec-navy); background: var(--ec-stone-100); border-radius: 50%; }
+.right .letter { color: #fff; background: #1f7a52; }
+.optionText { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.explain { margin: 0.75rem 0 0; font-size: 0.83rem; color: var(--ec-stone-600); }
+.picture { display: block; width: min(100%, 36rem); height: auto; margin-top: 0.6rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 8px; }
