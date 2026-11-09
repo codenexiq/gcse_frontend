@@ -2,7 +2,11 @@ import { apiFetch } from "@/lib/api";
 import type { QuizResult, QuizSummary } from "@/types";
 
 /** Tutors and admins: sends a quiz file (already read as JSON). The back-end checks it and says what is wrong if it is not valid. */
-export const uploadQuiz = (file: unknown) => apiFetch<QuizSummary>("/quizzes", { method: "POST", body: JSON.stringify(file) });
+export const uploadQuiz = (file: unknown, options: { draft?: boolean } = {}) =>
+  apiFetch<QuizSummary>(`/quizzes${options.draft ? "?draft=1" : ""}`, { method: "POST", body: JSON.stringify(file) });
+
+/** Saves an edited quiz: the whole quiz again, in the same shape as an uploaded file. Whether it is published does not change. */
+export const updateQuiz = (id: number, file: unknown) => apiFetch<QuizSummary>(`/quizzes/${id}`, { method: "PUT", body: JSON.stringify(file) });
 
 /** Shows or hides a quiz for students. */
 export const setQuizPublished = (id: number, published: boolean) => apiFetch<{ published: boolean }>(`/quizzes/${id}`, { method: "PATCH", body: JSON.stringify({ published }) });

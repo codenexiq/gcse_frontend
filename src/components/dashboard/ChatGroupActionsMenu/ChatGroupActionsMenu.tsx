@@ -38,7 +38,6 @@ export default function ChatGroupActionsMenu({ groupId, name, onDeleted }: Props
     <>
       <DotsMenu
         label={`Group options for ${name}`}
-        variant="light"
         items={[{ label: "Delete group", icon: <Trash2 size={14} aria-hidden="true" />, tone: "danger", onClick: () => setAsking(true) }]}
       />
       <ConfirmDialog

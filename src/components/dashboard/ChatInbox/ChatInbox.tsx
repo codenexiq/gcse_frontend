@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Users } from "lucide-react";
 import ChatActionsMenu from "@/components/dashboard/ChatActionsMenu";
-import ChatContactCard from "@/components/dashboard/ChatContactCard";
 import ChatConversationList from "@/components/dashboard/ChatConversationList";
 import ChatGroupActionsMenu from "@/components/dashboard/ChatGroupActionsMenu";
 import ChatGroupCard from "@/components/dashboard/ChatGroupCard";
@@ -11,7 +10,7 @@ import ChatGroupCreateDialog from "@/components/dashboard/ChatGroupCreateDialog"
 import ChatThread from "@/components/dashboard/ChatThread";
 import { useToast } from "@/hooks/useToast";
 import { getChatGroups, getConversations, groupApi, personApi, searchStudents } from "@/services/chatService";
-import { saveChatColor, userAvatarUrl } from "@/services/profileService";
+import { userAvatarUrl } from "@/services/profileService";
 import type { ChatConversation, ChatGroupDetail, ChatGroupSummary } from "@/types";
 import styles from "./ChatInbox.module.css";
 
@@ -25,39 +24,27 @@ interface Props {
   meId: number;
   /** What the people in the list are: "student" (the tutor's page) or "tutor" (the student's page). */
   noun: "student" | "tutor";
-  /** The colour this person chose for the chat area, or null for the standard colour. */
-  initialChatColor: string | null;
   /** Admins make groups, add students to them and can remove any message in them. */
   canManageGroups: boolean;
+  /** A person whose chat should already be open when the page loads (for example from "Message" on a student's page). */
+  startWith?: ChatConversation | null;
 }
 
 /** What a group looks like in the list when it was just made (before the list is loaded again). */
 const asSummary = (g: ChatGroupDetail): ChatGroupSummary => ({ id: g.id, name: g.name, description: g.description, memberCount: g.members.length, lastBody: null, lastHasFile: false, lastAt: null, unread: 0 });
 
 /** A chat page: the people and groups on the left, the open chat in the middle, and a card about them on the right. */
-export default function ChatInbox({ initial, initialGroups, meId, noun, canManageGroups, initialChatColor }: Props) {
+export default function ChatInbox({ initial, initialGroups, meId, noun, canManageGroups, startWith = null }: Props) {
   const toast = useToast();
   const [conversations, setConversations] = useState(initial);
   const [groups, setGroups] = useState(initialGroups);
   // The person whose chat is open. For a student found by search there is no chat in the list yet, so we keep the person itself.
-  const [picked, setPicked] = useState<ChatConversation | null>(null);
+  const [picked, setPicked] = useState<ChatConversation | null>(startWith);
   // The group whose chat is open (only one of the two is open at a time).
   const [pickedGroup, setPickedGroup] = useState<ChatGroupSummary | null>(null);
   // Bumped when the open chat was cleared or deleted from the list, so its screen starts fresh.
   const [version, setVersion] = useState(0);
   const [creating, setCreating] = useState(false);
-  // The colour of the chat area. It changes on screen at once and is saved with the account a moment after the last change.
-  const [chatColor, setChatColor] = useState(initialChatColor);
-  const saveTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-  function changeChatColor(color: string | null) {
-    setChatColor(color);
-    clearTimeout(saveTimer.current);
-    saveTimer.current = setTimeout(() => {
-      saveChatColor(color).catch(() => toast.error("Your chat colour could not be saved. It will be the old colour next time."));
-    }, 400);
-  }
-  useEffect(() => () => clearTimeout(saveTimer.current), []);
 
   const refresh = useCallback(async () => {
     try {
@@ -79,6 +66,8 @@ export default function ChatInbox({ initial, initialGroups, meId, noun, canManag
   const selected = (picked && conversations.find((c) => c.peerId === picked.peerId)) ?? picked;
   const selectedGroup = (pickedGroup && groups.find((g) => g.id === pickedGroup.id)) ?? pickedGroup;
   const open = selected !== null || selectedGroup !== null;
+  // A person opened before any message was sent (from a student's page, or found by search) still shows in the list, highlighted.
+  const listed = selected && !conversations.some((c) => c.peerId === selected.peerId) ? [selected, ...conversations] : conversations;
 
   // The connection to the server for the open chat: the same object for as long as the chat stays open.
   const personConnection = useMemo(() => (selected ? personApi(selected.peerId) : null), [selected?.peerId]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -98,10 +87,10 @@ export default function ChatInbox({ initial, initialGroups, meId, noun, canManag
   };
 
   return (
-    <div className={`${styles.layout} ${open ? styles.threadOpen : ""}`}>
+    <div className={`${styles.layout} ${open ? styles.threadOpen : ""} ${selectedGroup && !selected ? styles.withCard : ""}`}>
       <div className={styles.list}>
         <ChatConversationList
-          conversations={conversations}
+          conversations={listed}
           selectedId={picked?.peerId ?? null}
           onSelect={choosePerson}
           noun={noun}
@@ -130,14 +119,11 @@ export default function ChatInbox({ initial, initialGroups, meId, noun, canManag
               peerAvatar={selected.avatarVersion ? userAvatarUrl(selected.peerId, selected.avatarVersion) : null}
               subtitle={selected.peerRole === "admin" ? "Administrator" : selected.peerRole === "tutor" ? "Tutor" : "Student"}
               emptyText="No messages yet. Say hello, or share a file."
-              bodyColor={chatColor}
-              onBodyColorChange={changeChatColor}
               onRead={refresh}
               renderActions={(reset) => (
                 <ChatActionsMenu
                   peerId={selected.peerId}
                   name={selected.fullName || selected.email}
-                  variant="light"
                   onDone={() => {
                     reset();
                     refresh();
@@ -157,8 +143,7 @@ export default function ChatInbox({ initial, initialGroups, meId, noun, canManag
               subtitle={`Group · ${selectedGroup.memberCount} ${selectedGroup.memberCount === 1 ? "student" : "students"}`}
               headIcon={<span className={styles.groupBadge}><Users size={22} aria-hidden="true" /></span>}
               canModerate={canManageGroups}
-              bodyColor={chatColor}
-              onBodyColorChange={changeChatColor}
+              showSenders
               emptyText="No messages yet. Say hello to the group, or share a file."
               onRead={refresh}
               renderActions={
@@ -184,12 +169,7 @@ export default function ChatInbox({ initial, initialGroups, meId, noun, canManag
         )}
       </div>
 
-      {/* The card about the other person or the group, on the right of the chat (for students and for tutors and admins alike). */}
-      {selected && (
-        <div className={styles.card}>
-          <ChatContactCard person={selected} />
-        </div>
-      )}
+      {/* A person's profile card is not shown beside the chat. A group still has its card (members, and for admins, managing them). */}
       {selectedGroup && !selected && (
         <div className={styles.card}>
           <ChatGroupCard group={selectedGroup} canManage={canManageGroups} onChanged={refresh} />

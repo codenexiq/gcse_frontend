@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import ChatColorPicker from "@/components/dashboard/ChatColorPicker";
 import ChatComposer from "@/components/dashboard/ChatComposer";
 import ChatMessage from "@/components/dashboard/ChatMessage";
 import Avatar from "@/components/ui/Avatar";
@@ -30,6 +29,8 @@ interface Props {
   /** An admin in a group can delete anyone's message for everyone. */
   canModerate?: boolean;
   /** The colour of the chat area (like #dff3e6), or null for the standard colour. */
+  /** Show who wrote each message (a group chat). */
+  showSenders?: boolean;
   bodyColor?: string | null;
   /** When given, the title bar gets a colour button. */
   onBodyColorChange?: (color: string | null) => void;
@@ -41,7 +42,7 @@ interface Props {
 }
 
 /** One conversation: the messages (checked for new ones every few seconds) and the box to answer. */
-export default function ChatThread({ api, meId, title, subtitle, peerAvatar, headIcon, canModerate, bodyColor, onBodyColorChange, renderActions, emptyText, onRead }: Props) {
+export default function ChatThread({ api, meId, title, subtitle, peerAvatar, headIcon, canModerate, showSenders = false, renderActions, emptyText, onRead }: Props) {
   const [messages, setMessages] = useState<ChatMessageItem[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [problem, setProblem] = useState("");
@@ -155,12 +156,18 @@ export default function ChatThread({ api, meId, title, subtitle, peerAvatar, hea
     }
   }
 
-  async function send(text: string, file: File | null) {
-    let attachmentId: number | undefined;
-    if (file) attachmentId = (await api.upload(file)).id;
-    await api.send(text, attachmentId, replyingTo?.id);
-    setReplyingTo(null);
-    await load();
+  // Several files go as one message each: the first carries the text (and the reply), the rest follow right after it.
+  async function send(text: string, files: File[]) {
+    try {
+      if (files.length === 0) await api.send(text, undefined, replyingTo?.id);
+      for (let i = 0; i < files.length; i++) {
+        const attachmentId = (await api.upload(files[i])).id;
+        await api.send(i === 0 ? text : "", attachmentId, i === 0 ? replyingTo?.id : undefined);
+      }
+    } finally {
+      setReplyingTo(null);
+      await load();
+    }
   }
 
   // What the delete pop-up says and offers.
@@ -205,11 +212,10 @@ export default function ChatThread({ api, meId, title, subtitle, peerAvatar, hea
         </div>
         {/* The colour button, and the three dots, next to the name. */}
         <div className={styles.tools}>
-          {onBodyColorChange && <ChatColorPicker value={bodyColor ?? null} onChange={onBodyColorChange} />}
           {renderActions?.(reset)}
         </div>
       </div>
-      <ul className={styles.list} aria-live="polite" style={bodyColor ? { background: bodyColor } : undefined}>
+      <ul className={styles.list} aria-live="polite">
         {loaded && messages.length === 0 && !problem && <li className={styles.empty}>{emptyText}</li>}
         {problem && <li className={styles.problem}>{problem}</li>}
         {messages.map((m) => (
@@ -217,6 +223,7 @@ export default function ChatThread({ api, meId, title, subtitle, peerAvatar, hea
             key={m.id}
             message={m}
             mine={m.senderId === meId}
+            showSender={showSenders}
             status={statusOf(m)}
             avatarSrc={m.senderId === meId ? null : m.senderAvatarVersion ? userAvatarUrl(m.senderId, m.senderAvatarVersion) : peerAvatar}
             onReply={() => setReplyingTo(m)}

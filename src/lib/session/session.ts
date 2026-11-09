@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { serverFetch } from "../serverApi";
 import { homePathFor } from "../roles";
-import type { AuthResponse, User } from "@/types";
+import { canOpen, nextStepHref, type StudentStepKey } from "../studentSteps";
+import type { AuthResponse, StudentProgress, User } from "@/types";
 
 /** The logged-in user, verified by the backend - or null. Runs once per request. */
 export const getCurrentUser = cache(async (): Promise<User | null> => {
@@ -28,6 +29,22 @@ export async function requireUser(): Promise<User> {
 export async function requireStudent(): Promise<User> {
   const user = await requireUser();
   if (user.role !== "student") redirect(homePathFor(user.role));
+  return user;
+}
+
+/**
+ * For a student step page: a student who has not finished the steps before this one is sent to the step they should be on.
+ * Returns the student so the page does not need to ask again.
+ */
+export async function requireStudentStep(key: StudentStepKey): Promise<User> {
+  const user = await requireStudent();
+  let progress: StudentProgress;
+  try {
+    progress = await serverFetch<StudentProgress>("/student/progress");
+  } catch {
+    return user; // if the progress can not be read, show the page (it reports its own errors) rather than lock the student out
+  }
+  if (!canOpen(key, progress)) redirect(nextStepHref(progress));
   return user;
 }
 

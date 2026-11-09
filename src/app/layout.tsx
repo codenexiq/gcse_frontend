@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "@/styles/globals.css";
+import DevFeedback from "@/components/dev/DevFeedback";
 import MotionProvider from "@/components/ui/MotionProvider";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <MotionProvider>
           <ToastProvider>{children}</ToastProvider>
         </MotionProvider>
+        <DevFeedback />
       </body>
     </html>
   );

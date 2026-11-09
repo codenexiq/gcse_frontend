@@ -206,8 +206,8 @@ export default function StudentDirectory({ students: initial, canManage, canDele
                       <td className={styles.code}>{s.student_code ?? "-"}</td>
                       <td className={styles.date}>{formatDate(s.created_at)}</td>
                       <td>
-                        {/* The picture and the name open this student's monthly progress reports. */}
-                        <Link href={`/tutor/dashboard/monthly-progress/student/${s.id}`} className={styles.who} title="Open monthly progress reports">
+                        {/* The picture and the name open this student's page: details, sessions and session logs. */}
+                        <Link href={`/tutor/dashboard/students/${s.id}/overview`} className={styles.who} title="Open student page">
                           <Avatar name={s.full_name || s.email} size={40} src={s.avatar_version ? studentAvatarUrl(s.id, s.avatar_version) : null} />
                           <span className={styles.nameText}>{name}</span>
                         </Link>

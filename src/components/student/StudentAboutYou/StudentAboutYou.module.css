@@ -1,6 +1,6 @@
-.screen { display: grid; gap: 1rem; max-width: 48rem; }
-.title { margin: 0; font-size: 1.75rem; font-weight: 700; color: var(--ec-navy); }
-.subtitle { margin: -0.75rem 0 0; font-size: 0.9rem; color: var(--ec-stone-500); }
+.screen { display: grid; gap: 1rem; width: 100%; max-width: 48rem; margin-inline: auto; }
+.title { margin: 0; text-align: center; font-size: 1.875rem; font-weight: 800; line-height: 1.2; color: var(--ec-navy); }
+.subtitle { margin: -0.75rem 0 0; text-align: center; font-size: 0.9rem; color: var(--ec-stone-500); }
 .card { display: grid; gap: 1.25rem; padding: 1.5rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 20px; }
 .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem 1rem; }
 .field { display: grid; gap: 0.5rem; align-content: start; }

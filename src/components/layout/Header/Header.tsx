@@ -12,7 +12,7 @@ const loggedOutItems: NavigationItem[] = [
 ];
 const loggedInItems: NavigationItem[] = [
   { label: "Home", href: "/" },
-  { label: "My steps", href: "/student/about-you" },
+  { label: "My steps", href: "/student" },
   { label: "Subjects", href: "/#subjects" },
 ];
 

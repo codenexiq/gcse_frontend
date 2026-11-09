@@ -16,8 +16,10 @@ export default function DashboardShell({ user, children }: { user: User; childre
             <DashboardHeader user={user} />
           </div>
         </div>
-        <div className={styles.inner}>
-          <DashboardContent className={styles.content}>{children}</DashboardContent>
+        <div className={styles.scroller}>
+          <div className={styles.inner}>
+            <DashboardContent className={styles.content}>{children}</DashboardContent>
+          </div>
         </div>
       </main>
     </div>

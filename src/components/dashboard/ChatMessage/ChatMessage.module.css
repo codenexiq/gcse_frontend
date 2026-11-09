@@ -1,12 +1,13 @@
 .row { display: flex; align-items: flex-end; gap: 0.5rem; justify-content: flex-start; list-style: none; }
 .initial { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; font-size: 0.8rem; font-weight: 700; color: #fff; border-radius: 50%; }
 .mine { justify-content: flex-end; }
-.bubble { position: relative; max-width: min(34rem, 85%); padding: 0.55rem 0.8rem 0.4rem; background: #fff; border: 1px solid #dfe3ee; border-radius: 14px 14px 14px 4px; box-shadow: 0 1px 1px rgba(28, 25, 23, 0.06); }
-.fromTutor { background: #fff6e0; border-color: #f0dca6; }
-.mine .bubble { background: #d7f3e1; border-color: #b9e3c9; border-radius: 14px 14px 4px 14px; }
+.bubble { position: relative; max-width: min(28rem, 85%); padding: 10px 14px 6px; background: #fff; border: 1px solid #e3e3ee; border-radius: 16px 16px 16px 4px; }
+.mine .bubble { color: #fff; background: #13283c; border-color: #13283c; border-radius: 16px 16px 4px 16px; }
+.mine .text, .mine .time { color: #fff; }
+.mine .sender { color: #badcee !important; }
 .sender { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.25rem; font-size: 0.85rem; font-weight: 700; }
 .badge { padding: 0.05rem 0.45rem; font-size: 0.65rem; font-weight: 600; color: #fff; background: #1f9d63; border-radius: 999px; }
-.text { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--ec-stone-900); white-space: pre-wrap; overflow-wrap: anywhere; }
+.text { margin: 0; font-size: 0.95rem; line-height: 1.45; color: #13283c; white-space: pre-wrap; overflow-wrap: anywhere; }
 .file { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.4rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; color: var(--ec-navy); background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(28, 25, 23, 0.1); border-radius: 10px; text-decoration: none; }
 .file:hover { background: #fff; text-decoration: underline; }
 .file:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }
@@ -14,7 +15,7 @@
 .fileName { min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
 .fileSize { flex-shrink: 0; color: var(--ec-stone-500); }
 .meta { display: flex; align-items: center; justify-content: flex-end; gap: 0.3rem; margin: 0.2rem 0 0; }
-.time { font-size: 0.68rem; color: var(--ec-stone-500); }
+.time { font-size: 0.7rem; color: #4b596a; }
 /* One tick = sent, two grey = delivered, two blue = read. */
 .ticks { display: inline-flex; color: #8a8f98; }
 .read { color: #2f8fea; }

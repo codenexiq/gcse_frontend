@@ -196,6 +196,260 @@ export interface StudentProfile {
   tier: "Foundation" | "Higher" | "Not sure yet";
 }
 
+/** Where a student is in the first steps (worked out by the server from what they have saved). */
+export interface StudentProgress {
+  step: "about-you" | "diagnostic" | "results" | "group";
+  aboutYou: boolean;
+  diagnostic: boolean;
+  group: boolean;
+}
+
+/** A student who finished the diagnostic and is waiting for a tutor to place them in a group. */
+export interface WaitingStudent {
+  id: number;
+  studentCode: string | null;
+  fullName: string;
+  email: string;
+  level: string | null;
+  subject: string | null;
+  correct: number;
+  total: number;
+  finishedAt: string;
+  avatarVersion: number | null;
+}
+
+export type TopicStatus = "mastered" | "in_progress" | "needs_work" | "not_started";
+
+/** What a tutor sees when reviewing a student: their About you answers and what the diagnostic found. */
+export interface StudentReviewData {
+  id: number;
+  studentCode: string | null;
+  fullName: string;
+  email: string;
+  avatarVersion: number | null;
+  about: { level: string | null; tier: string | null; subject: string | null; examBoard: string | null; schoolYear: string | null; targetGrade: string | null };
+  /** Null until the student hands in the diagnostic. */
+  result: StudentDiagnosticResult | null;
+  topics: { topic: string; status: TopicStatus }[];
+  /** The group the student is in now, if any. */
+  group: { groupId: number; note: string; sendVideo: boolean } | null;
+}
+
+/** What a tutor sees on one student's page: their details, group, coming sessions and last session logs. */
+export interface StudentOverview {
+  id: number;
+  studentCode: string | null;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  avatarVersion: number | null;
+  about: StudentReviewData["about"];
+  group: { id: number; name: string } | null;
+  upcoming: { id: number; date: string; startTime: string; kind: "group" | "one" }[];
+  /** The routes the student has, with each step marked done or not. */
+  routes: { id: number; name: string; steps: { type: "lesson" | "quiz"; title: string; week: number; published: boolean; done: boolean }[] }[];
+  /** The lessons the student finished lately, newest first. */
+  results: { id: number; topic: string; title: string; got: number; max: number; percent: number; at: string }[];
+  logs: { id: number; date: string; topics: string; nextStep: string; engagement: number | null; focus: number | null }[];
+}
+
+/** One student's month worked out from their sessions, session logs and quizzes. */
+export interface StudentMonthReport {
+  month: string;
+  name: string;
+  about: StudentReviewData["about"];
+  sessions: { held: number; booked: number };
+  engagement: number | null;
+  focus: number | null;
+  quizAverage: number | null;
+  topics: string[];
+  scores: { title: string; percent: number }[];
+  wentWell: string[];
+  nextSteps: string[];
+}
+
+/** A topic on the learning map. */
+export type TopicState = "mastered" | "in_progress" | "needs_work" | "not_started";
+
+/** The student's learning map: every topic by strand, what to do next, this week's practice and the next live session. */
+export interface LearningMap {
+  name: string;
+  about: StudentReviewData["about"];
+  mastered: number;
+  total: number;
+  next: { name: string; status: TopicState; lessonId: number | null } | null;
+  strands: { name: string; topics: { name: string; status: TopicState; score: number | null; lessonId: number | null }[] }[];
+  /** Minutes practised, Monday to Sunday of this week. */
+  week: number[];
+  /** Minutes asked for each week. */
+  weeklyGoal: number;
+  nextSession: { date: string | null; dayOfWeek: number; startTime: string; groupName: string; tutorName: string; zoomLink: string } | null;
+}
+
+/** One block of a lesson. Maths is written between dollar signs. */
+export type LessonBlock =
+  | { id: string; type: "slide"; title: string; body: string }
+  | { id: string; type: "video"; title: string; url: string; note: string }
+  | { id: string; type: "mcq"; question: string; options: string[]; correct: number; explain: string }
+  | { id: string; type: "written"; question: string; markScheme: string; marks: number };
+
+/** A step of a learning route: a lesson or a quiz, due in a week of the route. */
+export interface RouteStep {
+  id: number;
+  type: "lesson" | "quiz";
+  itemId: number;
+  week: number;
+  title: string;
+  topic: string | null;
+  /** False while the lesson or quiz is hidden from students. */
+  published: boolean;
+}
+
+/** An ordered path of lessons and quizzes, and the students who have it. */
+export interface LearningRoute {
+  id: number;
+  name: string;
+  description: string;
+  steps: RouteStep[];
+  assigned: number[];
+}
+
+/** A lesson or quiz a tutor can add to a route. */
+export interface RouteLibraryItem {
+  type: "lesson" | "quiz";
+  id: number;
+  title: string;
+  topic: string | null;
+  published: boolean;
+}
+
+/** One task on a student's list: a step of a route they have. */
+export interface StudentTask {
+  routeName: string;
+  type: "lesson" | "quiz";
+  itemId: number;
+  title: string;
+  topic: string | null;
+  week: number;
+  /** "2026-11-23" */
+  due: string;
+  done: boolean;
+}
+
+/** The top of the student's learning map: tasks, the next sessions and a messages summary. */
+export interface StudentHome {
+  tasks: StudentTask[];
+  sessions: { id: number; date: string; startTime: string; zoomLink: string; groupName: string | null }[];
+  messages: { unread: number; last: { from: string; text: string } | null };
+}
+
+/** The strands and topics on the lessons page, with how many lessons each topic has. */
+export interface LessonStrand {
+  name: string;
+  topics: { name: string; count: number }[];
+}
+
+/** A lesson as a tutor edits it (with the answers). */
+export interface TutorLesson {
+  id: number;
+  topic: string;
+  title: string;
+  published: boolean;
+  blocks: LessonBlock[];
+}
+
+/** A lesson as a student is sent it: no right answers, explanations or mark schemes. */
+export interface StudentLesson {
+  id: number;
+  topic: string;
+  title: string;
+  blocks: (
+    | { id: string; type: "slide"; title: string; body: string }
+    | { id: string; type: "video"; title: string; url: string; note: string }
+    | { id: string; type: "mcq"; question: string; options: string[] }
+    | { id: string; type: "written"; question: string; marks: number }
+  )[];
+}
+
+/** The score after a lesson. */
+export interface LessonOutcome {
+  got: number;
+  max: number;
+  percent: number;
+  mastered: boolean;
+  rows: { id: string; question: string; got: number; max: number }[];
+}
+
+/** A weekly live group. `members` is only sent to tutors. */
+export interface SessionGroup {
+  id: number;
+  name: string;
+  /** 0 = Monday ... 6 = Sunday. */
+  dayOfWeek: number;
+  /** "18:00" */
+  startTime: string;
+  endTime: string;
+  zoomLink: string;
+  capacity: number;
+  topics: string[];
+  members: { id: number; fullName: string }[];
+}
+
+/** The fields a tutor types for a group. */
+export interface SessionGroupInput {
+  name: string;
+  dayOfWeek: number;
+  startTime: string;
+  endTime: string;
+  zoomLink: string;
+  capacity: number;
+  topics: string[];
+}
+
+/** The student's own group: no other students' names. */
+export interface MyGroup extends Omit<SessionGroup, "members"> {
+  note: string;
+  sendVideo: boolean;
+  assignedAt: string;
+  tutorName: string;
+}
+
+/** A session in the tutor's calendar. */
+export interface Booking {
+  id: number;
+  tutorId: number;
+  who: { type: "student" | "group"; id: number; name: string };
+  /** "2026-11-02" */
+  date: string;
+  /** "17:00" */
+  startTime: string;
+  minutes: number;
+  zoomLink: string;
+  seriesId: string | null;
+  logged: boolean;
+  log: { topics: string; wentWell: string; nextStep: string; homework: string; attendance: string; engagement: number; focus: number } | null;
+}
+
+export interface BookingInput {
+  who: { type: "student" | "group"; id: number };
+  date: string;
+  startTime: string;
+  minutes: number;
+  repeat: 1 | 12;
+  zoomLink: string;
+}
+
+export interface BookingLogInput {
+  attendance: "Attended" | "Late (5+ minutes)" | "Absent";
+  present: number[];
+  topics: string;
+  homework: string;
+  wentWell: string;
+  nextStep: string;
+  engagement: number;
+  focus: number;
+}
+
 /** The input for saving it: every choice is required. */
 export type StudentProfileInput = {
   [K in keyof StudentProfile]: NonNullable<StudentProfile[K]>;
@@ -245,6 +499,8 @@ export interface MonthlyReportRow extends MonthlyReportSummary {
   email: string;
   /** Changes whenever the student's profile picture changes; null or missing when they have none. */
   avatar_version?: number | null;
+  /** The figures the table shows: attended, held, testCount, tests, workingAt, targetGrade, progress. */
+  figures?: Record<string, unknown>;
 }
 
 /** One line of a chat list: the OTHER person (a student for a tutor, a tutor or admin for a student), the latest message and how many are unread. */
@@ -424,6 +680,9 @@ export interface QuizSummary {
   myBest?: number | null;
 }
 
+/** Where a question diagram is shown next to its text. */
+export type DiagramPosition = "above" | "below" | "left" | "right";
+
 export interface QuizQuestion {
   id: number;
   ref: string;
@@ -433,6 +692,8 @@ export interface QuizQuestion {
   diagram: string;
   /** The name of the SVG picture for this question, or "" (older quizzes have none). Shown with diagramUrl(). */
   diagramKey?: string;
+  /** Where the picture sits next to the question text. Missing on quizzes saved before this existed (shown below). */
+  diagramPosition?: DiagramPosition;
   question: string;
   /** Letter -> text, like { A: "44°", B: "54°" }. */
   options: Record<string, string>;
@@ -445,6 +706,8 @@ export interface QuizQuestionWithAnswer extends QuizQuestion {
 }
 export interface QuizForTutor extends QuizSummary {
   questions: QuizQuestionWithAnswer[];
+  /** Only when asked for editing: the quiz's SVG pictures by name. */
+  diagrams?: Record<string, string>;
 }
 
 /** What a student answers: never the correct answers. */

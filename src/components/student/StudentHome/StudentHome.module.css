@@ -1,0 +1,22 @@
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 16px; margin-bottom: 16px; color: #13283c; }
+.stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.card { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 24px; background: #fff; border: 1px solid #e3e3ee; border-radius: 20px; }
+.h2 { margin: 0; font-size: 20px; font-weight: 800; }
+.small { font-size: 13px; color: #4b596a; }
+.block { display: block; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.between { justify-content: space-between; }
+.mini { padding: 4px 0; font-size: 14px; }
+.tasks { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.tasks li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; background: #f5f5fa; border-radius: 12px; }
+.tasks li.done { opacity: 0.7; }
+.taskText { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 9rem; }
+.icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; color: #fff; border-radius: 10px; flex-shrink: 0; }
+.lesson { background: #e9a23b; } .quiz { background: #2b7bc4; }
+.chip { display: inline-flex; align-items: center; padding: 3px 10px; font-size: 12px; font-weight: 700; color: #13283c; white-space: nowrap; border-radius: 999px; }
+.navy { color: #fff; background: #13283c; } .pink { background: #efa0ab; } .cream { background: #fefad2; }
+.count { display: inline-flex; align-items: center; padding: 0 10px; height: 24px; font-size: 12px; font-weight: 800; color: #13283c; background: #efa0ab; border-radius: 999px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; text-decoration: none; white-space: nowrap; background: #fff; border: 1px solid #c9ccdd; border-radius: 12px; cursor: pointer; }
+.btn:hover { border-color: #13283c; }
+.btn:focus-visible { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.primary { color: #fff; background: #13283c; border-color: #13283c; }

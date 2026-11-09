@@ -8,7 +8,7 @@ export default async function StudentMessagesPage() {
   const user = await requireStudent();
   try {
     const [conversations, groups] = await Promise.all([getChatConversations(), getChatGroups()]);
-    return <ChatInbox initial={conversations} initialGroups={groups} meId={user.id} noun="tutor" canManageGroups={false} initialChatColor={user.chatColor ?? null} />;
+    return <ChatInbox initial={conversations} initialGroups={groups} meId={user.id} noun="tutor" canManageGroups={false} />;
   } catch (err) {
     return <Alert>Could not load your messages: {err instanceof Error ? err.message : "Unknown error"}</Alert>;
   }

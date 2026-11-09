@@ -36,3 +36,7 @@
 .optionText { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .explain { margin: 0.75rem 0 0; font-size: 0.83rem; color: var(--ec-stone-600); }
 .picture { display: block; width: min(100%, 36rem); height: auto; margin-top: 0.6rem; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 8px; }
+.headActions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.edit { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.95rem; font-size: 0.85rem; font-weight: 600; color: #fff; background: var(--primary); border-radius: 10px; text-decoration: none; }
+.edit:hover { background: var(--primary-hover); }
+.edit:focus-visible { outline: 2px solid var(--ec-navy); outline-offset: 2px; }

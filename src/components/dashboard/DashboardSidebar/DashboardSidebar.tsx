@@ -8,21 +8,19 @@ import {
   ArrowLeft,
   BookOpen,
   BriefcaseBusiness,
+  CalendarClock,
   CalendarDays,
   CircleUserRound,
   ClipboardList,
   ListChecks,
   ClipboardCheck,
   GraduationCap,
-  LayoutDashboard,
   Map,
   MessageSquare,
   Menu,
   Package,
   Settings2,
-  UserCog,
   UserRound,
-  Users,
   UsersRound,
   X,
   type LucideIcon,
@@ -59,29 +57,26 @@ const workspaces: Record<Role, { label: string; note: string; nav: NavEntry[] }>
     label: "Tutor workspace",
     note: "You can view students. Account changes are made by an administrator.",
     nav: [
-      { href: "/tutor/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
-      { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
+      { href: "/tutor/dashboard", label: "Teacher", icon: CalendarClock, exact: true },
+      { href: "/tutor/dashboard/groups", label: "Groups", icon: UsersRound, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
-      { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/tutor/dashboard/lesson-log", label: "Lesson log", icon: ClipboardList, exact: false },
       { href: "/tutor/dashboard/quizzes", label: "Quizzes", icon: ListChecks, exact: false },
-      { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
       { href: "/tutor/dashboard/profile", label: "My profile", icon: CircleUserRound, exact: false },
+      { href: "/tutor/dashboard/settings", label: "Settings", icon: Settings2, exact: false },
     ],
   },
   admin: {
     label: "Administrator workspace",
     note: "You can view students and every tutor account.",
     nav: [
-      { href: "/tutor/dashboard", label: "Overview", icon: LayoutDashboard, exact: true },
-      { href: "/tutor/dashboard/students", label: "Students", icon: Users, exact: false },
+      { href: "/tutor/dashboard", label: "Teacher", icon: CalendarClock, exact: true },
+      { href: "/tutor/dashboard/groups", label: "Groups", icon: UsersRound, exact: false },
       { href: "/tutor/dashboard/tutor-work", label: "Tutor Work", icon: BriefcaseBusiness, exact: false },
-      { href: "/tutor/dashboard/monthly-progress", label: "Monthly progress", icon: CalendarDays, exact: false },
       { href: "/tutor/dashboard/lesson-log", label: "Lesson log", icon: ClipboardList, exact: false },
       { href: "/tutor/dashboard/quizzes", label: "Quizzes", icon: ListChecks, exact: false },
-      { href: "/tutor/dashboard/messages", label: "Messages", icon: MessageSquare, exact: false },
       { href: "/tutor/dashboard/profile", label: "My profile", icon: CircleUserRound, exact: false },
-      { href: "/tutor/dashboard/accounts", label: "Tutor accounts", icon: UserCog, exact: false },
+      { href: "/tutor/dashboard/settings", label: "Settings", icon: Settings2, exact: false },
     ],
   },
 };
@@ -127,16 +122,20 @@ function SidebarContents({ role, pathname, closeMenu, unread }: { role: Role; pa
           })}
         </ul>
 
-        <p className={`${styles.group} ${styles.groupSpaced}`}>Coming soon</p>
-        <ul className={styles.list}>
-          <li>
-            <span aria-disabled="true" className={`${styles.item} ${styles.itemDisabled}`}>
-              <Settings2 aria-hidden="true" size={18} />
-              Settings
-              <span className={styles.soon}>Soon</span>
-            </span>
-          </li>
-        </ul>
+        {role === "student" && (
+          <>
+            <p className={`${styles.group} ${styles.groupSpaced}`}>Coming soon</p>
+            <ul className={styles.list}>
+              <li>
+                <span aria-disabled="true" className={`${styles.item} ${styles.itemDisabled}`}>
+                  <Settings2 aria-hidden="true" size={18} />
+                  Settings
+                  <span className={styles.soon}>Soon</span>
+                </span>
+              </li>
+            </ul>
+          </>
+        )}
       </nav>
 
       <div className={styles.footer}>

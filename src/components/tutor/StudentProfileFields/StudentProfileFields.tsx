@@ -174,12 +174,16 @@ export default function StudentProfileFields({ values: v, onChange, mode, studen
         {self ? <input className={`${styles.input} ${styles.readonly}`} value={v.email} readOnly disabled /> : text("email", { type: "email", placeholder: "name@example.com", maxLength: 254, required: true })}
       </Field>
 
-      <Field label="Headline" icon={<Quote size={16} aria-hidden="true" />}>
-        {text("headline", { placeholder: "e.g. Year 11, GCSE Maths", maxLength: 100 })}
-      </Field>
-      <Field label="Location" icon={<MapPin size={16} aria-hidden="true" />}>
-        {text("location", { placeholder: "e.g. Lahore", maxLength: 100 })}
-      </Field>
+      {mode !== "create" && (
+        <>
+          <Field label="Headline" icon={<Quote size={16} aria-hidden="true" />}>
+            {text("headline", { placeholder: "e.g. Year 11, GCSE Maths", maxLength: 100 })}
+          </Field>
+          <Field label="Location" icon={<MapPin size={16} aria-hidden="true" />}>
+            {text("location", { placeholder: "e.g. Lahore", maxLength: 100 })}
+          </Field>
+        </>
+      )}
 
       <Field label="Gender" icon={<User size={16} aria-hidden="true" />}>
         <select className={styles.input} value={v.gender} onChange={(e) => onChange("gender", e.target.value)}>

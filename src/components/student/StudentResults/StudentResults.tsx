@@ -10,12 +10,14 @@ interface Props {
   name: string;
   /** Start the diagnostic again. */
   onRetake: () => void;
+  /** A tutor has placed the student in a group: show the way on to it. */
+  hasGroup?: boolean;
 }
 
 const topicList = (topics: string[]) => (topics.length ? topics.join(", ") : "None");
 
 /** What a student sees when they finish the diagnostic: what is strong, what needs work, and what happens next. */
-export default function StudentResults({ result, content, name, onRetake }: Props) {
+export default function StudentResults({ result, content, name, onRetake, hasGroup = false }: Props) {
   const { misconceptions } = result;
   return (
     <div className={styles.page}>
@@ -70,7 +72,7 @@ export default function StudentResults({ result, content, name, onRetake }: Prop
 
       <div className={styles.actions}>
         <button type="button" className={styles.again} onClick={onRetake}>Take it again</button>
-        <Link href="/student/group" className={styles.go}>Continue to your group</Link>
+        {hasGroup && <Link href="/student/group" className={styles.go}>Continue to your group</Link>}
       </div>
     </div>
   );

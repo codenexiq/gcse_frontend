@@ -1,0 +1,36 @@
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; color: #13283c; }
+@media (min-width: 920px) { .grid { grid-template-columns: 300px minmax(0, 1fr); } }
+.left { display: flex; flex-direction: column; gap: 8px; }
+.listBtn { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; padding: 12px 14px; font: inherit; color: #13283c; text-align: left; background: #fff; border: 1px solid #e3e3ee; border-radius: 14px; cursor: pointer; }
+.listBtn:hover { border-color: #13283c; }
+.listBtn[aria-current="true"] { background: #e6e6f8; border-color: transparent; }
+.main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.card { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 24px; background: #fff; border: 1px solid #e3e3ee; border-radius: 20px; }
+.h2 { margin: 0; font-size: 20px; font-weight: 800; }
+.h3 { margin: 0; font-size: 16px; font-weight: 800; }
+.small { font-size: 13px; color: #4b596a; }
+.muted { margin: 0; color: #4b596a; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.addRow { align-items: flex-end; }
+.grow { flex: 1; min-width: 14rem; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 700; }
+.field input, .field select, .week { min-height: 44px; padding: 0 12px; font: inherit; font-size: 15px; font-weight: 500; color: #13283c; background: #fff; border: 1px solid #c9ccdd; border-radius: 10px; }
+.steps { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.step { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; background: #f5f5fa; border-radius: 12px; }
+.num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; font-size: 13px; font-weight: 800; color: #fff; background: #13283c; border-radius: 50%; flex-shrink: 0; }
+.icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; color: #fff; border-radius: 10px; flex-shrink: 0; }
+.lesson { background: #e9a23b; } .quiz { background: #2b7bc4; }
+.stepText { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 10rem; }
+.tools { display: flex; gap: 2px; }
+.choice { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-right: 10px; font-size: 14px; font-weight: 600; }
+.choice input { width: 20px; height: 20px; accent-color: #13283c; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; text-decoration: none; white-space: nowrap; background: #fff; border: 1px solid #c9ccdd; border-radius: 12px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: #13283c; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.primary { color: #fff; background: #13283c; border-color: #13283c; }
+.ghost { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; background: transparent; border: 0; border-radius: 10px; cursor: pointer; }
+.ghost:hover:not(:disabled) { background: #e6e6f8; }
+.ghost:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn:focus-visible, .ghost:focus-visible, .listBtn:focus-visible { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.status { margin: 0; font-size: 13px; font-weight: 600; color: #4b596a; }
+.error { margin: 0; padding: 10px 14px; font-size: 14px; background: #fbe7ea; border-radius: 10px; }

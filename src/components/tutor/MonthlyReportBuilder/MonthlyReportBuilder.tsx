@@ -41,7 +41,7 @@ export default function MonthlyReportBuilder({ students, initialStudentId }: { s
       await sendMonthlyReport(report.studentId, report);
       toast.success(`Saved, and now on ${report.studentName || "the student"}'s dashboard.`, { title: "Report created" });
       nextStudent(); // the draft is saved, so the form starts fresh
-      router.push("/tutor/dashboard/monthly-progress");
+      router.push("/tutor/dashboard/students");
       router.refresh();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "Could not send the report. Please try again.");

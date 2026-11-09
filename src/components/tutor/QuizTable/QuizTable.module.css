@@ -15,7 +15,7 @@
 .live { color: #1f7a52; background: #e6f6ec; border-color: #86d3a3; }
 .hidden { color: var(--ec-stone-600); background: var(--ec-stone-100); border-color: var(--ec-stone-300); }
 .actions { display: inline-flex; gap: 0.4rem; }
-.icon { display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; color: var(--ec-navy); background: #f1f1ee; border: 0; border-radius: 50%; cursor: pointer; }
+.icon { display: inline-grid; text-decoration: none; place-items: center; width: 34px; height: 34px; padding: 0; color: var(--ec-navy); background: #f1f1ee; border: 0; border-radius: 50%; cursor: pointer; }
 .icon:hover:not(:disabled) { filter: brightness(0.94); }
 .icon:disabled { opacity: 0.5; cursor: wait; }
 .danger { color: #b42318; background: #fdecea; }

@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState, type DragEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FileJson, Upload, X } from "lucide-react";
+import { FileJson, PencilLine, Upload, X } from "lucide-react";
 import { ApiError } from "@/lib/api";
 import { previewQuizFile } from "@/lib/quiz";
 import { useToast } from "@/hooks/useToast";
@@ -98,6 +99,7 @@ export default function QuizUpload() {
           <h2 className={styles.title}>Upload a quiz</h2>
           <p className={styles.text}>Choose a JSON file of multiple-choice questions. Students can take it as soon as it is uploaded, and every score is saved.</p>
         </div>
+        <Link href="/tutor/dashboard/quizzes/new" className={styles.create}><PencilLine size={16} aria-hidden="true" /> Create quiz manually</Link>
       </div>
 
       <div

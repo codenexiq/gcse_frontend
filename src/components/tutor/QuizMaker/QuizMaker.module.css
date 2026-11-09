@@ -1,0 +1,34 @@
+.card { display: flex; flex-direction: column; gap: 16px; min-width: 0; padding: 24px; color: #13283c; background: #fff; border: 1px solid #e3e3ee; border-radius: 20px; }
+.between { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.label { font-size: 12px; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; color: #4b596a; }
+.h2 { margin: 0; font-size: 20px; font-weight: 800; }
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.mode { display: flex; flex-direction: column; gap: 2px; min-height: 64px; padding: 10px 14px; font: inherit; text-align: left; color: #13283c; background: #f5f5fa; border: 1px solid #e3e3ee; border-radius: 14px; cursor: pointer; }
+.mode span { font-size: 12px; color: #4b596a; }
+.mode:hover { border-color: #13283c; }
+.mode[aria-pressed="true"] { background: #e6e6f8; border-color: #13283c; }
+.mode:focus-visible, .btn:focus-visible, .ghost:focus-visible, .link:focus-visible { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; align-items: end; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: 14px; font-weight: 700; }
+.field input, .field select, .field textarea { padding: 10px 12px; font: inherit; font-size: 15px; font-weight: 500; color: #13283c; background: #fff; border: 1px solid #c9ccdd; border-radius: 10px; }
+.field select { min-height: 44px; }
+.field textarea { resize: vertical; }
+.hint { font-size: 13px; font-weight: 500; color: #4b596a; }
+.choice { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 600; }
+.choice input, .bank input { width: 20px; height: 20px; accent-color: #13283c; flex-shrink: 0; }
+.bank { display: flex; flex-direction: column; gap: 4px; max-height: 360px; padding: 0; margin: 0; overflow-y: auto; list-style: none; }
+.bank label { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+.bank label:hover { background: #f1f1f8; }
+.stack { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.small { font-size: 13px; color: #4b596a; }
+.muted { margin: 0; color: #4b596a; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; white-space: nowrap; background: #fff; border: 1px solid #c9ccdd; border-radius: 12px; cursor: pointer; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.primary { color: #fff; background: #13283c; border-color: #13283c; }
+.ghost { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; background: transparent; border: 0; border-radius: 10px; cursor: pointer; }
+.ghost:hover { background: #f1f1f8; }
+.link { padding: 0; font: inherit; font-weight: 700; color: #2b7bc4; text-decoration: underline; background: none; border: 0; cursor: pointer; }
+.hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.hidden:focus-visible + .btn { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.error { margin: 0; padding: 10px 14px; font-size: 14px; background: #fbe7ea; border-radius: 10px; }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, X } from "lucide-react";
 import { ApiError } from "@/lib/api";
+import QuestionLayout from "@/components/ui/QuestionLayout";
 import { diagramUrl, formatQuizDate, percent, tone } from "@/lib/quiz";
 import { submitQuizAttempt } from "@/services/quizService";
 import type { QuizAttempt, QuizForStudent, QuizResult } from "@/types";
@@ -141,11 +142,17 @@ export default function QuizPlayer({ quiz, attempts: earlier }: Props) {
           {question.topic && <span>{question.topic}</span>}
           <span>{question.marks} mark{question.marks === 1 ? "" : "s"}</span>
         </div>
-        <h2 className={styles.question}>{question.question}</h2>
-        {question.diagramKey && (
-          // eslint-disable-next-line @next/next/no-img-element -- an SVG shown as a picture, which can never run code on the page
-          <img key={question.diagramKey} className={styles.picture} src={diagramUrl(quiz.id, question.diagramKey)} alt={question.diagram || `Diagram for question ${index + 1}`} />
-        )}
+        <QuestionLayout
+          position={question.diagramPosition}
+          picture={
+            question.diagramKey && (
+              // eslint-disable-next-line @next/next/no-img-element -- an SVG shown as a picture, which can never run code on the page
+              <img key={question.diagramKey} src={diagramUrl(quiz.id, question.diagramKey)} alt={question.diagram || `Diagram for question ${index + 1}`} />
+            )
+          }
+        >
+          <h2 className={styles.question}>{question.question}</h2>
+        </QuestionLayout>
         {question.diagram && <p className={styles.diagram}><strong>Diagram:</strong> {question.diagram}</p>}
 
         <fieldset className={styles.options}>

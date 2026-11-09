@@ -3,6 +3,7 @@ import DotsMenu, { type DotsMenuItem } from "@/components/ui/DotsMenu";
 import { quoteText } from "@/lib/chatQuote";
 import { attachmentUrl } from "@/services/chatService";
 import type { ChatMessageItem, ChatStatus } from "@/types";
+import LinkedText from "@/components/dashboard/LinkedText";
 import styles from "./ChatMessage.module.css";
 
 const kb = (bytes: number) => (bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`);
@@ -20,6 +21,8 @@ interface Props {
   status?: ChatStatus;
   /** The picture of whoever wrote it (when it is not you). Without it the first letter of their name is shown. */
   avatarSrc?: string | null;
+  /** Show who wrote each message (a group chat). In a chat between two people it is clear, so the bubble stays plain. */
+  showSender?: boolean;
   /** Answer this message. */
   onReply?: () => void;
   /** Opens the delete choices (for everyone / for me). Every message has it. */
@@ -29,7 +32,7 @@ interface Props {
 }
 
 /** One chat bubble. Your own messages are on the right, in green, with ticks. */
-export default function ChatMessage({ message, mine, status, avatarSrc, onReply, onDelete, onJump }: Props) {
+export default function ChatMessage({ message, mine, status, avatarSrc, showSender = true, onReply, onDelete, onJump }: Props) {
   const isTutor = message.senderRole !== "student";
   const colour = NAME_COLOURS[message.senderId % NAME_COLOURS.length];
 
@@ -42,7 +45,7 @@ export default function ChatMessage({ message, mine, status, avatarSrc, onReply,
   return (
     <li id={`chat-message-${message.id}`} className={`${styles.row} ${mine ? styles.mine : ""}`}>
       {/* Who wrote it: a round badge with their initial, in their own colour. */}
-      {!mine && (
+      {!mine && showSender && (
         <span className={styles.initial} style={{ background: colour }} aria-hidden="true">
           {avatarSrc ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -52,14 +55,14 @@ export default function ChatMessage({ message, mine, status, avatarSrc, onReply,
           )}
         </span>
       )}
-      <div className={`${styles.bubble} ${isTutor && !mine ? styles.fromTutor : ""} ${message.deleted ? styles.deleted : ""}`}>
+      <div className={`${styles.bubble} ${message.deleted ? styles.deleted : ""}`}>
         {/* The three dots: they show when you point at the message (always on touch screens). */}
         {menu.length > 0 && (
           <span className={styles.menuSlot}>
             <DotsMenu items={menu} label="Message options" align={mine ? "right" : "left"} />
           </span>
         )}
-        {!mine && (
+        {!mine && showSender && (
           <p className={styles.sender} style={{ color: colour }}>
             {message.senderName}
             {isTutor && <span className={styles.badge}>{ROLE_LABEL[message.senderRole]}</span>}
@@ -75,7 +78,7 @@ export default function ChatMessage({ message, mine, status, avatarSrc, onReply,
           </button>
         )}
         {message.deleted && <p className={styles.removed}><Ban size={14} aria-hidden="true" /> This message was deleted</p>}
-        {message.body && <p className={styles.text}>{message.body}</p>}
+        {message.body && <p className={styles.text}><LinkedText text={message.body} /></p>}
         {message.attachment && (
           <a className={styles.file} href={attachmentUrl(message.attachment.id)} download={message.attachment.name}>
             <span className={styles.fileIcon}><Paperclip size={16} aria-hidden="true" /></span>

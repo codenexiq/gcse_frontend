@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, Pencil } from "lucide-react";
+import QuestionLayout from "@/components/ui/QuestionLayout";
 import { diagramUrl, formatQuizDate, percent } from "@/lib/quiz";
 import type { QuizAttempt, QuizForTutor } from "@/types";
 import styles from "./QuizDetail.module.css";
@@ -7,10 +8,12 @@ import styles from "./QuizDetail.module.css";
 interface Props {
   quiz: QuizForTutor;
   attempts: QuizAttempt[];
+  /** An admin, or the tutor who uploaded the quiz: may edit it. */
+  canEdit: boolean;
 }
 
 /** One quiz for a tutor: the results so far, then every question with the right answer marked. */
-export default function QuizDetail({ quiz, attempts }: Props) {
+export default function QuizDetail({ quiz, attempts, canEdit }: Props) {
   const average = attempts.length ? Math.round(attempts.reduce((sum, a) => sum + percent(a.score, a.questionCount), 0) / attempts.length) : null;
   const students = new Set(attempts.map((a) => a.studentId)).size;
 
@@ -24,7 +27,10 @@ export default function QuizDetail({ quiz, attempts }: Props) {
           {quiz.subtitle && <p className={styles.sub}>{quiz.subtitle}</p>}
           {quiz.instructions && <p className={styles.instructions}>{quiz.instructions}</p>}
         </div>
-        <span className={`${styles.badge} ${quiz.published ? styles.live : styles.hidden}`}>{quiz.published ? "Published" : "Hidden from students"}</span>
+        <div className={styles.headActions}>
+          <span className={`${styles.badge} ${quiz.published ? styles.live : styles.hidden}`}>{quiz.published ? "Published" : "Hidden from students"}</span>
+          {canEdit && <Link href={`/tutor/dashboard/quizzes/${quiz.id}/edit`} className={styles.edit}><Pencil size={15} aria-hidden="true" /> Edit quiz</Link>}
+        </div>
       </header>
 
       <dl className={styles.stats}>
@@ -72,11 +78,17 @@ export default function QuizDetail({ quiz, attempts }: Props) {
                 {q.topic && <span>{q.topic}</span>}
                 <span>{q.marks} mark{q.marks === 1 ? "" : "s"}</span>
               </div>
-              <p className={styles.text}>{q.question}</p>
-              {q.diagramKey && (
-                // eslint-disable-next-line @next/next/no-img-element -- an SVG shown as a picture, which can never run code on the page
-                <img className={styles.picture} src={diagramUrl(quiz.id, q.diagramKey)} alt={q.diagram || `Diagram for question ${q.id}`} loading="lazy" />
-              )}
+              <QuestionLayout
+                position={q.diagramPosition}
+                picture={
+                  q.diagramKey && (
+                    // eslint-disable-next-line @next/next/no-img-element -- an SVG shown as a picture, which can never run code on the page
+                    <img src={diagramUrl(quiz.id, q.diagramKey)} alt={q.diagram || `Diagram for question ${q.id}`} loading="lazy" />
+                  )
+                }
+              >
+                <p className={styles.text}>{q.question}</p>
+              </QuestionLayout>
               {q.diagram && <p className={styles.diagram}>Diagram: {q.diagram}</p>}
               <ul className={styles.options}>
                 {Object.entries(q.options).map(([letter, text]) => (

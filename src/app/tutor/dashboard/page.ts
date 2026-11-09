@@ -1,5 +1,5 @@
-import TutorOverviewPage from "@/views/TutorOverviewPage";
+import TutorTodayPage from "@/views/TutorTodayPage";
 
-export const metadata = { title: "Tutor dashboard" };
+export const metadata = { title: "Today" };
 
-export default TutorOverviewPage;
+export default TutorTodayPage;

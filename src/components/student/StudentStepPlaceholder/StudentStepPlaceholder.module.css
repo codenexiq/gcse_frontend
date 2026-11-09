@@ -1,4 +1,0 @@
-.panel { display: grid; justify-items: center; gap: 0.5rem; max-width: 48rem; padding: 3rem 1.5rem; text-align: center; background: #fff; border: 1px solid var(--ec-stone-200); border-radius: 20px; }
-.number { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 0.5rem; font-weight: 700; color: var(--ec-navy); background: var(--ec-lavender); border-radius: 50%; }
-.title { margin: 0; font-size: 1.25rem; font-weight: 600; color: var(--ec-navy); }
-.text { margin: 0; font-size: 0.9rem; color: var(--ec-stone-500); }

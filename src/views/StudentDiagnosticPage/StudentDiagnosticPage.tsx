@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { requireStudent } from "@/lib/session";
-import { getStudentContent, getStudentDiagnostic, getStudentOptions, getStudentProfile, getStudentResult } from "@/services/studentService/studentService.server";
+import { requireStudentStep } from "@/lib/session";
+import { getStudentContent, getStudentDiagnostic, getStudentOptions, getStudentProfile, getStudentProgress, getStudentResult } from "@/services/studentService/studentService.server";
 import StudentDiagnostic from "@/components/student/StudentDiagnostic";
 import Alert from "@/components/ui/Alert";
 
 export default async function StudentDiagnosticPage() {
-  const user = await requireStudent();
+  const user = await requireStudentStep("diagnostic");
   const firstName = (user.fullName ?? "").trim().split(/\s+/)[0] || user.email.split("@")[0];
 
   try {
@@ -17,9 +17,9 @@ export default async function StudentDiagnosticPage() {
         </p>
       );
     }
-    const [content, options, questions, latest] = await Promise.all([getStudentContent(), getStudentOptions(), getStudentDiagnostic(), getStudentResult()]);
+    const [content, options, questions, latest, progress] = await Promise.all([getStudentContent(), getStudentOptions(), getStudentDiagnostic(), getStudentResult(), getStudentProgress()]);
     const subject = options.find((o) => o.id === profile.subjectId)?.label ?? "";
-    return <StudentDiagnostic content={content} level={profile.level} subject={subject} tier={profile.tier} questions={questions} name={firstName} latest={latest} />;
+    return <StudentDiagnostic content={content} level={profile.level} subject={subject} tier={profile.tier} questions={questions} name={firstName} latest={latest} hasGroup={progress.group} />;
   } catch (err) {
     return <Alert>Could not load the diagnostic: {err instanceof Error ? err.message : "Unknown error"}</Alert>;
   }

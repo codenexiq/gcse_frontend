@@ -18,7 +18,7 @@ export default function MonthlyReportStudent({ student, reports }: Props) {
   const name = student.full_name || "Name not given";
   return (
     <div className={styles.page}>
-      <Link href="/tutor/dashboard/monthly-progress" className={styles.back}><ArrowLeft size={16} aria-hidden="true" /> All students</Link>
+      <Link href="/tutor/dashboard/students" className={styles.back}><ArrowLeft size={16} aria-hidden="true" /> All students</Link>
       <section className={styles.panel} aria-label={`Reports for ${name}`}>
         <div className={styles.head}>
           <div className={styles.who}>

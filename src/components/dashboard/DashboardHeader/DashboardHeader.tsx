@@ -10,7 +10,6 @@ import LogoutButton from "@/components/navigation/LogoutButton";
 import ProfileLink from "@/components/navigation/ProfileLink";
 import { profileImageUrl } from "@/services/profileService";
 import { useToast } from "@/hooks/useToast";
-import { roleLabel } from "@/lib/roles";
 import type { User } from "@/types";
 import styles from "./DashboardHeader.module.css";
 
@@ -34,6 +33,15 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/quizzes")) {
     return { title: "Quizzes", text: "Practise with the quizzes your tutors add.", upToDate: "Your quizzes are up to date" };
   }
+  if (pathname.startsWith("/tutor/dashboard/groups")) {
+    return { title: "Groups", text: "Weekly live groups. Place students in the group that fits.", upToDate: "Your groups are up to date" };
+  }
+  if (/^\/tutor\/dashboard\/quizzes\/\d+\/edit$/.test(pathname)) {
+    return { title: "Edit quiz", text: "Change the questions, answers and diagrams.", upToDate: "Your quiz editor is up to date" };
+  }
+  if (pathname === "/tutor/dashboard/quizzes/new") {
+    return { title: "Create quiz", text: "Type the questions and choices, mark the answers, and add diagrams.", upToDate: "Your quiz builder is up to date" };
+  }
   if (pathname.startsWith("/tutor/dashboard/quizzes/")) {
     return { title: "Quiz results", text: "Scores and answers for this quiz.", upToDate: "This quiz is up to date" };
   }
@@ -49,6 +57,15 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/profile") || pathname.startsWith("/tutor/dashboard/profile")) {
     return { title: "My profile", text: "Your pictures, your details and your password.", upToDate: "Your profile is up to date" };
   }
+  if (pathname.startsWith("/tutor/dashboard/routes")) {
+    return { title: "Learning routes", text: "Ordered lessons and quizzes you give to students.", upToDate: "Your routes are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/lessons")) {
+    return { title: "Lessons", text: "Build the lessons that show on the learning maps.", upToDate: "Your lessons are up to date" };
+  }
+  if (pathname.startsWith("/tutor/dashboard/settings")) {
+    return { title: "Settings", text: "Set up how the workspace works.", upToDate: "Your settings are up to date" };
+  }
   if (pathname.startsWith("/student/messages")) {
     return { title: "Messages", text: "Chat with each of your tutors and share files.", upToDate: "Your messages are up to date" };
   }
@@ -60,6 +77,9 @@ function headingFor(pathname: string, name: string) {
   }
   if (pathname.startsWith("/tutor/dashboard/students/new")) {
     return { title: "Create New User", text: "Add a student account.", upToDate: "Your form is up to date" };
+  }
+  if (/^\/tutor\/dashboard\/students\/\d+\/review$/.test(pathname)) {
+    return { title: "Review student", text: "Their answers and diagnostic results, before you place them in a group.", upToDate: "This review is up to date" };
   }
   if (/^\/tutor\/dashboard\/students\/\d+/.test(pathname)) {
     return { title: "Edit student profile", text: "Manage a student's profile, pictures and password.", upToDate: "This profile is up to date" };
@@ -93,15 +113,15 @@ function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/tutor/dashboard/monthly-progress/")) {
     return { title: "Monthly progress report", text: "The report as the student sees it.", upToDate: "Your report is up to date" };
   }
-  if (pathname.startsWith("/tutor/dashboard/monthly-progress")) {
-    return { title: "Monthly progress", text: "Every monthly progress report created for your students.", upToDate: "Your monthly progress is up to date" };
-  }
   if (pathname.startsWith("/tutor/dashboard/accounts")) {
     return {
       title: "Tutor accounts",
       text: "The tutors and administrators who can sign in to the tutor area.",
       upToDate: "Your tutor accounts are up to date",
     };
+  }
+  if (pathname === "/tutor/dashboard") {
+    return { title: "Today", text: "Your sessions this week: book them, log them, and see who needs a log.", upToDate: "Your calendar is up to date" };
   }
   if (pathname.startsWith("/tutor/dashboard")) {
     return {
@@ -160,8 +180,7 @@ export default function DashboardHeader({ user }: { user: User }) {
 
   return (
     <header className={styles.header}>
-      <div>
-        <p className={styles.eyebrow}>{roleLabel(user.role)} workspace</p>
+      <div className={styles.heading}>
         <h1 className={styles.title}>{title}</h1>
         <p className={styles.text}>{text}</p>
       </div>

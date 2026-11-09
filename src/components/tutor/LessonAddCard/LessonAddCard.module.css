@@ -1,0 +1,12 @@
+.card { display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #fff; border: 1px dashed #c9ccdd; border-radius: 20px; color: #13283c; }
+.h3 { margin: 0; font-size: 17px; font-weight: 800; }
+.small { margin: 2px 0 0; font-size: 13px; color: #4b596a; }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; font: inherit; font-size: 14px; font-weight: 700; color: #13283c; white-space: nowrap; background: #fff; border: 1px solid #c9ccdd; border-radius: 12px; cursor: pointer; }
+.btn:hover:not(:disabled) { border-color: #13283c; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn:focus-visible { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.primary { color: #fff; background: #13283c; border-color: #13283c; }
+.hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.hidden:focus-visible + .btn { outline: 3px solid #3a6ea5; outline-offset: 2px; }
+.error { margin: 0; padding: 10px 14px; font-size: 14px; background: #fbe7ea; border-radius: 10px; }

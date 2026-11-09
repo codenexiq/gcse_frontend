@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Eye, EyeOff, Trash2 } from "lucide-react";
+import { Eye, EyeOff, Pencil, Trash2 } from "lucide-react";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import EmptyState from "@/components/ui/EmptyState";
 import { ApiError } from "@/lib/api";
@@ -95,6 +95,9 @@ export default function QuizTable({ quizzes: initial, isAdmin, userId }: Props) 
                       <button type="button" className={styles.icon} onClick={() => toggle(q)} disabled={busyId === q.id} aria-label={q.published ? `Hide ${q.title} from students` : `Show ${q.title} to students`} title={q.published ? "Hide from students" : "Show to students"}>
                         {q.published ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
                       </button>
+                      <Link href={`/tutor/dashboard/quizzes/${q.id}/edit`} className={styles.icon} aria-label={`Edit ${q.title}`} title="Edit quiz">
+                        <Pencil size={16} aria-hidden="true" />
+                      </Link>
                       <button type="button" className={`${styles.icon} ${styles.danger}`} onClick={() => { setDeleteError(""); setDeleting(q); }} disabled={busyId === q.id} aria-label={`Delete ${q.title}`} title="Delete">
                         <Trash2 size={16} aria-hidden="true" />
                       </button>

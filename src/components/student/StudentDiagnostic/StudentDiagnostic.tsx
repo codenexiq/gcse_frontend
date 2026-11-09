@@ -20,13 +20,15 @@ interface Props {
   name: string;
   /** The result of an earlier attempt, shown straight away (null if they have not done it yet). */
   latest: StudentDiagnosticResult | null;
+  /** A tutor has placed the student in a group. */
+  hasGroup?: boolean;
 }
 
 /** Answer value meaning "I haven't learned this yet". */
 const NOT_LEARNED = -1;
 
 /** The student's Diagnostic screen: the intro card, then one question at a time, then the totals. */
-export default function StudentDiagnostic({ content, level, subject, tier, questions, name, latest }: Props) {
+export default function StudentDiagnostic({ content, level, subject, tier, questions, name, latest, hasGroup = false }: Props) {
   const toast = useToast();
   const [phase, setPhase] = useState<"intro" | "quiz" | "done">(latest ? "done" : "intro");
   const [index, setIndex] = useState(0);
@@ -64,6 +66,7 @@ export default function StudentDiagnostic({ content, level, subject, tier, quest
         result={result}
         content={content}
         name={name}
+        hasGroup={hasGroup}
         onRetake={() => { setIndex(0); setAnswers({}); setPhase("intro"); }}
       />
     );
