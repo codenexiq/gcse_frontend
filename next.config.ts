@@ -17,6 +17,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // A separate build folder can be used for test runs (NEXT_DIST_DIR=.next-test) without touching the normal .next.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   reactStrictMode: true,
   poweredByHeader: false, // do not advertise "X-Powered-By: Next.js"
 

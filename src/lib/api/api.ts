@@ -43,3 +43,8 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
   if (!res.ok) throw new ApiError(errorMessage(data, res.status), res.status);
   return data as T;
 }
+
+/** Sends a change (POST, PUT or DELETE) with an optional JSON body, and returns the answer. */
+export function send<T = unknown>(method: "POST" | "PUT" | "DELETE" | "PATCH", path: string, body?: unknown): Promise<T> {
+  return apiFetch<T>(path, { method, body: body === undefined ? undefined : JSON.stringify(body) });
+}

@@ -1,39 +1,42 @@
-import { getItems } from "@/services/itemService/itemService.server";
-import { getCurrentUser } from "@/lib/session";
-import { homePathFor } from "@/lib/roles";
-import ShapesBackground from "@/components/home/ShapesBackground";
-import HeroSection from "@/components/home/HeroSection";
-import StatsBand from "@/components/home/StatsBand";
-import SubjectsMarquee from "@/components/home/SubjectsMarquee";
-import FeatureGrid from "@/components/home/FeatureGrid";
-import HowItWorks from "@/components/home/HowItWorks";
-import CallToAction from "@/components/home/CallToAction";
-import ScrollProgress from "@/components/ui/ScrollProgress";
+import Hero from "@/components/site/Hero";
+import FactsStrip from "@/components/site/FactsStrip";
+import Reviews from "@/components/site/Reviews";
+import Mission from "@/components/site/Mission";
+import Showcase from "@/components/site/Showcase";
+import Courses from "@/components/site/Courses";
+import PlatformTour from "@/components/site/PlatformTour";
+import HowItWorksBand from "@/components/site/HowItWorksBand";
+import Founder from "@/components/site/Founder";
+import ShopBand from "@/components/site/ShopBand";
+import BlogBand from "@/components/site/BlogBand";
+import ContactSection from "@/components/site/ContactSection";
+import { getPosts, getProducts, getReviews } from "@/services/siteService/siteService.server";
+import { orEmpty } from "@/lib/siteData";
 
-// The home page is public: anyone can open it. Logged-in visitors just see a more personal version.
+// The home page is public. Its reviews, shop packs and blog posts come from the database.
 export default async function HomePage() {
-  const user = await getCurrentUser();
-
-  // The item count is a nice-to-have: if it fails the page still works.
-  let itemCount: number | null = null;
-  if (user?.role === "student") {
-    try {
-      itemCount = (await getItems()).length;
-    } catch {}
-  }
-
-  const dashboardHref = user ? homePathFor(user.role) : null;
+  const [reviews, products, posts] = await Promise.all([
+    orEmpty(getReviews(), { videos: [], google: [] }),
+    orEmpty(getProducts(), []),
+    orEmpty(getPosts(3), []),
+  ]);
 
   return (
     <>
-      <ShapesBackground />
-      <ScrollProgress />
-      <HeroSection dashboardHref={dashboardHref} />
-      <StatsBand itemCount={itemCount} />
-      <SubjectsMarquee />
-      <FeatureGrid />
-      <HowItWorks />
-      <CallToAction dashboardHref={dashboardHref} />
+      <Hero />
+      <FactsStrip />
+      <Reviews reviews={reviews} />
+      <Mission />
+      <Showcase />
+      <Courses />
+      <PlatformTour />
+      <HowItWorksBand />
+      <section className="band cream">
+        <div className="in"><Founder /></div>
+      </section>
+      <ShopBand products={products} />
+      <BlogBand posts={posts} />
+      <ContactSection />
     </>
   );
 }

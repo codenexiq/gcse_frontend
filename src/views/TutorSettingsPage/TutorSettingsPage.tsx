@@ -1,6 +1,7 @@
 import { requireTutor } from "@/lib/session";
 import StudentStartupAction from "@/components/tutor/StudentStartupAction";
 import TutorAccountsAction from "@/components/tutor/TutorAccountsAction";
+import EnquiriesAction from "@/components/tutor/EnquiriesAction";
 
 // Tutors and admins: the settings of the workspace. The way into the Student Start-up Screen; administrators also get the Tutor accounts page.
 export default async function TutorSettingsPage() {
@@ -9,6 +10,7 @@ export default async function TutorSettingsPage() {
     <>
       <StudentStartupAction />
       {user.role === "admin" && <TutorAccountsAction />}
+      {user.role === "admin" && <EnquiriesAction />}
     </>
   );
 }

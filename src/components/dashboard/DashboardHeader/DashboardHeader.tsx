@@ -1,182 +1,155 @@
 "use client";
 
-import { useEffect, useRef, useTransition } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { RefreshCw } from "lucide-react";
-import Button from "@/components/ui/Button";
-import { DASHBOARD_REFRESHED } from "../DashboardContent/DashboardContent";
+import { usePathname } from "next/navigation";
 import AvatarMenu from "@/components/navigation/AvatarMenu";
 import LogoutButton from "@/components/navigation/LogoutButton";
 import ProfileLink from "@/components/navigation/ProfileLink";
 import { profileImageUrl } from "@/services/profileService";
-import { useToast } from "@/hooks/useToast";
 import type { User } from "@/types";
 import styles from "./DashboardHeader.module.css";
 
-/** Heading text for each dashboard page, and what the Refresh toast says. The overview greets the user by name. */
+/** Heading text for each dashboard page. The overview greets the user by name. */
 function headingFor(pathname: string, name: string) {
   if (pathname.startsWith("/student/about-you")) {
-    return { title: "About you", text: "Tell us a little about your studies.", upToDate: "Your details are up to date" };
+    return { title: "About you", text: "Tell us a little about your studies." };
   }
   if (pathname.startsWith("/student/diagnostic")) {
-    return { title: "Diagnostic", text: "A short check of what you already know.", upToDate: "Your diagnostic is up to date" };
+    return { title: "Diagnostic", text: "A short check of what you already know." };
   }
   if (pathname.startsWith("/student/group")) {
-    return { title: "Your group", text: "The group that fits you best.", upToDate: "Your group is up to date" };
+    return { title: "Your group", text: "The group that fits you best." };
   }
   if (pathname.startsWith("/student/learning-map")) {
-    return { title: "Learning map", text: "Your path through the course.", upToDate: "Your learning map is up to date" };
+    return { title: "Learning map", text: "Your path through the course." };
   }
   if (pathname.startsWith("/student/quizzes/")) {
-    return { title: "Quiz", text: "Answer each question, then see your score.", upToDate: "Your quiz is up to date" };
+    return { title: "Quiz", text: "Answer each question, then see your score." };
   }
   if (pathname.startsWith("/student/quizzes")) {
-    return { title: "Quizzes", text: "Practise with the quizzes your tutors add.", upToDate: "Your quizzes are up to date" };
+    return { title: "Quizzes", text: "Practise with the quizzes your tutors add." };
   }
   if (pathname.startsWith("/tutor/dashboard/groups")) {
-    return { title: "Groups", text: "Weekly live groups. Place students in the group that fits.", upToDate: "Your groups are up to date" };
+    return { title: "Groups", text: "Weekly live groups. Place students in the group that fits." };
   }
   if (/^\/tutor\/dashboard\/quizzes\/\d+\/edit$/.test(pathname)) {
-    return { title: "Edit quiz", text: "Change the questions, answers and diagrams.", upToDate: "Your quiz editor is up to date" };
+    return { title: "Edit quiz", text: "Change the questions, answers and diagrams." };
   }
   if (pathname === "/tutor/dashboard/quizzes/new") {
-    return { title: "Create quiz", text: "Type the questions and choices, mark the answers, and add diagrams.", upToDate: "Your quiz builder is up to date" };
+    return { title: "Create quiz", text: "Type the questions and choices, mark the answers, and add diagrams." };
   }
   if (pathname.startsWith("/tutor/dashboard/quizzes/")) {
-    return { title: "Quiz results", text: "Scores and answers for this quiz.", upToDate: "This quiz is up to date" };
+    return { title: "Quiz results", text: "Scores and answers for this quiz." };
   }
   if (pathname.startsWith("/tutor/dashboard/quizzes")) {
-    return { title: "Quizzes", text: "Upload a quiz file for students to take, and see their scores.", upToDate: "Your quizzes are up to date" };
+    return { title: "Quizzes", text: "Upload a quiz file for students to take, and see their scores." };
   }
   if (pathname.startsWith("/tutor/dashboard/lesson-log/new")) {
-    return { title: "Tutor Attendance & Feedback", text: "Complete straight after each lesson. Fields marked * are required. Lessons must be recorded to Zoom Cloud for the full duration.", upToDate: "Your form is up to date" };
+    return { title: "Tutor Attendance & Feedback", text: "Complete straight after each lesson. Fields marked * are required. Lessons must be recorded to Zoom Cloud for the full duration." };
   }
   if (pathname.startsWith("/tutor/dashboard/lesson-log")) {
-    return { title: "Lesson log", text: "Attendance and feedback for every lesson.", upToDate: "Your lesson log is up to date" };
+    return { title: "Lesson log", text: "Attendance and feedback for every lesson." };
   }
   if (pathname.startsWith("/student/profile") || pathname.startsWith("/tutor/dashboard/profile")) {
-    return { title: "My profile", text: "Your pictures, your details and your password.", upToDate: "Your profile is up to date" };
+    return { title: "My profile", text: "Your pictures, your details and your password." };
   }
   if (pathname.startsWith("/tutor/dashboard/routes")) {
-    return { title: "Learning routes", text: "Ordered lessons and quizzes you give to students.", upToDate: "Your routes are up to date" };
+    return { title: "Learning routes", text: "Ordered lessons and quizzes you give to students." };
   }
   if (pathname.startsWith("/tutor/dashboard/lessons")) {
-    return { title: "Lessons", text: "Build the lessons that show on the learning maps.", upToDate: "Your lessons are up to date" };
+    return { title: "Lessons", text: "Build the lessons that show on the learning maps." };
   }
   if (pathname.startsWith("/tutor/dashboard/settings")) {
-    return { title: "Settings", text: "Set up how the workspace works.", upToDate: "Your settings are up to date" };
+    return { title: "Settings", text: "Set up how the workspace works." };
   }
   if (pathname.startsWith("/student/messages")) {
-    return { title: "Messages", text: "Chat with each of your tutors and share files.", upToDate: "Your messages are up to date" };
+    return { title: "Messages", text: "Chat with each of your tutors and share files." };
   }
   if (pathname.startsWith("/tutor/dashboard/messages")) {
-    return { title: "Messages", text: "Chat with your students and share files.", upToDate: "Your messages are up to date" };
+    return { title: "Messages", text: "Chat with your students and share files." };
   }
   if (pathname.startsWith("/student/monthly-progress")) {
-    return { title: "Monthly progress", text: "The reports your tutor has written for you.", upToDate: "Your reports are up to date" };
+    return { title: "Monthly progress", text: "The reports your tutor has written for you." };
   }
   if (pathname.startsWith("/tutor/dashboard/students/new")) {
-    return { title: "Create New User", text: "Add a student account.", upToDate: "Your form is up to date" };
+    return { title: "Create New User", text: "Add a student account." };
   }
   if (/^\/tutor\/dashboard\/students\/\d+\/review$/.test(pathname)) {
-    return { title: "Review student", text: "Their answers and diagnostic results, before you place them in a group.", upToDate: "This review is up to date" };
+    return { title: "Review student", text: "Their answers and diagnostic results, before you place them in a group." };
   }
   if (/^\/tutor\/dashboard\/students\/\d+/.test(pathname)) {
-    return { title: "Edit student profile", text: "Manage a student's profile, pictures and password.", upToDate: "This profile is up to date" };
+    return { title: "Edit student profile", text: "Manage a student's profile, pictures and password." };
   }
   if (pathname.startsWith("/tutor/dashboard/students/start-up")) {
     return {
       title: "Student Start-up Screen",
       text: "Get your students started.",
-      upToDate: "Your student start-up screen is up to date",
     };
   }
   if (pathname.startsWith("/tutor/dashboard/students")) {
-    return { title: "Students", text: "Everyone who has registered as a student.", upToDate: "Your student pages are up to date" };
+    return { title: "Students", text: "Everyone who has registered as a student." };
   }
   if (pathname.startsWith("/tutor/dashboard/tutor-work/diagnostic-questions")) {
     return {
       title: "Diagnostic questions",
       text: "Write the questions students answer in the diagnostic.",
-      upToDate: "Your diagnostic questions are up to date",
     };
   }
   if (pathname.startsWith("/tutor/dashboard/tutor-work")) {
-    return { title: "Tutor Work", text: "Everything you need for your tutoring work.", upToDate: "Your tutor work is up to date" };
+    return { title: "Tutor Work", text: "Everything you need for your tutoring work." };
   }
   if (pathname.startsWith("/tutor/dashboard/monthly-progress/new")) {
-    return { title: "Monthly Progress Report Builder", text: "Write a student's monthly progress report.", upToDate: "Your report builder is up to date" };
+    return { title: "Monthly Progress Report Builder", text: "Write a student's monthly progress report." };
   }
   if (pathname.startsWith("/tutor/dashboard/monthly-progress/student/")) {
-    return { title: "Student reports", text: "Every monthly report for this student.", upToDate: "Your student's reports are up to date" };
+    return { title: "Student reports", text: "Every monthly report for this student." };
   }
   if (pathname.startsWith("/tutor/dashboard/monthly-progress/")) {
-    return { title: "Monthly progress report", text: "The report as the student sees it.", upToDate: "Your report is up to date" };
+    return { title: "Monthly progress report", text: "The report as the student sees it." };
+  }
+  if (pathname.startsWith("/tutor/dashboard/enquiries")) {
+    return {
+      title: "Website enquiries",
+      text: "Messages sent from the contact form on the website.",
+    };
   }
   if (pathname.startsWith("/tutor/dashboard/accounts")) {
     return {
       title: "Tutor accounts",
       text: "The tutors and administrators who can sign in to the tutor area.",
-      upToDate: "Your tutor accounts are up to date",
     };
   }
   if (pathname === "/tutor/dashboard") {
-    return { title: "Today", text: "Your sessions this week: book them, log them, and see who needs a log.", upToDate: "Your calendar is up to date" };
+    return { title: "Today", text: "Your sessions this week: book them, log them, and see who needs a log." };
   }
   if (pathname.startsWith("/tutor/dashboard")) {
     return {
       title: `Welcome, ${name}.`,
       text: "Here’s what’s happening across the school workspace.",
-      upToDate: "Your overview is up to date",
     };
   }
   if (pathname.startsWith("/dashboard/items")) {
     return {
       title: "My items",
       text: "Add and view the items you are revising. Only you can see them.",
-      upToDate: "Your items are up to date",
     };
   }
   if (pathname.startsWith("/dashboard/subjects")) {
     return {
       title: "Subjects",
       text: "Browse every GCSE subject and the topics inside it.",
-      upToDate: "Your subjects are up to date",
     };
   }
   return {
     title: `Welcome, ${name}.`,
     text: "Here’s what’s happening in your revision workspace.",
-    upToDate: "Your overview is up to date",
   };
 }
 
-/** The top of every dashboard page: title, a Refresh button, who is signed in, and Sign out. */
+/** The top of every dashboard page: title, who is signed in, and Sign out. */
 export default function DashboardHeader({ user }: { user: User }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const toast = useToast();
-  const [refreshing, startRefresh] = useTransition();
   const name = user.fullName?.trim() || user.email.split("@")[0];
-  const { title, text, upToDate } = headingFor(pathname, name);
-
-  function handleRefresh() {
-    startRefresh(() => {
-      router.refresh(); // re-fetch this page's data from the server
-    });
-  }
-
-  // Tell the page to rebuild itself, then say so, once the fresh data has really arrived.
-  const wasRefreshing = useRef(false);
-  useEffect(() => {
-    if (refreshing) {
-      wasRefreshing.current = true;
-    } else if (wasRefreshing.current) {
-      wasRefreshing.current = false;
-      window.dispatchEvent(new Event(DASHBOARD_REFRESHED));
-      toast.success(upToDate, { title: "Refreshed" });
-    }
-  }, [refreshing]); // eslint-disable-line react-hooks/exhaustive-deps
+  const { title, text } = headingFor(pathname, name);
 
   return (
     <header className={styles.header}>
@@ -185,9 +158,6 @@ export default function DashboardHeader({ user }: { user: User }) {
         <p className={styles.text}>{text}</p>
       </div>
       <div className={styles.right}>
-        <Button variant="outline" size="sm" icon={<RefreshCw />} disabled={refreshing} onClick={handleRefresh}>
-          Refresh
-        </Button>
         {/* The round initial is a drop-down: who is signed in, then Log out. */}
         <AvatarMenu name={name} imageSrc={user.avatarVersion ? profileImageUrl("avatar", user.avatarVersion) : null} label="Account menu">
           {(close) => (
