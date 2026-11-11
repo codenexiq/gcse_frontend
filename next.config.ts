@@ -19,6 +19,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   // A separate build folder can be used for test runs (NEXT_DIST_DIR=.next-test) without touching the normal .next.
   distDir: process.env.NEXT_DIST_DIR || ".next",
+  // Small hosts limit how many threads a build may start ("Resource temporarily unavailable"):
+  // build the pages one process at a time instead of one worker per page.
+  experimental: { cpus: 1, workerThreads: false },
   reactStrictMode: true,
   poweredByHeader: false, // do not advertise "X-Powered-By: Next.js"
 
