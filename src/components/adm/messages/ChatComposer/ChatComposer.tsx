@@ -12,7 +12,6 @@ export interface Draft {
 }
 
 const MAX_FILE = 3 * 1048576;
-const MAX_INLINE_IMAGE = 600000;
 
 
 
@@ -28,11 +27,11 @@ export default function ChatComposer({ onSend, busy, note }: { onSend: (draft: D
     if (!file) return;
     if (file.size > MAX_FILE) return toast("That file is over 3 MB. Share a smaller file.");
     const base = { name: file.name, size: file.size, type: file.type || "", data: null as string | null };
-    if (file.type.startsWith("image/") && file.size < MAX_INLINE_IMAGE) {
-      const reader = new FileReader();
-      reader.onload = () => setAttachment({ ...base, data: String(reader.result) });
-      reader.readAsDataURL(file);
-    } else setAttachment(base);
+    // Every file is read in full so it can be saved on the server and downloaded by the other person.
+    const reader = new FileReader();
+    reader.onload = () => setAttachment({ ...base, data: String(reader.result) });
+    reader.onerror = () => toast("That file could not be read.");
+    reader.readAsDataURL(file);
   }
 
   async function submit(e: FormEvent) {

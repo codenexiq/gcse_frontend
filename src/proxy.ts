@@ -57,7 +57,7 @@ export function proxy(request: NextRequest) {
   // (This is a fast first check; the real check happens on the server, which
   // asks the backend to verify the cookie before showing any data.)
   const isTutorArea = pathname === "/tutor" || pathname.startsWith("/tutor/");
-  const isTutorLogin = pathname === TUTOR_LOGIN_PATH;
+  const isTutorLogin = pathname === TUTOR_LOGIN_PATH || pathname === "/login/admin";
   const hasSession = request.cookies.has(SESSION_COOKIE);
   if (!hasSession && !PUBLIC_PATHS.includes(pathname) && !isTutorArea && !isTutorLogin) {
     return NextResponse.redirect(new URL("/login", request.url));

@@ -12,13 +12,18 @@ const loggedOutItems: NavigationItem[] = [
 ];
 const loggedInItems: NavigationItem[] = [
   { label: "Home", href: "/" },
-  { label: "My steps", href: "/student" },
+  { label: "My learning", href: "/student" },
   { label: "Subjects", href: "/#subjects" },
 ];
 
 const tutorItems: NavigationItem[] = [
   { label: "Home", href: "/" },
-  { label: "Tutor dashboard", href: "/tutor/dashboard" },
+  { label: "Teacher dashboard", href: "/tutor" },
+  { label: "Subjects", href: "/#subjects" },
+];
+const adminItems: NavigationItem[] = [
+  { label: "Home", href: "/" },
+  { label: "Admin dashboard", href: "/admin" },
   { label: "Subjects", href: "/#subjects" },
 ];
 
@@ -26,7 +31,7 @@ const tutorItems: NavigationItem[] = [
 export default function Header({ user }: { user: User | null }) {
   return (
     <TopNavigation
-      items={!user ? loggedOutItems : user.role === "student" ? loggedInItems : tutorItems}
+      items={!user ? loggedOutItems : user.role === "student" ? loggedInItems : user.role === "admin" ? adminItems : tutorItems}
       actions={
         user ? (
           <UserMenu user={user} />

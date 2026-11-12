@@ -1,5 +1,0 @@
-.facts { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 0.5rem 1rem; margin: 0.9rem 0 0; }
-.facts dt { font-size: 0.8rem; font-weight: 600; color: var(--ec-stone-500); }
-.facts dd { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--ec-navy); overflow-wrap: anywhere; white-space: pre-wrap; }
-.empty { font-style: italic; color: var(--ec-stone-500); }
-@media (max-width: 480px) { .facts { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; } .facts dd { margin-bottom: 0.5rem; } }

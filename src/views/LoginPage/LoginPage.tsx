@@ -1,23 +1,18 @@
 import { redirect } from "next/navigation";
-import { LogIn } from "lucide-react";
-import AuthCard from "@/components/auth/AuthCard";
-import AuthForm from "@/components/auth/AuthForm";
-import AuthNotice from "@/components/auth/AuthNotice";
+import LoginPanel, { type LoginRole } from "@/components/site/LoginPanel";
 import { getCurrentUser } from "@/lib/session";
 import { homePathFor } from "@/lib/roles";
 
-export default async function LoginPage() {
+/** The one sign-in page, set inside the public site (lavender band between the header and footer). `initial` is the tab that is open first. */
+export default async function LoginPage({ initial = "student" }: { initial?: LoginRole }) {
   const user = await getCurrentUser();
   if (user) redirect(homePathFor(user.role)); // already logged in
 
   return (
-    <AuthCard
-      icon={<LogIn />}
-      title="Sign in to GCSE Cloud"
-      subtitle="Welcome back! Sign in to see your subjects, topics and revision items."
-      footer="By signing in, you agree to keep your account details private."
-    >
-      <AuthForm mode="login" />
-    </AuthCard>
+    <section className="band lav" style={{ minHeight: "70vh" }}>
+      <div className="in">
+        <LoginPanel initial={initial} />
+      </div>
+    </section>
   );
 }

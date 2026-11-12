@@ -166,6 +166,7 @@ export interface ThreadSummary {
   last: { from: Sender; text: string; hasAttachment: boolean; at: string } | null;
 }
 export interface Attachment {
+  id?: number; // set once the file is saved on the server
   name: string;
   type: string;
   size: number;

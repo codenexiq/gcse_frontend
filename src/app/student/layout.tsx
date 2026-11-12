@@ -1,27 +1,56 @@
 import type { ReactNode } from "react";
-import FlowScope from "@/components/ui/FlowScope";
-import DashboardShell from "@/components/dashboard/DashboardShell";
-import StudentSteps from "@/components/student/StudentSteps";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import "@/styles/admin.css";
+import Link from "next/link";
+import AppHeader from "@/components/adm/shell/AppHeader";
+import MathJax from "@/components/adm/shell/MathJax";
+import Icon from "@/components/adm/ui/Icon";
+import { ViewAsBar, ViewAsPicker } from "@/components/adm/shell/ViewAs";
+import { ToastProvider } from "@/components/adm/ui/Toast";
+import { serverFetch } from "@/lib/serverApi";
 import { requireStudent } from "@/lib/session";
-import { getStudentProgress } from "@/services/studentService/studentService.server";
-import type { StudentProgress } from "@/types";
+import type { StudentSummary, ViewAsData } from "@/types/student";
 
-// Everything under /student is the student workflow: About you -> Diagnostic -> Your group -> Learning map.
-// Only students can open it (tutors and admins are sent to their own area).
+const font = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-adm", display: "swap" });
+
+// Everything under /student: students get in, and so do administrators (who see it exactly as the student they choose does).
 export default async function StudentLayout({ children }: { children: ReactNode }) {
   const user = await requireStudent();
-  let progress: StudentProgress | null = null;
-  try {
-    progress = await getStudentProgress();
-  } catch {
-    // the bar still shows; the page below reports its own errors
+  const isAdmin = user.role === "admin";
+  const viewAs = isAdmin ? await serverFetch<ViewAsData>("/admin/view-as/student") : null;
+  if (viewAs && !viewAs.current) {
+    return (
+      <div className={`adm ${font.variable}`}>
+        <ToastProvider>
+          <AppHeader area="Student" switcher />
+          <main className="wrap">
+            <ViewAsPicker panel="student" options={viewAs.options} />
+          </main>
+        </ToastProvider>
+      </div>
+    );
   }
+  const summary = await serverFetch<StudentSummary>("/student/summary");
   return (
-    <DashboardShell user={user}>
-      <FlowScope>
-        <StudentSteps progress={progress} />
-        {children}
-      </FlowScope>
-    </DashboardShell>
+    <div className={`adm ${font.variable}`}>
+      <ToastProvider>
+        <AppHeader
+          area="Student"
+          switcher={isAdmin}
+          actions={
+            <Link href="/student/messages" className="btn ghost sm">
+              <Icon name="message" />
+              Messages
+              {summary.unread > 0 && <span className="count">{summary.unread}</span>}
+            </Link>
+          }
+        />
+        <main className="wrap">
+          {viewAs?.current && <ViewAsBar panel="student" current={viewAs.current} />}
+          {children}
+        </main>
+        <MathJax />
+      </ToastProvider>
+    </div>
   );
 }

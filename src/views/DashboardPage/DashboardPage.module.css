@@ -1,7 +1,0 @@
-.cards { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-@media (min-width: 768px) { .cards { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1280px) { .cards { grid-template-columns: repeat(3, 1fr); } }
-
-.lower { display: grid; gap: 1rem; margin-top: 1.75rem; }
-@media (min-width: 1024px) { .lower { grid-template-columns: 1.6fr 1fr; align-items: start; } }
-.shortcuts { display: grid; gap: 1rem; }

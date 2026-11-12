@@ -3,7 +3,7 @@ import { fileSize, fmtTime } from "@/lib/format";
 import type { Attachment, Sender, ThreadDetail } from "@/types/admin";
 
 export function AttachmentView({ a }: { a: Attachment }) {
-  if (a.data && a.type.startsWith("image/")) {
+  if (a.data && a.type?.startsWith("image/")) {
     return (
       <div className="att">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -14,13 +14,21 @@ export function AttachmentView({ a }: { a: Attachment }) {
       </div>
     );
   }
-  return (
-    <div className="att file">
+  const label = (
+    <>
       <Icon name="notes" />
       <span>
         {a.name} · {fileSize(a.size)}
       </span>
-    </div>
+    </>
+  );
+  // A file that was sent can be downloaded by the two people in the chat.
+  return a.id ? (
+    <a className="att file" href={`/api/chat/attachments/${a.id}`} download={a.name}>
+      {label}
+    </a>
+  ) : (
+    <div className="att file">{label}</div>
   );
 }
 

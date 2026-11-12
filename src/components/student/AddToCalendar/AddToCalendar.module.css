@@ -1,3 +1,0 @@
-.button { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 20px; font: inherit; font-size: 15px; font-weight: 700; color: #13283c; white-space: nowrap; background: #fff; border: 1px solid #c9ccdd; border-radius: 12px; cursor: pointer; }
-.button:hover { border-color: #13283c; }
-.button:focus-visible { outline: 3px solid #3a6ea5; outline-offset: 2px; }

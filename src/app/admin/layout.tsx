@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   return (
     <div className={`adm ${font.variable}`}>
       <ToastProvider>
-        <AppHeader area="Admin" />
+        <AppHeader area="Admin" switcher />
         <main className="wrap">
           <PageHead />
           <NavTabs

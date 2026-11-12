@@ -1,7 +1,0 @@
-.root { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #6fb6f5; }
-.image { object-fit: cover; object-position: center; }
-.ring {
-  position: absolute; top: 50%; left: 50%; border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  translate: -50% -50%; /* centre without touching transform (framer-motion animates scale) */
-}

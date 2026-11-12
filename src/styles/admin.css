@@ -138,7 +138,8 @@
 .adm .icon-pick{display:flex;flex-wrap:wrap;gap:6px}
 .adm .icon-pick button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;display:grid;place-items:center}
 .adm .icon-pick button[aria-pressed="true"]{border:2px solid var(--primary);background:var(--lav)}
-.adm .hero{padding:clamp(24px,5vw,48px);gap:28px;background:var(--surface)}
+/* The welcome card uses the design's two soft colour washes (sky blue top-right, lavender bottom-left) - the one place gradients are wanted. */
+.adm .hero{padding:clamp(24px,5vw,48px);gap:28px;background:radial-gradient(120% 140% at 100% 0%,var(--blue) 0%,transparent 45%),radial-gradient(90% 120% at 0% 100%,var(--lav) 0%,transparent 50%),var(--surface)}
 .adm .hero h1{font-size:clamp(28px,5vw,44px);max-width:20ch}
 .adm .how{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .adm .how li{display:flex;gap:10px;align-items:center;padding:14px;border-radius:14px;background:color-mix(in srgb,var(--surface) 80%,transparent);border:1px solid var(--line);font-weight:600}
@@ -316,10 +317,10 @@
 .adm .enrol{flex-direction:column}
 .adm .prof-grades{width:100%}}
 @media (prefers-reduced-motion:reduce){}
-.adm button.plan{font:inherit;text-align:left;display:flex;flex-direction:column;gap:8px;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--fg);cursor:pointer;box-shadow:var(--shadow)}
-.adm button.plan:hover{border-color:var(--line-strong)}
-.adm button.plan[aria-pressed="true"]{border-color:var(--primary);background:color-mix(in srgb,var(--lav) 45%,var(--surface))}
-.adm button.plan.popular:not([aria-pressed="true"]){border-color:var(--pink)}
+.adm .plan{font:inherit;text-align:left;display:flex;flex-direction:column;gap:8px;border:2px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--fg);cursor:pointer;box-shadow:var(--shadow)}
+.adm .plan:hover{border-color:var(--line-strong)}
+.adm .plan.on{border-color:var(--primary);background:color-mix(in srgb,var(--lav) 45%,var(--surface))}
+.adm .plan.popular:not(.on){border-color:var(--pink)}
 .adm .plan li::before{content:none}
 .adm .plan li{display:flex;gap:8px;align-items:flex-start}
 .adm .plan li .ico{color:var(--good);width:16px;height:16px;margin-top:2px}
@@ -330,3 +331,20 @@
 .adm .seg-link{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:9px;color:var(--muted);font:inherit;font-weight:700;text-decoration:none}
 .adm .seg-link[aria-current="page"]{background:var(--primary);color:var(--on-primary)}
 .adm .seg-link:hover:not([aria-current]){color:var(--ink)}.adm{--font:var(--font-adm),'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+
+/* Needs action: five columns that always fit the card (no sideways scroll). Wide card = one row per pathway; narrow card = a stacked block per pathway. */
+.adm .na{border:1px solid var(--line);border-radius:12px;container-type:inline-size;overflow:hidden}
+.adm .na table{table-layout:fixed}
+.adm .na th:nth-child(1){width:30%}.adm .na th:nth-child(2){width:15%}.adm .na th:nth-child(3){width:11%}.adm .na th:nth-child(4){width:22%}.adm .na th:nth-child(5){width:22%}
+.adm .na td{overflow-wrap:anywhere}
+.adm .na td select{min-width:0;width:100%}
+.adm .na tbody tr:last-child td{border-bottom:0}
+@container (max-width:760px){
+  .adm .na thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .adm .na table,.adm .na tbody{display:block}
+  .adm .na tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;padding:14px;border-bottom:1px solid var(--line)}
+  .adm .na tbody tr:last-child{border-bottom:0}
+  .adm .na td{display:flex;flex-direction:column;gap:4px;padding:0;border:0}
+  .adm .na td:first-child{grid-column:1/-1}
+  .adm .na td[data-label]:not(:first-child)::before{content:attr(data-label);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+}

@@ -1,5 +1,0 @@
-/* Colours measured from the reference: fill #f0fcf6, border #c8ebd6, label #15803d, title #121413, text #4b5563 */
-.notice { padding: 0.95rem 1.05rem; background: #f0fcf6; border: 1px solid #c8ebd6; border-radius: 14px; }
-.label { margin: 0; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #15803d; }
-.title { margin: 0.45rem 0 0; font-size: 0.95rem; font-weight: 700; color: #121413; }
-.text { margin: 0.3rem 0 0; font-size: 0.85rem; line-height: 1.45; color: #4b5563; }

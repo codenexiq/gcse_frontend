@@ -30,7 +30,7 @@ export default function NeedsAction({ rows, lookups }: { rows: NeedsActionRow[];
       ) : (
         <>
           <p className="small muted">New sign-ups and pathways without a tutor or class. Assign them here.</p>
-          <div className="table-wrap">
+          <div className="na">
             <table>
               <thead>
                 <tr>
@@ -44,13 +44,13 @@ export default function NeedsAction({ rows, lookups }: { rows: NeedsActionRow[];
               <tbody>
                 {rows.map((x) => (
                   <tr key={x.enrolmentId}>
-                    <td>
+                    <td data-label="Student">
                       <strong>{x.student.name}</strong>
                       <div className="small muted">{x.student.email}</div>
                     </td>
-                    <td>{x.pathway}</td>
-                    <td>{x.planName}</td>
-                    <td>
+                    <td data-label="Pathway">{x.pathway}</td>
+                    <td data-label="Plan">{x.planName}</td>
+                    <td data-label="Tutor">
                       <select id={`na-t-${x.enrolmentId}`} aria-label={`Tutor for ${x.student.name}`} defaultValue={x.tutorId ?? ""} onChange={(e) => void change(x, { tutorId: e.target.value ? Number(e.target.value) : null })}>
                         <option value="">Choose tutor…</option>
                         {lookups.tutors
@@ -60,7 +60,7 @@ export default function NeedsAction({ rows, lookups }: { rows: NeedsActionRow[];
                           ))}
                       </select>
                     </td>
-                    <td>
+                    <td data-label="Group">
                       <select id={`na-g-${x.enrolmentId}`} aria-label={`Group for ${x.student.name}`} defaultValue={x.groupId ?? ""} onChange={(e) => void change(x, { groupId: e.target.value ? Number(e.target.value) : null })}>
                         <option value="">No group</option>
                         {lookups.groups

@@ -1,9 +1,0 @@
-.who { display: flex; align-items: center; gap: 0.85rem; margin-top: 0.25rem; }
-.name { margin: 0 0 0.25rem; font-size: 1.05rem; font-weight: 600; color: var(--ec-navy); overflow-wrap: anywhere; }
-.status { display: inline-block; padding: 0.1rem 0.6rem; font-size: 0.75rem; font-weight: 600; border-radius: 6px; border: 1px solid; }
-.active { color: #1f7a52; background: #e3f5ea; border-color: #9fd6b5; }
-.inactive { color: #5f6673; background: #eceef2; border-color: #cfd3da; }
-.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.45rem 1rem; margin: 1rem 0 0; }
-.facts dt { font-size: 0.8rem; font-weight: 600; color: var(--ec-stone-500); }
-.facts dd { margin: 0; font-size: 0.9rem; color: var(--ec-navy); overflow-wrap: anywhere; }
-.empty { color: var(--ec-stone-500); font-style: italic; }

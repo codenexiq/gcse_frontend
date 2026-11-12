@@ -4,8 +4,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { serverFetch } from "../serverApi";
 import { homePathFor } from "../roles";
-import { canOpen, nextStepHref, type StudentStepKey } from "../studentSteps";
-import type { AuthResponse, StudentProgress, User } from "@/types";
+import type { AuthResponse, User } from "@/types";
 
 /** The logged-in user, verified by the backend - or null. Runs once per request. */
 export const getCurrentUser = cache(async (): Promise<User | null> => {
@@ -25,26 +24,13 @@ export async function requireUser(): Promise<User> {
   return user;
 }
 
-/** For the student dashboard: tutor are sent to their own area instead. */
+/**
+ * For the student panel: students, and administrators (who may look at any student's panel).
+ * A teacher is sent to their own dashboard.
+ */
 export async function requireStudent(): Promise<User> {
   const user = await requireUser();
-  if (user.role !== "student") redirect(homePathFor(user.role));
-  return user;
-}
-
-/**
- * For a student step page: a student who has not finished the steps before this one is sent to the step they should be on.
- * Returns the student so the page does not need to ask again.
- */
-export async function requireStudentStep(key: StudentStepKey): Promise<User> {
-  const user = await requireStudent();
-  let progress: StudentProgress;
-  try {
-    progress = await serverFetch<StudentProgress>("/student/progress");
-  } catch {
-    return user; // if the progress can not be read, show the page (it reports its own errors) rather than lock the student out
-  }
-  if (!canOpen(key, progress)) redirect(nextStepHref(progress));
+  if (user.role === "tutor") redirect(homePathFor(user.role));
   return user;
 }
 
@@ -62,9 +48,9 @@ export async function requireTutor(): Promise<User> {
   return user;
 }
 
-/** For admin-only pages: tutors go back to the tutor overview. */
+/** For admin-only pages: tutors go back to their own dashboard. */
 export async function requireAdmin(): Promise<User> {
   const user = await requireTutor();
-  if (user.role !== "admin") redirect("/tutor/dashboard");
+  if (user.role !== "admin") redirect("/tutor");
   return user;
 }
