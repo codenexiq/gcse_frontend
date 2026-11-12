@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Field from "@/components/adm/ui/Field";
 import Icon from "@/components/adm/ui/Icon";
+import PasswordInput from "@/components/ui/PasswordInput";
 import SubjectBadge from "@/components/adm/ui/SubjectBadge";
 import { useToast } from "@/components/adm/ui/Toast";
 import { send } from "@/lib/api";
@@ -291,7 +292,7 @@ export default function SignupWizard({ options }: { options: SignupOptions }) {
                 <input id="su-email" type="email" autoComplete="email" maxLength={254} value={f.email} onChange={(e) => set({ email: e.target.value })} />
               </Field>
               <Field id="su-pw" label="Password" hint="10+ characters, with upper and lower case and a number">
-                <input id="su-pw" type="password" autoComplete="new-password" maxLength={72} value={f.password} onChange={(e) => set({ password: e.target.value })} />
+                <PasswordInput id="su-pw" autoComplete="new-password" maxLength={72} value={f.password} onChange={(e) => set({ password: e.target.value })} />
               </Field>
             </div>
           </div>

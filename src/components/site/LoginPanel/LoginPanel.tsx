@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import SiteIcon from "@/components/site/SiteIcon";
+import PasswordInput from "@/components/ui/PasswordInput";
 import { adminLogin, login, tutorLogin } from "@/services/authService";
 import { homePathFor } from "@/lib/roles";
 
@@ -74,7 +75,7 @@ export default function LoginPanel({ initial = "student" }: { initial?: LoginRol
         </label>
         <label className="f" htmlFor="l-pw">
           Password
-          <input id="l-pw" type="password" autoComplete="current-password" maxLength={72} value={password} onChange={(e) => setPassword(e.target.value)} />
+          <PasswordInput id="l-pw" autoComplete="current-password" maxLength={72} value={password} onChange={(e) => setPassword(e.target.value)} />
         </label>
         <div className="login-go">
           <button type="submit" className="btn solid" disabled={busy}>
